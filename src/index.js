@@ -6,8 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 //components:
 import Navbar from "./components/navbar/navbar";
 import VideosList from "./components/videos/videosList";
+import VideoDetail from "./components/videos/videoDetail";
 import VideoForm from "./components/videos/videoForm";
-
+import SignIn from './components/users/login';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
@@ -22,6 +23,9 @@ root.render(
         <Route path="/" element={<VideosList />} />
         <Route path="/VideoForm" element={<VideoForm />} />
         <Route path="/updateVideo/:id" element={<VideoForm />} />
+        <Route path="/seeVideo/:id" element={<VideoDetail />} />
+        <Route path="/login" element={<SignIn />} />
+
       </Routes>
     </div>
   </BrowserRouter>
