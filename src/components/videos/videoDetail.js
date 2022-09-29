@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import {axiosInstance,ENDPOINTS} from "../../axios";
 import { useParams  } from "react-router-dom";
+import * as VideoServer from "./videoServer";
 
 //MaterialUI
 import Typography from '@material-ui/core/Typography';
@@ -36,17 +36,24 @@ const VideoDetail = () => {
     const [video, setVideo] = useState([]);
 
     useEffect(() => {
-
-            axiosInstance(ENDPOINTS.VIDEO+'/').fetchById(id).then((res) => {
-                setVideo({
-                    ...video,
-                    'title_espanol': res.data.title_espanol,
-                    'duration': res.data.duration,
-                    'url_esp': res.data.url_vimeo_esp,
-                });
-            });
+        const getVideo = async (videoID) => {
+            
+        const res = await VideoServer.getVideo(videoID);
+        const video =  res;
+        console.log(video);
         
-    }, [id,video]);
+        setVideo({
+            ...video,
+            'title_espanol': res.title_espanol,
+            'duration': res.duration,
+            'url_esp': res.url_vimeo_esp,
+            
+        });
+        }
+        getVideo(id);
+        
+    }, [id, setVideo]); 
+    
     const classes = useStyles();
     return (
         <Container>

@@ -1,5 +1,5 @@
-import React, {  useState } from "react";
-import  axiosInstance2  from "../../axios2";
+import React, { createContext, useState, useContext} from "react";
+import  axiosInstance  from "../../axios";
 import { useNavigate  } from 'react-router-dom';
 //MaterialUI
 import Avatar from '@material-ui/core/Avatar';
@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+
+const User = createContext();
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -43,7 +45,6 @@ export default function SignIn() {
 	});
 
 	const [formData, updateFormData] = useState(initialFormData);
-
 	const handleChange = (e) => {
 		updateFormData({
 			...formData,
@@ -53,21 +54,24 @@ export default function SignIn() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(formData);
+		//console.log(formData);
 
-		axiosInstance2
+		axiosInstance
 			.post(`login/`, {
 				username: formData.email,
 				password: formData.password,
 			})
 			.then((res) => {
-				localStorage.setItem('access_token', res.data.access);
-				localStorage.setItem('refresh_token', res.data.refresh);
-				axiosInstance2.defaults.headers['Authorization'] =
+				localStorage.setItem('access_token', res.data.access_token);
+				localStorage.setItem('refresh_token', res.data.refresh_token);
+				
+				axiosInstance.defaults.headers['Authorization'] =
 					'JWT ' + localStorage.getItem('access_token');
 				history('/');
-				//console.log(res);
-				//console.log(res.data);
+				
+				console.log(res);
+				console.log(res.data);
+				window.location.reload();
 			});
 	};
 

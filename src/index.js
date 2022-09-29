@@ -4,11 +4,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 
 //components:
+import App from './App';
 import Navbar from "./components/navbar/navbar";
-import VideosList from "./components/videos/videosList";
+//import VideosList from "./components/videos/videosList";
+//import VideoLoading from "./components/videos/videoLoading";
 import VideoDetail from "./components/videos/videoDetail";
 import VideoForm from "./components/videos/videoForm";
 import SignIn from './components/users/login';
+import SignUp from './components/users/logout';
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
@@ -20,11 +24,13 @@ root.render(
     </div>
     <div className="container my-4">
       <Routes>
-        <Route path="/" element={<VideosList />} />
+        <Route exact path="/" element={< App />} />
         <Route path="/VideoForm" element={<VideoForm />} />
         <Route path="/updateVideo/:id" element={<VideoForm />} />
         <Route path="/seeVideo/:id" element={<VideoDetail />} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="/logout" element={<SignUp />} />
+
 
       </Routes>
     </div>

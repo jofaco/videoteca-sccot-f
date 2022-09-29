@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate , useParams } from "react-router-dom";
 //import Select from "react-select";
 import * as VideoServer from "./videoServer";
-import {axiosInstance,ENDPOINTS} from "../../axios";
 
 const VideoForm = () => {
   const history = useNavigate();
@@ -62,18 +61,14 @@ const VideoForm = () => {
         formData.append('tipe_of_video', video.tipe_of_video);
         formData.append('languages', video.languages); 
 
+        let res;
         if (!params.id) {                 
-          
-          axiosInstance(ENDPOINTS.VIDEO+'/').create(formData)
-          .then(res => {
-              console.log(res);
-            }).catch(err => console.log(err));
+          res = await VideoServer.RegisterVideo(formData);
+          console.log(res);
         }
         else{
-          axiosInstance(ENDPOINTS.VIDEO+'/').update(params.id,formData)
-          .then(res => {
-            console.log(res);
-          }).catch(err => console.log(err));
+          res = await VideoServer.UpdateVideo(params.id,formData);
+          console.log(res);
         }       
          
         history("/");
@@ -86,7 +81,7 @@ const VideoForm = () => {
   const getVideo = async (videoID) => {
     try {
       const res =  await VideoServer.getVideo(videoID);
-      const data = await res.json();
+      const data = await res;
 
       const { code_esp, code_engl, title_espanol, title_english,title_cap_esp, title_cap_english, description_esp, description_english, tipe_of_video, languages } = data;
       

@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { useNavigate  } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import Button from '@material-ui/core/Button';
@@ -27,6 +26,7 @@ const VideosItem = ({video, listVideos}) => {
     const handleDelete = async (videoID)=>{
         await VideoServer.DeleteVideo(videoID);
         listVideos();
+        window.location.reload();
     }
     const classes = useStyles();
 

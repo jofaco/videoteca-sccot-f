@@ -2,24 +2,19 @@ import axios from 'axios';
 
 const API_URL = "http://127.0.0.1:8000/";
 
-export const ENDPOINTS =  {
-    VIDEO : 'videos',
-    USER : 'users'
-}
+const axiosInstance = axios.create({
+	baseURL: API_URL,
+	timeout: 5000,
+	headers: {
+		Authorization: localStorage.getItem('access_token')
+			? 'JWT ' + localStorage.getItem('access_token')
+			: null,
+		'Content-Type': 'application/json',
+		accept: 'application/json',
+	},
+});
 
-export const axiosInstance = endpoint => {
-    let url = API_URL + endpoint;
-
-    return {
-        fetchAll:()=> axios.get(url),
-        fetchById: id => axios.get(url+id+'/'),
-        create: newRecord => axios.post(url, newRecord),
-        update: (id, updateRecord) => axios.put(url+id+'/', updateRecord),
-        delete: id => axios.delete(url+id+'/'),
-        login: loginData => axios.post(url+'login/',loginData),
-    }
-}
-/* axiosInstance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
 	(response) => {
 		return response;
 	},
@@ -37,7 +32,7 @@ export const axiosInstance = endpoint => {
 
 		if (
 			error.response.status === 401 &&
-			originalRequest.url === API_URL + 'token/refresh/'
+			originalRequest.url === API_URL + 'api/token/refresh/'
 		) {
 			window.location.href = '/login/';
 			return Promise.reject(error);
@@ -59,17 +54,17 @@ export const axiosInstance = endpoint => {
 
 				if (tokenParts.exp > now) {
 					return axiosInstance
-						.post('/token/refresh/', {
+						.post('api/token/refresh/', {
 							refresh: refreshToken,
 						})
 						.then((response) => {
-							localStorage.setItem('access_token', response.data.access);
-							localStorage.setItem('refresh_token', response.data.refresh);
+							localStorage.setItem('access_token', response.data.access_token);
+							localStorage.setItem('refresh_token', response.data.refresh_token);
 
 							axiosInstance.defaults.headers['Authorization'] =
-								'JWT ' + response.data.access;
+								'JWT ' + response.data.access_token;
 							originalRequest.headers['Authorization'] =
-								'JWT ' + response.data.access;
+								'JWT ' + response.data.access_token;
 
 							return axiosInstance(originalRequest);
 						})
@@ -79,14 +74,18 @@ export const axiosInstance = endpoint => {
 				} else {
 					console.log('Refresh token is expired', tokenParts.exp, now);
 					window.location.href = '/login/';
+					//alert("Prueba");
 				}
 			} else {
 				console.log('Refresh token not available.');
 				window.location.href = '/login/';
+				//alert("Prueba2");
 			}
 		}
 
 		// specific error handling done elsewhere
 		return Promise.reject(error);
 	}
-); */
+);
+
+export default axiosInstance;

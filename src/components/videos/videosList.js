@@ -9,10 +9,10 @@ import VideosItem from "./videosItem";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-    maxWidth: 500,	
+    maxWidth: 1000,	
     margin:'auto'
 	},
-  '@media (max-width: 500px)': {
+  '@media (max-width: 1000px)': {
     root: {
       display: 'flex',
     },
@@ -26,8 +26,7 @@ const VideosList = () => {
     const listVideos = async () => {
       try {
         const res = await VideoServer.ListVideos();
-        const data = await res.json();
-        setVideos(data.videos);
+        setVideos(res.videos);
       } catch (error) {
         console.log("Error");
       }
