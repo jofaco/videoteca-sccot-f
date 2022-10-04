@@ -15,7 +15,7 @@ export const getVideo =  async (videoID) => {
     //return await fetch(`${API_URL}${videoID}`);
     const response = await axiosInstance.get(`${API_URL}${videoID}`);
     if (response.status === 200){
-        console.log(response.data);
+        //console.log(response.data);
         return await response.data;
     }
 };
@@ -25,7 +25,7 @@ export const getVideoDT =  async (videoID) => {
     //return await fetch(`${API_URL}${videoID}`);
     const response =  axiosInstance.get(`${API_URL}${videoID}`);
     if (response.status === 200){
-        console.log(response.data);
+        //console.log(response.data);
         return  response.data;
     }
 };

@@ -1,4 +1,5 @@
 import axios from 'axios';
+//import jwt from "jwt-decode"
 
 const API_URL = "http://127.0.0.1:8000/";
 
@@ -44,10 +45,13 @@ axiosInstance.interceptors.response.use(
 			error.response.statusText === 'Unauthorized'
 		) {
 			const refreshToken = localStorage.getItem('refresh_token');
-
+			console.log(refreshToken);
 			if (refreshToken) {
-				const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
-
+				//const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
+				const tokenParts = JSON.parse(Buffer.from(refreshToken.split('.')[1], 'base64').toString());
+				/* const tokenParts = jwt(refreshToken, {
+					completed: true
+				  }) */
 				// exp date in token is expressed in seconds, while now() returns milliseconds:
 				const now = Math.ceil(Date.now() / 1000);
 				console.log(tokenParts.exp);

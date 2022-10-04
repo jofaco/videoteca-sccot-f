@@ -5,9 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 
 //components:
 import App from './App';
-import Navbar from "./components/navbar/navbar";
-//import VideosList from "./components/videos/videosList";
-//import VideoLoading from "./components/videos/videoLoading";
+import Header from "./components/header";
 import VideoDetail from "./components/videos/videoDetail";
 import VideoForm from "./components/videos/videoForm";
 import SignIn from './components/users/login';
@@ -17,23 +15,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+
 root.render(
   <BrowserRouter>
-    <div className="container ">
-      <Navbar />
-    </div>
-    <div className="container my-4">
-      <Routes>
-        <Route exact path="/" element={< App />} />
-        <Route path="/VideoForm" element={<VideoForm />} />
-        <Route path="/updateVideo/:id" element={<VideoForm />} />
-        <Route path="/seeVideo/:id" element={<VideoDetail />} />
-        <Route path="/login" element={<SignIn />} />
-        <Route path="/logout" element={<SignUp />} />
-
-
-      </Routes>
-    </div>
+    
+      <div className="container ">
+        <Header />
+      </div>
+      <div className="container my-4">
+        <Routes>
+          <Route exact path="/" element={< App />} />
+          <Route path="/VideoForm" element={<VideoForm />} />
+          <Route path="/updateVideo/:id" element={<VideoForm />} />
+          <Route path="/seeVideo/:id" element={<VideoDetail />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/logout" element={<SignUp />} />
+        </Routes>
+      </div>
+    
   </BrowserRouter>
 );
 

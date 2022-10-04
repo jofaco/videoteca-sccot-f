@@ -40,7 +40,7 @@ const VideoDetail = () => {
             
         const res = await VideoServer.getVideo(videoID);
         const video =  res;
-        console.log(video);
+        //console.log(video);
         
         setVideo({
             ...video,

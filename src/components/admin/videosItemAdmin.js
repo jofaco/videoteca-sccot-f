@@ -1,11 +1,12 @@
 import React from "react";
-
 //components
 import { useNavigate  } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
+//dependencies
+import * as VideoServer from "../videos/videoServer";
 import "../../styles.css";
 
 
@@ -21,8 +22,14 @@ const useStyles = makeStyles((theme) => ({
 	
 }));
 
-const VideosItem = ({video, listVideos}) => {
+const VideosItemAdmin = ({video, listVideos}) => {
     const history = useNavigate();
+
+    const handleDelete = async (videoID)=>{
+        await VideoServer.DeleteVideo(videoID);
+        listVideos();
+        window.location.reload();
+    }
     const classes = useStyles();
 
     return (
@@ -35,11 +42,15 @@ const VideosItem = ({video, listVideos}) => {
                     </Button>
                     </div>
                     <div className="col-md-4 col-12 ">
-                        <h3 className={classes.paper}>{video.title_espanol}</h3>                        
+                        <h3 className={classes.paper}>{video.title_espanol}</h3>
                         <p className="card-text">Duración: {video.duration}</p>
-                        <p className="card-text">Puntuación: {video.score}</p>                        
-                        <p className="card-text">{video.description_esp}</p>
+                        <p className="card-text">Puntuación: {video.score}</p>
                         <br></br>
+                        <div className="d-grid gap-2 col-6 mx-auto">
+                            <button onClick={()=> history(`/updateVideo/${video.id}`)} className="ms-6 btn  btn-info">Update</button>
+                            <button onClick={()=>video.id && handleDelete(video.id) } className="btn btn-danger my-2">Eliminar</button>
+                        </div>
+                        
                     </div>
                 </div>               
             </div>
@@ -47,4 +58,4 @@ const VideosItem = ({video, listVideos}) => {
 
 };
 
-export default VideosItem;
+export default VideosItemAdmin;

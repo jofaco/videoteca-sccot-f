@@ -1,111 +1,52 @@
-import { Link, NavLink } from "react-router-dom";
+//components
+import { NavLink } from "react-router-dom";
+import Button from '@material-ui/core/Button';
+import {  makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+	link: {
+		margin: theme.spacing(1, 1.5),
+	},
+}));
 
 const Navbar = () => {
-  const refreshToken = localStorage.getItem('access_token');
+  const classes = useStyles();
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
 
-  if (refreshToken) {
-    return  (
-      <nav className="navbar navbar-dark bg-dark navbar-expand-md">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          VIDEOTECA SCCOT
-        </Link>
-        <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="navbar-collapse collapse" id="navbar">
-          <ul className="navbar-nav">
+  if (!user) {
+    return (
             <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/VideoForm">
-                Agregar Video
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" component={NavLink} to="/logout">
-                Logout
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    );
-  }
-  else {
-    return  (
-      <nav className="navbar navbar-dark bg-dark navbar-expand-md">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          VIDEOTECA SCCOT
-        </Link>
-        <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="navbar-collapse collapse" id="navbar">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/VideoForm">
-                Agregar Video
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" component={NavLink} to="/login">
+              <Button
+                href="#"
+                color="primary"
+                variant="outlined"
+                className={classes.link}
+                component={NavLink}
+                to="/login"
+              >
                 Login
-              </Link>
+              </Button>
             </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    );
-  };
-  /* return (
-    
-    <nav className="navbar navbar-dark bg-dark navbar-expand-md">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          VIDEOTECA SCCOT
-        </Link>
-        <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="navbar-collapse collapse" id="navbar">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/VideoForm">
-                Agregar Video
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" component={NavLink} to="/login">
-                Login
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" component={NavLink} to="/logout">
-                Logout
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  ); */
+      );
+    }
+    else {
+      return (
+        <li className="nav-item">
+            <Button
+              href="#"
+              color="primary"
+              variant="outlined"
+              className={classes.link}
+              component={NavLink}
+              to="/logout"
+            >
+              Logout
+            </Button>
+      </li>
+      );
+    };
 };
 
 export default Navbar;
