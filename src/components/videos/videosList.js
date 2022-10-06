@@ -1,81 +1,102 @@
 import React, { useEffect, useState } from "react";
 import * as VideoServer from "./videoServer";
-//import Table from "react-bootstrap/Table";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { makeStyles } from '@material-ui/core/styles';
-import Carousel from 'react-bootstrap/Carousel';
-//Components
-import VideosItem from "./videosItem";
-import VideosItemRow from "./videosItemRow";
-import VideosListAd from "../admin/videosListAdmin";
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-    maxWidth: 1000,	
-    margin:'auto'
-	},
-  '@media (max-width: 1000px)': {
-    root: {
-      display: 'flex',
-    },
-  },
-	
-}));
+//Components
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "../../index.css";
+//dependencies
+import VideosListAd from "../admin/videosListAdmin";
+import VideosListUser from "./videoListUser";
 
 const VideosList = () => {
-    const [videos, setVideos] = useState([]);
-    const data = localStorage.getItem('user');
-    const user = JSON.parse(data);
-    const listVideos = async () => {
-      try {
-        const res = await VideoServer.ListVideos();
-        setVideos(res.videos);
-      } catch (error) {
-        console.log("Error");
-      }
-    };
-    
-    useEffect(() => {
-        listVideos();
-    }, []);
-    const classes = useStyles();
-    if (user) {
-      if (user.is_superuser){
-        return(
-          <VideosListAd 
-          videos={videos}
-          listVideos ={listVideos}
-        /> 
-        )               
-      }
+  const [query, setQuery] = useState("");
+  const [videos, setVideos] = useState([]);
+  const [searchParam] = useState(["title_espanol", "categorias"]);
+
+  const data = localStorage.getItem("user");
+  const user = JSON.parse(data);
+
+  const listVideos = async () => {
+    try {
+      const res = await VideoServer.ListVideos();
+      setVideos(res.videos);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+
+  useEffect(() => {
+    listVideos();
+  }, []);
+
+  //const datos = Object.values(videos);
+  //const search_parameters = Object.keys(Object.assign({}, ...datos));
+  //const filter_items = [...new Set(datos.map((item) => item.categorias.categoria))];
+
+  const search = (videos) => {
+    return videos.filter((item) => {
+      return searchParam.some((parameter) => {
+        return (
+          item[parameter]
+            .toString()
+            .toLowerCase()
+            .indexOf(query.toLowerCase()) > -1
+        );
+      });
+    });
+  };
+
+  if (user) {
+    if (user.is_superuser) {
       return (
         <div className="container">
-          <div className={classes.root}>
-            <Carousel >
-              {videos.map((video) => (
-                <Carousel.Item key={video.id}>
-                  <VideosItem key={video.id} video={video} listVideos = {listVideos} />   
-                </Carousel.Item>             
-              ))}
-            </Carousel>
+          <div className="search-wrapper">
+            <label htmlFor="search-form">
+              <input
+                type="search"
+                name="search-form"
+                id="search-form"
+                className="search-input"
+                placeholder="Search for..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </label>
           </div>
-            <br></br>
-            <hr></hr>
-            <div className="container">
-              <div className="row">
-                {videos.map((videos) => (
-                  <VideosItemRow key={videos.id} video={videos} listVideos={listVideos} />
-                ))}
-              </div>
-            </div>
-          </div>
+          <VideosListAd
+            videos={videos}
+            listVideos={listVideos}
+            search={search}
+          ></VideosListAd>
+        </div>
       );
     }
     return (
-			<p style={{ fontSize: '25px' }}>
-				Inicia sesión para ver todos los videos!
-			</p>
-		);
-  };
+      <div className="container">
+        <div className="search-wrapper">
+          <label htmlFor="search-form">
+            <input
+              type="search"
+              name="search-form"
+              id="search-form"
+              className="search-input"
+              placeholder="Search for..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
+        </div>
+        <VideosListUser
+          videos={videos}
+          listVideos={listVideos}
+          search={search}
+        ></VideosListUser>
+      </div>
+    );
+  }
+  return (
+    <p style={{ fontSize: "25px" }}>Inicia sesión para ver todos los videos!</p>
+  );
+};
 
 export default VideosList;

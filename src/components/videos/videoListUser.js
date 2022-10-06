@@ -5,8 +5,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { makeStyles } from "@material-ui/core/styles";
 import Carousel from "react-bootstrap/Carousel";
 //dependencies
-import VideosItemAdmin from "../admin/videosItemAdmin";
-import VideosItemRow from "../videos/videosItemRow";
+import VideosItem from "./videosItem";
+import VideosItemRow from "./videosItemRow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function VideosListAd(props) {
+function VideosListUser(props) {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function VideosListAd(props) {
           {videos &&
             props.search(videos).map((video) => (
               <Carousel.Item key={video.id}>
-                <VideosItemAdmin
+                <VideosItem
                   key={video.id}
                   video={video}
                   listVideos={props.listVideos}
@@ -66,4 +66,4 @@ function VideosListAd(props) {
   );
 }
 
-export default VideosListAd;
+export default VideosListUser;
