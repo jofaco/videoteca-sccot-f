@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
 import * as VideoServer from "./videoServer";
 
@@ -7,11 +8,17 @@ import "../../index.css";
 //dependencies
 import VideosListAd from "../admin/videosListAdmin";
 import VideosListUser from "./videoListUser";
+import { ListCategorias } from "../../services/category";
+import SearchComponent from "./search";
 
 const VideosList = () => {
   const [query, setQuery] = useState("");
   const [videos, setVideos] = useState([]);
-  const [searchParam] = useState(["title_espanol", "categorias"]);
+  const [categories, setCategories] = useState("");
+  const [searchParam] = useState(["title_espanol"]);
+  const [searchParam2] = useState(["categoria"]);
+
+  const [filterParam, setFilterParam] = useState(["All"]);
 
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
@@ -25,14 +32,21 @@ const VideosList = () => {
     }
   };
 
+  const listCategorias = async () => {
+    try {
+      const res = await ListCategorias();
+      setCategories(res);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+  
   useEffect(() => {
     listVideos();
+    listCategorias();
   }, []);
-
-  //const datos = Object.values(videos);
-  //const search_parameters = Object.keys(Object.assign({}, ...datos));
-  //const filter_items = [...new Set(datos.map((item) => item.categorias.categoria))];
-
+  
+  
   const search = (videos) => {
     return videos.filter((item) => {
       return searchParam.some((parameter) => {
@@ -41,55 +55,80 @@ const VideosList = () => {
             .toString()
             .toLowerCase()
             .indexOf(query.toLowerCase()) > -1
+            
         );
       });
+    });
+  };
+  const contenedorCarousel = document.getElementById('carousel_videos');
+  const search2 = (categories) => {
+    return categories.filter((item) => {
+      if (item.categoria === filterParam) {
+        contenedorCarousel.style.visibility = 'hidden'
+        contenedorCarousel.style.height = '10px';
+
+        return searchParam2.some((parameter) => {
+            return (
+                item[parameter]
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1
+            );
+        });
+      }
+      // eslint-disable-next-line eqeqeq
+      else if (filterParam == "All") {
+        contenedorCarousel.style.visibility = 'visible'
+        contenedorCarousel.style.height = '100%';
+        return videos.filter((item) => {
+          return searchParam.some((parameter) => {
+            return (
+              item[parameter]
+                .toString()
+                .toLowerCase()
+                .indexOf(query.toLowerCase()) > -1
+                
+            );
+          });
+        });
+      }
     });
   };
 
   if (user) {
     if (user.is_superuser) {
       return (
-        <div className="container">
-          <div className="search-wrapper">
-            <label htmlFor="search-form">
-              <input
-                type="search"
-                name="search-form"
-                id="search-form"
-                className="search-input"
-                placeholder="Search for..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </label>
-          </div>
+        <div className="container">          
+          <SearchComponent 
+            query ={query}
+            setQuery = {setQuery}
+            filterParam = {filterParam}
+            setFilterParam ={setFilterParam}
+            categories={categories}
+          ></SearchComponent>
           <VideosListAd
             videos={videos}
-            listVideos={listVideos}
+            categories={categories}
             search={search}
+            search2={search2}
           ></VideosListAd>
         </div>
       );
     }
     return (
       <div className="container">
-        <div className="search-wrapper">
-          <label htmlFor="search-form">
-            <input
-              type="search"
-              name="search-form"
-              id="search-form"
-              className="search-input"
-              placeholder="Search for..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </label>
-        </div>
+        <SearchComponent 
+          query ={query}
+          setQuery = {setQuery}
+          filterParam = {filterParam}
+          setFilterParam ={setFilterParam}
+          categories={categories}
+        ></SearchComponent>
         <VideosListUser
           videos={videos}
-          listVideos={listVideos}
+          categories={categories}
           search={search}
+          search2={search2}
         ></VideosListUser>
       </div>
     );

@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Carousel from "react-bootstrap/Carousel";
 //dependencies
 import VideosItem from "./videosItem";
-import VideosItemRow from "./videosItemRow";
+import VideosCategoriaFila from "../videos/videosCategoriaFila";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,16 +23,18 @@ const useStyles = makeStyles((theme) => ({
 
 function VideosListUser(props) {
   const [videos, setVideos] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     setVideos(props.videos);
-  }, [props.videos]);
+    setCategories(props.categories);
+  }, [props.categories, props.videos]);
 
   const classes = useStyles();
 
   return (
     <div className="container">
-      <div>
+      <div id="carousel_videos">
         <h2>Latest videos</h2>
         <Carousel className={classes.root}>
           {videos &&
@@ -48,19 +51,17 @@ function VideosListUser(props) {
       </div>
       <br></br>
       <hr></hr>
-      <div className="container">
-        <div className="row">
-          {videos &&
-            props
-              .search(videos)
-              .map((videos) => (
-                <VideosItemRow
-                  key={videos.id}
-                  video={videos}
-                  listVideos={props.listVideos}
-                />
-              ))}
-        </div>
+      <div className="container" id="card_videos">
+        {videos && categories && props.search2(categories).map((element) => (
+          <VideosCategoriaFila
+            key= {element.id}
+            categoria ={element}
+            videos={videos}
+            search={props.search}
+            
+          >
+          </VideosCategoriaFila>
+          ))}
       </div>
     </div>
   );

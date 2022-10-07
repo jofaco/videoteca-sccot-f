@@ -21,26 +21,10 @@ const useStyles = makeStyles((theme) => ({
 const VideosItemRow = ({ video }) => {
   const history = useNavigate();
   const classes = useStyles();
-  const categorias = [];
   
-  video.categorias.map((categoria) => categorias.push(categoria.categoria));
-  const catF = (
-    <h6>
-      <small>{categorias.toString()}</small>
-    </h6>
-  );
-
   return (
     <div className="col-md-4  col-12 mb-4">
       <h3 className={classes.paper}>{video.title_espanol}</h3>
-      {
-        <h6>
-          <small>{catF}</small>
-        </h6>
-      }
-      {/* {video.categorias.map((categoria) => (                
-                 <h6 key={categoria.id}><small>{ categoria.categoria }</small></h6> 
-            ))} */}
       <div className="card card-body">
         <Button onClick={() => history(`/seeVideo/${video.id}`)}>
           <Image

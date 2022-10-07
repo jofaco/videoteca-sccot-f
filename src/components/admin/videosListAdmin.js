@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Carousel from "react-bootstrap/Carousel";
 //dependencies
 import VideosItemAdmin from "../admin/videosItemAdmin";
-import VideosItemRow from "../videos/videosItemRow";
+import VideosCategoriaFila from "../videos/videosCategoriaFila";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,25 +23,27 @@ const useStyles = makeStyles((theme) => ({
 
 function VideosListAd(props) {
   const [videos, setVideos] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     setVideos(props.videos);
-  }, [props.videos]);
+    setCategories(props.categories);
+  }, [props.categories, props.videos]);
 
+  
   const classes = useStyles();
 
   return (
     <div className="container">
-      <div>
+      <div id="carousel_videos">
         <h2>Latest videos</h2>
-        <Carousel className={classes.root}>
+        <Carousel className={classes.root} >
           {videos &&
             props.search(videos).map((video) => (
-              <Carousel.Item key={video.id}>
+              <Carousel.Item key={video.id} interval={10000}>
                 <VideosItemAdmin
                   key={video.id}
                   video={video}
-                  listVideos={props.listVideos}
                 />
               </Carousel.Item>
             ))}
@@ -49,18 +52,15 @@ function VideosListAd(props) {
       <br></br>
       <hr></hr>
       <div className="container">
-        <div className="row">
-          {videos &&
-            props
-              .search(videos)
-              .map((videos) => (
-                <VideosItemRow
-                  key={videos.id}
-                  video={videos}
-                  listVideos={props.listVideos}
-                />
-              ))}
-        </div>
+        {videos && categories && props.search2(categories).map((element) => (
+          <VideosCategoriaFila
+            key= {element.id}
+            categoria ={element}
+            videos={videos}
+            search={props.search}
+          >
+          </VideosCategoriaFila>
+        ))}
       </div>
     </div>
   );

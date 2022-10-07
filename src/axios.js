@@ -1,5 +1,6 @@
 import axios from "axios";
 //import jwt from "jwt-decode"
+import {Buffer} from 'buffer';
 
 const API_URL = "http://127.0.0.1:8000/";
 

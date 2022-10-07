@@ -20,12 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VideosItemAdmin = ({ video, listVideos }) => {
+const VideosItemAdmin = ({ video }) => {
   const history = useNavigate();
 
   const handleDelete = async (videoID) => {
     await VideoServer.DeleteVideo(videoID);
-    listVideos();
     window.location.reload();
   };
   const classes = useStyles();
