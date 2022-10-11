@@ -9,6 +9,20 @@ export const ListVideos = async () => {
   }
 };
 
+export const ListPeliculas = async () => {
+  const response = await axiosInstance.get(`${API_URL}listPeliculas/`);
+  if (response.status === 200) {
+    return await response.data;
+  }
+}
+
+export const ListSeries = async () => {
+  const response = await axiosInstance.get(`${API_URL}listSeries/`);
+  if (response.status === 200) {
+    return await response.data;
+  }
+}
+
 export const getVideo = async (videoID) => {
   const response = await axiosInstance.get(`${API_URL}${videoID}`);
   if (response.status === 200) {

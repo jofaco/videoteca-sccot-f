@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { makeStyles } from "@material-ui/core/styles";
 import Carousel from "react-bootstrap/Carousel";
+//import Carousel from 'react-material-ui-carousel'
 //dependencies
 import VideosItemAdmin from "../admin/videosItemAdmin";
 import VideosCategoriaFila from "../videos/videosCategoriaFila";
@@ -19,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
   },
+  title: {
+    marginLeft: 10,
+  }
 }));
 
 function VideosListAd(props) {
@@ -36,8 +40,8 @@ function VideosListAd(props) {
   return (
     <div className="container">
       <div id="carousel_videos">
-        <h2>Latest videos</h2>
-        <Carousel className={classes.root} >
+        <h2 className={classes.title}>Latest videos</h2>
+        <Carousel className={classes.root} id="carousel" >
           {videos &&
             props.search(videos).map((video) => (
               <Carousel.Item key={video.id} interval={10000}>

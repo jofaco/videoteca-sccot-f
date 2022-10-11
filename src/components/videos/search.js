@@ -12,7 +12,7 @@ const SearchComponent = (props) => {
 
   if (categories) {
     return (
-      <div className="wrapper">
+      <div className="wrapper" >
         <div className="search-wrapper">
           <label htmlFor="search-form">
             <input

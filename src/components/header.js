@@ -6,8 +6,7 @@ import { NavLink } from "react-router-dom";
 import Sidebar from "./navbar/sidebarUser";
 import { ListCategorias } from "../services/category";
 //componentes
-import { Container, Toolbar, Typography, AppBar } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import {  Toolbar, Typography, AppBar,Box } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -55,8 +54,7 @@ const Header = () => {
   } else {
     return (
       <React.Fragment>
-        <CssBaseline />
-        <Container>
+        <Box>
           <AppBar
             position="relative"
             open={open}
@@ -83,7 +81,7 @@ const Header = () => {
               <Navbar></Navbar>
             </Toolbar>
           </AppBar>
-        </Container>
+        </Box>
       </React.Fragment>
     );
   }

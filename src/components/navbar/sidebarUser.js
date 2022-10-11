@@ -1,34 +1,25 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 //dependencies
 import NavbarAd from "../admin/navbarAd";
 import Navbar from "../navbar/navbar";
-import { NavLink } from "react-router-dom";
-
+import DrawerS from "./drawer";
+import Switch from "../../Switch";
 //componentes
 import { styled } from "@mui/material/styles";
 import {
-  Container,
   Box,
+  Divider,
   Toolbar,
   Typography,
-  List,
-  Collapse,
   Drawer,
   AppBar,
   IconButton,
-  ListItemIcon,
-  ListItemText,
 } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import DehazeIcon from "@material-ui/icons/Dehaze";
+import MenuIcon from '@material-ui/icons/Menu';
 import Link from "@material-ui/core/Link";
-import ListItemButton from "@mui/material/ListItemButton";
 import { makeStyles } from "@material-ui/core/styles";
-import Divider from "@mui/material/Divider";
-import CategoryIcon from "@material-ui/icons/Category";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -55,86 +46,51 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
+
+const drawerWidth = 350;
+
 const Sidebar = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [openL, setOpenL] = useState(false);
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleClick = () => {
-    setOpenL(!openL);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
+
+  const drawer = (
+    <DrawerS 
+      user = {props.user}
+      handleDrawerToggle = {handleDrawerToggle}
+    >
+    </DrawerS>
+  );
+  const container = window !== undefined ? () => window().document.body : undefined;
+
   return (
     <React.Fragment>
-      <CssBaseline />
-      <Container>
-        <Drawer open={open} onClose={() => setOpen(false)}>
-          <DrawerHeader>
-            <IconButton onClick={() => setOpen(false)}>x</IconButton>
-          </DrawerHeader>
-          <Divider />
-          <Box
-            display="flex"
-            mt={2}
-            mr={2}
-            justifyContent="space-between"
-            fontWeight={500}
-          >
-            <Typography component={"span"} variant={"body2"}>
-              <Box mt={2} fontWeight="fontWeightBold">
-                <p className={classes.paper}>Bienvenido</p>
-              </Box>
-              <Box ml={4} fontWeight="fontWeightLight" fontSize={14}>
-                {props.user.name}
-              </Box>
-              <List className={classes.drawer}>
-                <ListItemButton onClick={handleClick}>
-                  <ListItemIcon>
-                    <CategoryIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Categorias" />
-                  {openL ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-              </List>
-              <Collapse in={openL} timeout="auto" unmountOnExit>
-                {props.categories.map((categoria) => (
-                  <List
-                    ml={4}
-                    component="div"
-                    disablePadding
-                    key={categoria.id}
-                  >
-                    <ListItemButton sx={{ pl: 10 }}>
-                      <li>{categoria.categoria}</li>
-                    </ListItemButton>
-                  </List>
-                ))}
-              </Collapse>
-              <NavbarAd></NavbarAd>
-            </Typography>
-          </Box>
-        </Drawer>
-        <AppBar
+      <Box >
+        <AppBar 
           position="relative"
-          open={open}
           color="default"
-          elevation={0}
+          component="nav"
           className={classes.appBar}
         >
-          <Toolbar className={classes.toolbar}>
+          <Toolbar >
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={() => setOpen(true)}
               edge="start"
-              sx={{ mr: 2, ...(open && { display: "none" }) }}
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
             >
-              <DehazeIcon />
+              <MenuIcon />
             </IconButton>
             <Typography
               variant="h6"
-              color="inherit"
-              noWrap
+              component="div"
               className={classes.toolbarTitle}
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
             >
               <Link
                 component={NavLink}
@@ -145,11 +101,36 @@ const Sidebar = (props) => {
                 Videoteca
               </Link>
             </Typography>
-
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>              
+                <NavbarAd></NavbarAd>
+                <Switch></Switch> 
+            </Box>
+                         
             <Navbar></Navbar>
           </Toolbar>
         </AppBar>
-      </Container>
+        <Box component="nav"> 
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen} 
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: 'flex', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+            >
+            <DrawerHeader>
+              <IconButton onClick={handleDrawerToggle}>x</IconButton>
+            </DrawerHeader>
+            <Divider />
+            {drawer}
+          </Drawer>
+        </Box>        
+      </Box>
     </React.Fragment>
   );
 };

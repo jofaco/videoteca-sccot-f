@@ -1,9 +1,7 @@
 //components
-import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { ListItem, Box } from "@material-ui/core";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -18,24 +16,71 @@ const NavbarAd = () => {
 
   if (user.is_superuser) {
     return (
-      <ListItem button>
-        <Box color="inherit">
-          <AddCircleOutlineIcon />
-          <Link
-            sx={{ pl: 2 }}
-            color="textPrimary"
-            href="#"
+      <>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
+            to="/"
+          >
+            Home
+          </Button>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
+            to="/Peliculas"
+          >
+            Peliculas
+          </Button>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
+            to="/Series"
+          >
+            Series
+          </Button>
+          <Button
+            sx={{ color: '#fff' }} 
             className={classes.link}
             component={NavLink}
             to="/VideoForm"
           >
             Agregar video
-          </Link>
-        </Box>
-      </ListItem>
+          </Button>
+      </>
     );
-  } else {
-    return <p> </p>;
+  } 
+  else{
+    return (
+      <>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
+            to="/"
+          >
+            Home
+          </Button>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
+            to="/Peliculas"
+          >
+            Peliculas
+          </Button>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
+            to="/Series"
+          >
+            Series
+          </Button>          
+      </>
+    );
   }
 };
 

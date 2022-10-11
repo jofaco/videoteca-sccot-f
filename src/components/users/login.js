@@ -58,7 +58,7 @@ export default function SignIn() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const user = await Login({
+      await Login({
         username: formData.email,
         password: formData.password,
       }).then((res) => {

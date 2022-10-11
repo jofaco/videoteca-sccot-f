@@ -36,7 +36,7 @@ function VideosListUser(props) {
     <div className="container">
       <div id="carousel_videos">
         <h2>Latest videos</h2>
-        <Carousel className={classes.root}>
+        <Carousel className={classes.root} id="carousel" >
           {videos &&
             props.search(videos).map((video) => (
               <Carousel.Item key={video.id}>
