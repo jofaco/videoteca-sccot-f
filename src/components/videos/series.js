@@ -94,7 +94,7 @@ const SeriesList = () => {
   if (user && series) {
     if (user.is_superuser) {
       return (
-        <div className="container">
+        <div>
           <SearchComponent
             query={query}
             setQuery={setQuery}
@@ -112,7 +112,7 @@ const SeriesList = () => {
       );
     }
     return (
-      <div className="container">
+      <div>
         <SearchComponent
           query={query}
           setQuery={setQuery}

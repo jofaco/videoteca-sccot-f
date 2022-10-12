@@ -11,10 +11,10 @@ import VideosCategoriaFila from "../videos/videosCategoriaFila";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 1000,
+    maxWidth: 1248,
     margin: "auto",
   },
-  "@media (max-width: 1000px)": {
+  "@media (max-width: 1248px)": {
     root: {
       display: "flex",
     },
@@ -33,7 +33,7 @@ function VideosListUser(props) {
   const classes = useStyles();
 
   return (
-    <div className="container">
+    <div>
       <div id="carousel_videos">
         <h2>Latest videos</h2>
         <Carousel className={classes.root} id="carousel" >
@@ -51,7 +51,7 @@ function VideosListUser(props) {
       </div>
       <br></br>
       <hr></hr>
-      <div className="container" id="card_videos">
+      <div id="card_videos">
         {videos && categories && props.search2(categories).map((element) => (
           <VideosCategoriaFila
             key= {element.id}

@@ -9,7 +9,7 @@ import "../../conCate.css";
 const VideosCategoriaFila = ({ categoria, ...props }) => {
   if(categoria){
     return (
-    <div className="container">      
+    <div >      
       <div className="col-12 contenedorXcateg">
         <h1 className="titleCateg" key = {categoria.id}>{categoria.categoria}</h1>
         <div className="row">

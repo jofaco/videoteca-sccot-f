@@ -94,7 +94,7 @@ const PeliculasList = () => {
   if (user && peliculas) {
     if (user.is_superuser) {
       return (
-        <div className="container">
+        <div >
           <SearchComponent
             query={query}
             setQuery={setQuery}
@@ -112,7 +112,7 @@ const PeliculasList = () => {
       );
     }
     return (
-      <div className="container">
+      <div >
         <SearchComponent
           query={query}
           setQuery={setQuery}

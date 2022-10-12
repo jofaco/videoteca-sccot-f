@@ -23,7 +23,7 @@ root.render(
     <StyledEngineProvider injectFirst>
       <Header />
     </StyledEngineProvider>
-    <div className="container my-4">
+    <div className=" mt-4">
       <Routes>
         <Route exact path="/" element={<App />} />
         <Route exact path="/Peliculas" element={<AppPeliculas />} />

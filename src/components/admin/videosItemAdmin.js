@@ -12,12 +12,15 @@ import "../../styles.css";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(3),
 
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    color: "white",
+
   },
+  
 }));
 
 const VideosItemAdmin = ({ video }) => {
@@ -30,7 +33,7 @@ const VideosItemAdmin = ({ video }) => {
   const classes = useStyles();
 
   return (
-    <div className="container" id="contenedorItemVideo">
+    <div  id="contenedorItemVideo">
       <div className="row ">
         <div className="col-md-8  col-12 ">
           <Button onClick={() => history(`/seeVideo/${video.id}`)}>

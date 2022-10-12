@@ -20,7 +20,7 @@ const SearchComponent = (props) => {
               name="search-form"
               id="search-form"
               className="search-input"
-              placeholder="Search for..."
+              placeholder="      Search for..."
               value={props.query}
               onChange={(e) => props.setQuery(e.target.value)}
             />

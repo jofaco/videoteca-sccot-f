@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./navbar/navbar";
 import { NavLink } from "react-router-dom";
-
+import Switch from "../Switch"
 //dependencies
 import Sidebar from "./navbar/sidebarUser";
 import { ListCategorias } from "../services/category";
@@ -78,6 +78,7 @@ const Header = () => {
                   Videoteca
                 </Link>
               </Typography>
+              <Switch></Switch> 
               <Navbar></Navbar>
             </Toolbar>
           </AppBar>

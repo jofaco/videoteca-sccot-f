@@ -11,12 +11,18 @@ import "../../styles.css";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(3),
 
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    color: "white",
+
   },
+  letter: {
+    fontSize:10,
+    color: "white"
+  }
 }));
 
 const VideosItem = ({ video }) => {
@@ -24,24 +30,24 @@ const VideosItem = ({ video }) => {
   const classes = useStyles();
 
   return (
-    <div className="container" id="contenedorItemVideo">
+    <div id="contenedorItemVideo">
+      <Button onClick={() => history(`/seeVideo/${video.id}`)}>
       <div className="row ">
-        <div className="col-md-8  col-12 ">
-          <Button onClick={() => history(`/seeVideo/${video.id}`)}>
+        <div className="col-md-8  col-12 ">          
             <Image
               src={"http://localhost:8000" + video.featured_image}
               className="img-fluid"
             ></Image>
-          </Button>
         </div>
         <div className="col-md-4 col-12 ">
           <h3 className={classes.paper}>{video.title_espanol}</h3>
-          <p className="card-text">Duración: {video.duration}</p>
-          <p className="card-text">Puntuación: {video.score}</p>
-          <p className="card-text">{video.description_esp}</p>
+          <p className={classes.letter}>Duración: {video.duration}</p>
+          <p className={classes.letter}>Puntuación: {video.score}</p>
+          <p className={classes.letter}>{video.description_esp}</p>
           <br></br>
         </div>
       </div>
+      </Button>
     </div>
   );
 };

@@ -43,6 +43,7 @@ const VideoDetail = () => {
         title_espanol: res.title_espanol,
         duration: res.duration,
         url_esp: res.url_vimeo_esp,
+        calificacion: res.score,
       });
     };
     getVideo(id);
@@ -64,9 +65,13 @@ const VideoDetail = () => {
           height="100%"
           frameBorder="0"
           allow="autoplay; fullscreen; "
-          allowFullScreen
           className="styleIframe"
         ></iframe>
+      </div>
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          {video.calificacion}
+        </Typography>
       </div>
     </Container>
   );

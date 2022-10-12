@@ -98,7 +98,7 @@ const VideosList = () => {
   if (user) {
     if (user.is_superuser) {
       return (
-        <div className="container">          
+        <div >          
           <SearchComponent 
             query ={query}
             setQuery = {setQuery}
@@ -116,7 +116,7 @@ const VideosList = () => {
       );
     }
     return (
-      <div className="container">
+      <div >
         <SearchComponent 
           query ={query}
           setQuery = {setQuery}
