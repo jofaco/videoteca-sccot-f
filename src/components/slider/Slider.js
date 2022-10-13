@@ -8,7 +8,12 @@ import useSliding from './useSliding'
 import useSizeElement from './useSizeElement'
 import './Slider.scss'
 
-const Slider = ({ children, activeSlide }, ...props) => {
+import { useNavigate } from "react-router-dom";
+
+
+
+const Slider = ({ children, activeSlide }) => {
+  const history = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(activeSlide);
   const { width, elementRef } = useSizeElement();
   const {
@@ -33,8 +38,9 @@ const Slider = ({ children, activeSlide }, ...props) => {
     onCloseSlide: handleClose,
     elementRef,
     currentSlide,
+    history,
   };
-  console.log(children);
+  
     return (
         <SliderContext.Provider value={contextValue}>
           <SliderWrapper>

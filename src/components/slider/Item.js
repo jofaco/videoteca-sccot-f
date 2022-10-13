@@ -1,15 +1,21 @@
 import React from 'react';
 import cx from 'classnames';
-import SliderContext from '../context/SliderContext/'
+import SliderContext from '../context/SliderContext'
 import ShowDetailsButton from './ShowDetailsButton'
-import Mark from './Mark'
+//import Mark from './Mark'
 import './Item.scss'
 
-const Item = ({ movie }) => (
-  <SliderContext.Consumer>
-    {({ onSelectSlide, currentSlide, elementRef }) => {
-      const isActive = currentSlide && currentSlide.id === movie.id;
 
+//Components
+import Button from "@material-ui/core/Button";
+
+
+
+const Item = ({ video }) => (
+  <SliderContext.Consumer>
+    {({ onSelectSlide, currentSlide, elementRef,history }) => {
+      const isActive = currentSlide && currentSlide.id === video.id;
+      
       return (
         <div
           ref={elementRef}
@@ -17,9 +23,13 @@ const Item = ({ movie }) => (
             'item--open': isActive,
           })}
         >
-          <img src={movie.image} alt="" />
-          <ShowDetailsButton onClick={() => onSelectSlide(movie)} />
-          {isActive && <Mark />}
+          <h4>{video.title_espanol}</h4>
+          <Button onClick={() => history(`/seeVideo/${video.id}`)}>
+            <img src={"http://localhost:8000" + video.featured_image} alt="" />          
+          </Button>
+          <ShowDetailsButton onClick={() => onSelectSlide(video)} />
+          {isActive} 
+          {/* {isActive && <Mark />} */}
         </div>
       );
     }}

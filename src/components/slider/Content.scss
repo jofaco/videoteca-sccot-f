@@ -5,13 +5,21 @@
   
     &__background,
     &__background__shadow,
-    &__background__image,
+    
     &__area {
       position: absolute;
       top: 0;
       bottom: 0;
     }
-  
+    &__background__image{
+      position: absolute;
+      max-width: 62%;
+      top: 0;
+      bottom: 0;
+      opacity: 0.25;
+      
+    }
+    
     &__background {
       left: 0;
       right: 0;
@@ -19,8 +27,8 @@
       &__shadow {
         left: 0;
         background: #000;
-        width: 30%;
-        z-index: 2;
+        width: 40%;
+        z-index: 1;
   
         &:before {
           content: '';
@@ -66,11 +74,16 @@
       font-size: 18px;
       color: #999;
       margin-top: 20px;
-      max-width: 500px;
+      max-width: 400px;
     }
-  
+    &__button {
+      align-items: center;
+      min-width: 450px;
+      margin-left: 70%;
+      margin-top: -25%;
+    }
     &__close {
-      color: #fff;
+      color: rgb(248, 74, 74);
       width: 40px;
       height: 40px;
       background: transparent;

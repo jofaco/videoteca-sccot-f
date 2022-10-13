@@ -1,5 +1,5 @@
 import React from 'react';
-import IconArrowDown from './../Icons/IconArrowDown'
+import IconArrowDown from '../Icon/IconArrowDown'
 import './SlideButton.scss'
 
 const SlideButton = ({ onClick, type }) => (
