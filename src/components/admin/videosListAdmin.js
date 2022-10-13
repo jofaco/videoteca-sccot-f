@@ -38,7 +38,7 @@ function VideosListAd(props) {
     <>
       <div id="carousel_videos">
         <h2 >Latest videos</h2>
-        <Carousel className={classes.root} id="carousel" >
+        <Carousel className={classes.root} id="carousel" fade >
           {videos &&
             props.search(videos).map((video) => (
               <Carousel.Item key={video.id} interval={10000}>

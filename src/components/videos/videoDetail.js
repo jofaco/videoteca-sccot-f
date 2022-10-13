@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 //components
-import "../../styles.css";
+import "../../styles/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

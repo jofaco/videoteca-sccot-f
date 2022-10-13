@@ -5,7 +5,6 @@ import { Image } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import "../../styles.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,7 +23,7 @@ const VideosItemRow = ({ video }) => {
   
   return (
     <div className="col-md-4  col-12 mb-4">
-      <h3 className={classes.paper}>{video.title_espanol}</h3>
+      <h4 className={classes.paper}>{video.title_espanol}</h4>
       <div className="card card-body">
         <Button onClick={() => history(`/seeVideo/${video.id}`)}>
           <Image

@@ -6,7 +6,6 @@ import { Image } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import "../../styles.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

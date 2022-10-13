@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 //dependencies
 import * as VideoServer from "../videos/videoServer";
-import "../../styles.css";
+import "../../styles/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
