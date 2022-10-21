@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 
-const Context = React.createContext({});
+const UserContext = React.createContext({});
 
 export function UserContextProvider({ children }) {
   const [jwt, setJWT] = useState(() =>
@@ -18,7 +18,7 @@ export function UserContextProvider({ children }) {
   }, [user]);
 
   return (
-    <Context.Provider
+    <UserContext.Provider
       value={{
         jwt,
         setJWT,
@@ -27,8 +27,8 @@ export function UserContextProvider({ children }) {
       }}
     >
       {children}
-    </Context.Provider>
+    </UserContext.Provider>
   );
 }
 
-export default Context;
+export default UserContext;

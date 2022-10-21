@@ -26,7 +26,7 @@ root.render(
     <div className=" mt-4">
       <Routes>
         <Route exact path="/" element={<App />} />
-        <Route exact path="/Peliculas" element={<AppPeliculas />} />
+        <Route exact path="/Videos" element={<AppPeliculas />} />
         <Route exact path="/Series" element={<AppSeries />} />
         <Route path="/VideoForm" element={<VideoForm />} />
         <Route path="/updateVideo/:id" element={<VideoForm />} />

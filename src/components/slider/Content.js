@@ -1,6 +1,7 @@
 import React from 'react';
 import IconCross from '../Icon/IconCross';
 import './Content.scss';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 const Content = ({ video, onClose }) => (
   <div className="content">
@@ -18,7 +19,7 @@ const Content = ({ video, onClose }) => (
           {video.description_esp}
         </div>
         <div className='content__button'>
-          <button className='content__button__repro'>Play</button>
+          <button className='content__button__repro btn btn-success btn-lg'><PlayCircleIcon></PlayCircleIcon></button>
         </div>
       </div>
       <button className="content__close" onClick={onClose}>

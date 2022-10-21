@@ -21,14 +21,10 @@ const VideosCategoriaFila = ({ categoria, ...props }) => {
             video.categorias.map((element) => {
               if (categoria.categoria === element.categoria)
                 return( 
-                    <Slider.Item key={video.id} video={video}>
-                  
-                    </Slider.Item>
+                  <Slider.Item key={video.id} video={video}></Slider.Item>
                 )
-              })                                       
-            
+              })
             ))}
-                                
           </Slider>
         </div>
       </div>

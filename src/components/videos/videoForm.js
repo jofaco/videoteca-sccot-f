@@ -84,12 +84,10 @@ const VideoForm = () => {
       let res;
       if (!params.id) {
         res = await VideoServer.RegisterVideo(formData);
-        console.log(res);
       } else {
-        res = await VideoServer.UpdateVideo(params.id, formData);
-        console.log(res);
+        res = await VideoServer.UpdateVideo(params.id, formData);        
       }
-
+      console.log(res);
       history("/");
       window.location.reload();
     } catch (error) {

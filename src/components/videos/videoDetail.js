@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
+import {useLocation} from 'react-router-dom';
 
 import { useParams } from "react-router-dom";
 import * as VideoServer from "./videoServer";
+//import * as HistorialUserServer from "../../services/historialUser";
 
 //MaterialUI
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import Box from "@mui/material/Box";
 import Container from "@material-ui/core/Container";
-
+import StarIcon from "@mui/icons-material/Star";
+import { makeStyles } from "@material-ui/core/styles";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import Typography from "@material-ui/core/Typography";
 //components
 import "../../styles/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(0),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   iframe: {
     maxWidth: 1024,
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(1),
     marginBottom: theme.spacing(5),
   },
   "@media (max-width: 1024px)": {
@@ -30,24 +34,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const VideoDetail = () => {
+  const location = useLocation();
   const { id } = useParams();
   const [video, setVideo] = useState([]);
+  const [duracion, setDuracion] = useState([]);
+  const [uploadDate, setUploadDate] = useState(null);
+  const [histUser, setHistUser] = useState(location.state);
+  const [activeStar, setActiveStar] = useState(-1);
+  const totalStars = 5;
+
+  const changeDuration = (duration) => {
+    let tiempo = duration.split(':');
+    let new_duration = "";
+    if (tiempo) {
+
+      if (tiempo[0] !=="00") {
+        new_duration = duration[0]+"hrs:";
+      }
+      if (tiempo[1] !=="00") {
+        new_duration = " "+new_duration+" "+tiempo[1]+"mins:";
+      }
+      if (tiempo[2] !=="00") {
+        new_duration = " "+new_duration+" "+tiempo[2]+"s";
+      }
+    }
+    return new_duration;
+  };
 
   useEffect(() => {
     const getVideo = async (videoID) => {
       const res = await VideoServer.getVideo(videoID);
       const video = res;
 
+      setUploadDate(new Date(res.upload_date).toDateString());
+      setDuracion(changeDuration(res.duration));
+      
       setVideo({
         ...video,
-        title_espanol: res.title_espanol,
-        duration: res.duration,
-        url_esp: res.url_vimeo_esp,
-        calificacion: res.score,
+        duration: duracion,        
       });
+      
     };
     getVideo(id);
-  }, [id, setVideo]);
+    
+  }, [duracion, id, setVideo]);
+  
+  const handleClick = async (index) => {
+    setActiveStar(index);
+    setHistUser({...histUser, user_score:index+1});
+    console.log(histUser);
+    console.log(activeStar);
+
+    //const res = await HistorialUserServer.updateHistorialUser(histUser.id, histUser);
+    //console.log(res);
+  };
 
   const classes = useStyles();
   return (
@@ -57,22 +97,67 @@ const VideoDetail = () => {
           {video.title_espanol}
         </Typography>
       </div>
-      <div className="iframe1">
+      <div className="row">
+      <div className="col-md-8 col-12 iframe1">
         <iframe
           title={video.title_espanol}
-          src={video.url_esp}
-          width="100%"
-          height="100%"
+          src={video.url_vimeo_esp}
+          width="90%"
+          height="90%"
           frameBorder="0"
           allow="autoplay; fullscreen; "
           className="styleIframe"
         ></iframe>
       </div>
-      <div className={classes.paper}>
+      <div className="col-md-4 col-12 infoVideo">
+        <Typography component="h5" variant="body1">
+          {video.duration}&nbsp;&nbsp;{uploadDate}
+        </Typography>
+        <br></br>
+        <Typography component="h5" variant="body1">
+          {video.description_esp}
+        </Typography>
+        <br></br>
         <Typography component="h1" variant="h5">
-          {video.calificacion}
+          Calificación:   &nbsp;&nbsp;
+          <Box 
+            sx={{
+              display: "inline-flex",
+              position: "relative",
+              cursor: "pointer",
+              textAlign: "left",
+            }}
+          >
+            {[...new Array(totalStars)].map((arr, index) => {
+              return (
+                <Box 
+                key={index} 
+                position="relative"
+                sx={{
+                  cursor: "pointer",
+                }}
+                onClick={(e) => handleClick(index)}
+                >
+                  <Box 
+                    sx={{
+                      width: index <= activeStar ? "100%" : "0%",
+                      overflow: "hidden",
+                      position: "absolute",
+                    }}
+                  >
+                    <StarIcon />
+                  </Box>
+                  <Box>
+                    <StarBorderIcon />
+                  </Box>
+                </Box>
+              )
+            })}
+          </Box>
         </Typography>
       </div>
+      </div>
+      
     </Container>
   );
 };

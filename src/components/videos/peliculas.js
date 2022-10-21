@@ -6,7 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import "../../index.css";
 //dependencies
 import VideosListAd from "../admin/videosListAdmin";
-import VideosListUser from "./videoListUser";
+import VideosListUser from "./videoListUser2";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 

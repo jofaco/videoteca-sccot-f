@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { makeStyles } from "@material-ui/core/styles";
 import Carousel from "react-bootstrap/Carousel";
+
 //dependencies
 import VideosItem from "./videosItem";
-import VideosCategoriaFila from "./videosCategoriaFila";
+import VideosCategoriaFila2 from "./videosCategoriaFila2";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function VideosListUser(props) {
+function VideosListUser2(props) {
   const [videos, setVideos] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -53,18 +54,17 @@ function VideosListUser(props) {
       <hr></hr>
       <div id="card_videos">
         {videos && categories && props.search2(categories).map((element) => (
-          <VideosCategoriaFila
+          <VideosCategoriaFila2
             key= {element.id}
             categoria ={element}
             videos={videos}
             search={props.search}
-            
           >
-          </VideosCategoriaFila>
+          </VideosCategoriaFila2>
           ))}
       </div>
     </div>
   );
 }
 
-export default VideosListUser;
+export default VideosListUser2;

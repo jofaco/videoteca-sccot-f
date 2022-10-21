@@ -29,9 +29,9 @@ const NavbarAd = () => {
             sx={{ color: '#fff' }} 
             className={classes.link}
             component={NavLink}
-            to="/Peliculas"
+            to="/Videos"
           >
-            Peliculas
+            Videos
           </Button>
           <Button
             sx={{ color: '#fff' }} 
@@ -67,9 +67,9 @@ const NavbarAd = () => {
             sx={{ color: '#fff' }} 
             className={classes.link}
             component={NavLink}
-            to="/Peliculas"
+            to="/Videos"
           >
-            Peliculas
+            Videos
           </Button>
           <Button
             sx={{ color: '#fff' }} 

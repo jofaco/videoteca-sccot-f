@@ -44,7 +44,7 @@ const DrawerS = (props) => {
                     </ListItem>
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
-                    to="/Peliculas">
+                    to="/Videos">
                         <ListItemText primary="Peliculas" />
                       </ListItemButton>
                     </ListItem> 
@@ -95,8 +95,8 @@ const DrawerS = (props) => {
                     </ListItem>
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
-                    to="/Peliculas">
-                        <ListItemText primary="Peliculas" />
+                    to="/Videos">
+                        <ListItemText primary="Videos" />
                       </ListItemButton>
                     </ListItem> 
                     <ListItem  >
