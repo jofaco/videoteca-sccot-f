@@ -1,7 +1,6 @@
 import React from "react";
 
 //components
-import { useNavigate } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,13 +23,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const VideosItem = ({ video }) => {
-  const history = useNavigate();
+const VideosItem = ({ video,...props } ) => {
   const classes = useStyles();
 
+  
   return (
     <div id="contenedorItemVideo">
-      <Button onClick={() => history(`/seeVideo/${video.id}`)}>
+      <Button onClick={(e) => props.verVideo(video.id)}>
       <div className="row ">
         <div className="col-md-8  col-12 ">          
             <Image

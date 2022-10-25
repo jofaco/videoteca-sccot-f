@@ -7,7 +7,7 @@ import "../../styles/styles.css";
 import "../../styles/conCate.css";
 
 
-const VideosCategoriaFila2 = ({ categoria, ...props }) => {
+const VideosCategoriaFila2 = ({ categoria,verVideo, ...props }) => {
 
   if(categoria){
     
@@ -23,7 +23,9 @@ const VideosCategoriaFila2 = ({ categoria, ...props }) => {
                       <VideosItemRow
                       key={index}
                       video={video}
-                      >
+                      histUsers = {props.histUsers}
+                      user = {props.user}
+                      verVideo = {verVideo}>
                       </VideosItemRow> 
                       )                 
               })

@@ -7,7 +7,7 @@ import "../../styles/styles.css";
 import "../../styles/conCate.css";
 
 
-const VideosCategoriaFila = ({ categoria, ...props }) => {
+const VideosCategoriaFila = ({ categoria, verVideo,...props }) => {
 
   if(categoria){
     
@@ -21,7 +21,14 @@ const VideosCategoriaFila = ({ categoria, ...props }) => {
             video.categorias.map((element) => {
               if (categoria.categoria === element.categoria)
                 return( 
-                  <Slider.Item key={video.id} video={video}></Slider.Item>
+                  <Slider.Item
+                  key={video.id} 
+                  video={video} 
+                  histUsers = {props.histUsers}
+                  user = {props.user}
+                  verVideo = {verVideo}>
+                  
+                  </Slider.Item>
                 )
               })
             ))}

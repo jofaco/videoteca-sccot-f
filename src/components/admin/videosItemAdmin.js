@@ -5,7 +5,7 @@ import { Image } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-//dependencies
+//dependencias
 import * as VideoServer from "../../services/videoServer";
 import "../../styles/styles.css";
 
@@ -23,20 +23,21 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-const VideosItemAdmin = ({ video }) => {
+const VideosItemAdmin = ({ video,...props }) => {
   const history = useNavigate();
 
   const handleDelete = async (videoID) => {
     await VideoServer.DeleteVideo(videoID);
     window.location.reload();
   };
+
   const classes = useStyles();
 
   return (
     <div  id="contenedorItemVideo">
       <div className="row ">
         <div className="col-md-8  col-12 ">
-          <Button onClick={() => history(`/seeVideo/${video.id}`)}>
+          <Button onClick={() => props.verVideo(video.id)}>
             <Image
               src={"http://localhost:8000" + video.featured_image}
               className="img-fluid"
