@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import {useLocation} from 'react-router-dom';
 
 import { useParams } from "react-router-dom";
-import * as VideoServer from "./videoServer";
-//import * as HistorialUserServer from "../../services/historialUser";
+import * as VideoServer from "../../services/videoServer";
+import * as HistorialUserServer from "../../services/historialUser";
 
 //MaterialUI
 import Box from "@mui/material/Box";
@@ -68,7 +68,7 @@ const VideoDetail = () => {
 
       setUploadDate(new Date(res.upload_date).toDateString());
       setDuracion(changeDuration(res.duration));
-      
+      setActiveStar(histUser.user_score-1);
       setVideo({
         ...video,
         duration: duracion,        
@@ -77,16 +77,13 @@ const VideoDetail = () => {
     };
     getVideo(id);
     
-  }, [duracion, id, setVideo]);
+  }, [duracion, histUser.user_score, id, setVideo]);
   
   const handleClick = async (index) => {
     setActiveStar(index);
     setHistUser({...histUser, user_score:index+1});
-    console.log(histUser);
-    console.log(activeStar);
 
-    //const res = await HistorialUserServer.updateHistorialUser(histUser.id, histUser);
-    //console.log(res);
+    await HistorialUserServer.updateHistorialUser(histUser.id,{'user_score': index+1});
   };
 
   const classes = useStyles();

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 //dependencies
-import PeliculasList from "./components/videos/peliculas";
-import VideoLoadingComponent from "./components/videos/videoLoading";
-import axiosInstance from "./axios";
+import VideosList from "../components/videos/videosList";
+import VideoLoadingComponent from "../components/videos/videoLoading";
+import axiosInstance from "../axios";
+//import UserContext from "./components/context/UserContext";
 //components
 import { Container } from "@material-ui/core";
 
-function AppPeliculas() {
-  const VideoLoading = VideoLoadingComponent(PeliculasList);
+function Principal() {
+  const VideoLoading = VideoLoadingComponent(VideosList);
 
   const [appState, setAppState] = useState({
     loading: true,
@@ -30,4 +31,4 @@ function AppPeliculas() {
     </Container>
   );
 }
-export default AppPeliculas;
+export default Principal;

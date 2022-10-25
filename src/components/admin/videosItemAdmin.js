@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 //dependencies
-import * as VideoServer from "../videos/videoServer";
+import * as VideoServer from "../../services/videoServer";
 import "../../styles/styles.css";
 
 const useStyles = makeStyles((theme) => ({

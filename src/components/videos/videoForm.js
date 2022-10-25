@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 //import Select from "react-select";
-import * as VideoServer from "./videoServer";
+import * as VideoServer from "../../services/videoServer";
 import * as CategoriaServer from "../../services/category";
 //components
 import MenuItem from "@mui/material/MenuItem";

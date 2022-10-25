@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import * as VideoServer from "./videoServer";
+import * as VideoServer from "../../services/videoServer";
 
 //Components
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader

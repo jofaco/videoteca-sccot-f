@@ -40,7 +40,7 @@ const Slider = ({ children, activeSlide }) => {
     currentSlide,
     history,
   };
-  
+  console.log(width);
     return (
         <SliderContext.Provider value={contextValue}>
           <SliderWrapper>

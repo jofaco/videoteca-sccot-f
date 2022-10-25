@@ -26,8 +26,7 @@ const VideosItemRow = ({ video }) => {
   const classes = useStyles();
   const [histUsers, setHistUsers] = useState();
   let histUser;
-
-
+  
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
 
@@ -44,7 +43,6 @@ const VideosItemRow = ({ video }) => {
     getHistorialUsers();
   }, []);
 
-
   const verVideo = async (id) =>{
     const formData = new FormData();
     let contador = 0;
@@ -56,7 +54,7 @@ const VideosItemRow = ({ video }) => {
         if (element.usuario === user.id && element.video === id) {
           histUser= element;
           contador++;
-        } 
+        }
       }
       if(contador ===0) {
         const hu = await  HistorialUserServer.RegisterHistorialUser(formData);
@@ -65,11 +63,7 @@ const VideosItemRow = ({ video }) => {
     } catch (error) {
       console.log(error);
     }
-    
-    //res = await HistorialUserServer.RegisterHistorialUser(formData);
-    console.log(histUser);
     history(`/seeVideo/${id}`,{state:histUser});
-    
   }
   
   return (
