@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import * as VideoServer from "../../services/videoServer";
 
-//Components
+//dependencies
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
-//dependencies
+//Components
 import VideosListAd from "../admin/videosListAdmin";
 import VideosListUser from "./videoListUser";
 import { ListCategorias } from "../../services/category";

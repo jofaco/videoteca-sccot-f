@@ -36,7 +36,7 @@ function VideosListAd(props) {
 
   const getHistorialUsers = async () => {
     try {
-      const res = await HistorialUserServer.ListHistorialUser();
+      const res = await HistorialUserServer.ListHistorial();
       setHistUsers(res);
     } catch (error) {
       console.log(error);

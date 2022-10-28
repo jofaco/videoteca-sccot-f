@@ -10,7 +10,6 @@ import VideosItem from "./videosItem";
 import VideosCategoriaFila from "./videosCategoriaFila";
 import * as HistorialUserServer from "../../services/historialUser";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1248,
@@ -28,24 +27,27 @@ function VideosListUser(props) {
 
   const [videos, setVideos] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [histUsers, setHistUsers] = useState();  
-  
+  const [histUsers, setHistUsers] = useState();
+
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
 
   const getHistorialUsers = async () => {
     try {
-      const res = await HistorialUserServer.ListHistorialUser();
+      //const res = await HistorialUserServer.ListHistorial();
+      const res = await HistorialUserServer.ListHistorialUser({'user_id':user.id});
+      console.log(res);
       setHistUsers(res);
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
     getHistorialUsers();
     setVideos(props.videos);
     setCategories(props.categories);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.categories, props.videos]);
 
   const verVideo = async (id) =>{
@@ -57,15 +59,17 @@ function VideosListUser(props) {
     try {
       for (let index = 0; index < histUsers.length; index++) {
       const element = histUsers[index];
-        if (element.usuario === user.id && element.video === id) {
+        if (element.usuario_id === user.id && element.video_id === id) {
           histUser= element;
           contador++;
         }
       }
       if(contador ===0) {
+        console.log("prueba");
         const hu = await  HistorialUserServer.RegisterHistorialUser(formData);
         histUser = hu.data;
       }
+      
     } catch (error) {
       console.log(error);
     }

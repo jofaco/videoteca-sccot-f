@@ -35,7 +35,7 @@ function VideosListUser2(props) {
 
   const getHistorialUsers = async () => {
     try {
-      const res = await HistorialUserServer.ListHistorialUser();
+      const res = await HistorialUserServer.ListHistorialUser({'user_id':user.id});
       setHistUsers(res);
     } catch (error) {
       console.log(error);
@@ -45,6 +45,7 @@ function VideosListUser2(props) {
     getHistorialUsers();
     setVideos(props.videos);
     setCategories(props.categories);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.categories, props.videos]);
 
   const verVideo = async (id) =>{
@@ -56,7 +57,7 @@ function VideosListUser2(props) {
     try {
       for (let index = 0; index < histUsers.length; index++) {
       const element = histUsers[index];
-        if (element.usuario === user.id && element.video === id) {
+        if (element.usuario_id === user.id && element.video_id === id) {
           histUser= element;
           contador++;
         }

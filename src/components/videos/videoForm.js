@@ -87,11 +87,13 @@ const VideoForm = () => {
       } else {
         res = await VideoServer.UpdateVideo(params.id, formData);        
       }
-      console.log(res);
+      alert(res.message);
       history("/");
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      for (const property in error.response.data) {
+        alert(`${property}: ${error.response.data[property]}`);
+      }      
     }
   };
   const getVideo = async (videoID) => {

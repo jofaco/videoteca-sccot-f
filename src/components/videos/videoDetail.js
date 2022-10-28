@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {useLocation} from 'react-router-dom';
-
 import { useParams } from "react-router-dom";
+
+//Components
 import * as VideoServer from "../../services/videoServer";
 import * as HistorialUserServer from "../../services/historialUser";
-
+import IframeVideo from "./iframeVideo";
 //MaterialUI
 import Box from "@mui/material/Box";
 import Container from "@material-ui/core/Container";
@@ -12,7 +13,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { makeStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Typography from "@material-ui/core/Typography";
-//components
+//dependencias
 import "../../styles/styles.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,17 +22,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },
-  iframe: {
-    maxWidth: 1024,
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(5),
-  },
-  "@media (max-width: 1024px)": {
-    iframe: {
-      display: "flex",
-    },
-  },
+  },  
 }));
 const VideoDetail = () => {
   const location = useLocation();
@@ -76,9 +67,10 @@ const VideoDetail = () => {
       
     };
     getVideo(id);
-    
-  }, [duracion, histUser.user_score, id, setVideo]);
+
+  }, [duracion, histUser.user_score, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
   
+
   const handleClick = async (index) => {
     setActiveStar(index);
     setHistUser({...histUser, user_score:index+1});
@@ -96,15 +88,10 @@ const VideoDetail = () => {
       </div>
       <div className="row">
       <div className="col-md-8 col-12 iframe1">
-        <iframe
-          title={video.title_espanol}
-          src={video.url_vimeo_esp}
-          width="90%"
-          height="90%"
-          frameBorder="0"
-          allow="autoplay; fullscreen; "
-          className="styleIframe"
-        ></iframe>
+        <IframeVideo
+          video={video}
+          >           
+        </IframeVideo>
       </div>
       <div className="col-md-4 col-12 infoVideo">
         <Typography component="h5" variant="body1">

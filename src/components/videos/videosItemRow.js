@@ -23,7 +23,7 @@ const VideosItemRow = ({ video,...props }) => {
   
   
   return (
-    <div className="col-sm-12 col-md-4 col-lg-3 mb-4">
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
       <h3 className={classes.paper}>{video.title_espanol}</h3>
       <div className="card card-body">
         <Button onClick={() =>props.verVideo(video.id)}>
