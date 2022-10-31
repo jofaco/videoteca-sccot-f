@@ -9,6 +9,8 @@ import Carousel from "react-bootstrap/Carousel";
 import VideosItem from "./videosItem";
 import VideosCategoriaFila from "./videosCategoriaFila";
 import * as HistorialUserServer from "../../services/historialUser";
+import * as HistorialVideoServer from "../../services/historialVideo";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,14 +36,13 @@ function VideosListUser(props) {
 
   const getHistorialUsers = async () => {
     try {
-      //const res = await HistorialUserServer.ListHistorial();
       const res = await HistorialUserServer.ListHistorialUser({'user_id':user.id});
-      console.log(res);
       setHistUsers(res);
     } catch (error) {
       console.log(error);
     }
   };
+  
   
   useEffect(() => {
     getHistorialUsers();
@@ -65,7 +66,6 @@ function VideosListUser(props) {
         }
       }
       if(contador ===0) {
-        console.log("prueba");
         const hu = await  HistorialUserServer.RegisterHistorialUser(formData);
         histUser = hu.data;
       }

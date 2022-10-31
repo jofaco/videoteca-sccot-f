@@ -1,8 +1,8 @@
 import axiosInstance from "../axios";
 
-const API_URL = "http://127.0.0.1:8000/historialUser/";
+const API_URL = "http://127.0.0.1:8000/historialVideo/";
 
-export const RegisterHistorialUser = async (newHistorial) => {
+export const RegisterHistorialVideo = async (newHistorial) => {
     const response = await axiosInstance.post(API_URL, newHistorial);
     if (response.status === 200) {
       return await response.data;
@@ -21,21 +21,21 @@ export const getHistorial = async (histID) => {
       return await response.data;
     }
   };
-export const ListHistorialUser = async (idUser) => {
-    const response = await axiosInstance.post(`${API_URL}list_by_user/`,idUser);
+export const ListHistorialVideo = async (idVideo) => {
+    const response = await axiosInstance.post(`${API_URL}list_by_Video/`,idVideo);
     if (response.status === 200) {
       return await response.data;
     }
   };
 
-export const getHistorialUser = async (videoID) => {
+export const getHistorialVideo = async (videoID) => {
     const response = await axiosInstance.get(API_URL + "retrieve/" + videoID);
     if (response.status === 200) {
       return response.data;
     }
   };
 
-export const updateHistorialUser = async(id,updateHU) =>{
+export const updateHistorialVideo = async(id,updateHU) =>{
     const response = await axiosInstance.patch(API_URL+id+"/",updateHU);
     if (response.status === 200) {
         return response.data;

@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 //Components
 import * as VideoServer from "../../services/videoServer";
 import * as HistorialUserServer from "../../services/historialUser";
+import * as HistorialVideoServer from "../../services/historialVideo";
+
 import IframeVideo from "./iframeVideo";
 //MaterialUI
 import Box from "@mui/material/Box";
@@ -31,6 +33,7 @@ const VideoDetail = () => {
   const [duracion, setDuracion] = useState([]);
   const [uploadDate, setUploadDate] = useState(null);
   const [histUser, setHistUser] = useState(location.state);
+  const [histVideo, setHistVideo] = useState();
   const [activeStar, setActiveStar] = useState(-1);
   const totalStars = 5;
 
@@ -52,6 +55,15 @@ const VideoDetail = () => {
     return new_duration;
   };
 
+  const getHistorialVideo = async () => {
+    try {
+      const res = await HistorialVideoServer.ListHistorialVideo({video_id:id})
+      setHistVideo(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const getVideo = async (videoID) => {
       const res = await VideoServer.getVideo(videoID);
@@ -68,7 +80,7 @@ const VideoDetail = () => {
     };
     getVideo(id);
 
-  }, [duracion, histUser.user_score, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
+  }, [duracion, histUser.user_score, id, setVideo, video]);
   
 
   const handleClick = async (index) => {
@@ -90,6 +102,7 @@ const VideoDetail = () => {
       <div className="col-md-8 col-12 iframe1">
         <IframeVideo
           video={video}
+          histVideo = {histVideo}
           >           
         </IframeVideo>
       </div>
