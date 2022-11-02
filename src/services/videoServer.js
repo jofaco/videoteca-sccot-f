@@ -42,7 +42,7 @@ export const RegisterVideo = async (newVideo) => {
   if (response.status === 200) {
     return await response.data;
   }
-  else if(response.status === 302) {
+  else if(response.status === 409) {
     return await response.data;
   }
 };

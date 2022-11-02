@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import {useLocation} from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
-//Components
+//dependencias
 import * as VideoServer from "../../services/videoServer";
 import * as HistorialUserServer from "../../services/historialUser";
-import * as HistorialVideoServer from "../../services/historialVideo";
 
 import IframeVideo from "./iframeVideo";
 //MaterialUI
@@ -15,7 +14,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { makeStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Typography from "@material-ui/core/Typography";
-//dependencias
+//components
 import "../../styles/styles.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +32,6 @@ const VideoDetail = () => {
   const [duracion, setDuracion] = useState([]);
   const [uploadDate, setUploadDate] = useState(null);
   const [histUser, setHistUser] = useState(location.state);
-  const [histVideo, setHistVideo] = useState();
   const [activeStar, setActiveStar] = useState(-1);
   const totalStars = 5;
 
@@ -55,15 +53,6 @@ const VideoDetail = () => {
     return new_duration;
   };
 
-  const getHistorialVideo = async () => {
-    try {
-      const res = await HistorialVideoServer.ListHistorialVideo({video_id:id})
-      setHistVideo(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     const getVideo = async (videoID) => {
       const res = await VideoServer.getVideo(videoID);
@@ -80,9 +69,8 @@ const VideoDetail = () => {
     };
     getVideo(id);
 
-  }, [duracion, histUser.user_score, id, setVideo, video]);
+  }, [duracion, histUser.user_score, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
   
-
   const handleClick = async (index) => {
     setActiveStar(index);
     setHistUser({...histUser, user_score:index+1});
@@ -98,12 +86,12 @@ const VideoDetail = () => {
           {video.title_espanol}
         </Typography>
       </div>
+      <br></br>
       <div className="row">
       <div className="col-md-8 col-12 iframe1">
         <IframeVideo
           video={video}
-          histVideo = {histVideo}
-          >           
+          >
         </IframeVideo>
       </div>
       <div className="col-md-4 col-12 infoVideo">

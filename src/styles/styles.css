@@ -1,8 +1,8 @@
 .iframe1 {
-    padding-top:6.25%;
     position:relative;
     display:block;
-    
+    height: 480px;
+    width: 650px;
   }
 #iframe1{
   width: 99% !important;
@@ -26,4 +26,16 @@ iframe {
 #contenedorItemVideo {
   background-color: rgb(44, 42, 42);
   color: azure;
+  width: 100%;
+}
+
+@media (max-width: 650px) {
+  .infoVideo{
+    padding-top:0.25%;
+    position:relative;
+    padding-bottom: 40%;
+  }
+  .iframe1 {
+    height: 380px;
+  }
 }

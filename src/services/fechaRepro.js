@@ -21,8 +21,8 @@ export const getFechaRepro = async (histID) => {
       return await response.data;
     }
   };
-export const ListFechaReprox2 = async (idVideo) => {
-    const response = await axiosInstance.post(`${API_URL}list_by_Video/`,idVideo);
+export const ListFechaReprox2 = async (data) => {
+    const response = await axiosInstance.post(`${API_URL}list_by_user_video/`,data);
     if (response.status === 200) {
       return await response.data;
     }

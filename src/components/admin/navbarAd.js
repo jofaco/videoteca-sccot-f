@@ -45,6 +45,14 @@ const NavbarAd = () => {
             sx={{ color: '#fff' }} 
             className={classes.link}
             component={NavLink}
+            to="/"
+          >
+            Casos
+          </Button>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
             to="/VideoForm"
           >
             Agregar video
@@ -78,6 +86,14 @@ const NavbarAd = () => {
             to="/Series"
           >
             Series
+          </Button>
+          <Button
+            sx={{ color: '#fff' }} 
+            className={classes.link}
+            component={NavLink}
+            to="/"
+          >
+            Casos
           </Button>          
       </>
     );

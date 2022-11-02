@@ -56,6 +56,12 @@ const DrawerS = (props) => {
                     </ListItem> 
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
+                    to="/">
+                        <ListItemText primary="Casos" />
+                      </ListItemButton>
+                    </ListItem> 
+                    <ListItem  >
+                      <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
                     to="/VideoForm">
                         <ListItemText primary="Agregar video" />
                       </ListItemButton>
@@ -103,6 +109,12 @@ const DrawerS = (props) => {
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
                     to="/Series">
                         <ListItemText primary="Series" />
+                      </ListItemButton>
+                    </ListItem> 
+                    <ListItem  >
+                      <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
+                    to="/">
+                        <ListItemText primary="Casos" />
                       </ListItemButton>
                     </ListItem> 
                   </List>

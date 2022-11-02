@@ -9,7 +9,6 @@ import Carousel from "react-bootstrap/Carousel";
 import VideosItem from "./videosItem";
 import VideosCategoriaFila from "./videosCategoriaFila";
 import * as HistorialUserServer from "../../services/historialUser";
-import * as HistorialVideoServer from "../../services/historialVideo";
 
 
 const useStyles = makeStyles((theme) => ({

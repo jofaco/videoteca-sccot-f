@@ -167,8 +167,10 @@ const VideoForm = () => {
               label="tipe_of_video"
               onChange={handleInputChange}
             >
-              <MenuItem value={1}>Pelicula</MenuItem>
+              <MenuItem value={1}>Video</MenuItem>
               <MenuItem value={2}>Serie</MenuItem>
+              <MenuItem value={3}>Casos</MenuItem>
+
             </Select>
           </div>
           <div className="mb-3">

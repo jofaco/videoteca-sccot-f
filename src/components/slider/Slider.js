@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const Slider = ({ children, activeSlide }) => {
+const Slider = ({ children, activeSlide, ...props }) => {
   const history = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(activeSlide);
   const { width, elementRef } = useSizeElement();
@@ -51,7 +51,7 @@ const Slider = ({ children, activeSlide }) => {
             {hasPrev && <SlideButton onClick={handlePrev} type="prev" />}
             {hasNext && <SlideButton onClick={handleNext} type="next" />}
           </SliderWrapper>
-          {currentSlide && <Content video={currentSlide} onClose={handleClose} />}
+          {currentSlide && <Content video={currentSlide} verVideo={props.verVideo} onClose={handleClose} />}
         </SliderContext.Provider>
       );
    

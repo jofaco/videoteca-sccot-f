@@ -5,6 +5,7 @@ const API_URL = "http://127.0.0.1:8000/historialVideo/";
 export const RegisterHistorialVideo = async (newHistorial) => {
     const response = await axiosInstance.post(API_URL, newHistorial);
     if (response.status === 200) {
+      console.log(response.data);
       return await response.data;
     }
   };
@@ -22,7 +23,7 @@ export const getHistorial = async (histID) => {
     }
   };
 export const ListHistorialVideo = async (idVideo) => {
-    const response = await axiosInstance.post(`${API_URL}list_by_Video/`,idVideo);
+    const response = await axiosInstance.post(`${API_URL}list_by_video/`,idVideo);
     if (response.status === 200) {
       return await response.data;
     }
