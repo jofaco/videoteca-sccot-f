@@ -56,7 +56,7 @@ const DrawerS = (props) => {
                     </ListItem> 
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
-                    to="/">
+                    to="/Casos">
                         <ListItemText primary="Casos" />
                       </ListItemButton>
                     </ListItem> 
@@ -74,9 +74,6 @@ const DrawerS = (props) => {
     } else {
         return (
             <Box onClick={props.handleDrawerToggle} sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" sx={{ my: 2 }}>
-                SCCOT
-              </Typography>
               <Divider />
               <Box
                 display="flex"
@@ -113,7 +110,7 @@ const DrawerS = (props) => {
                     </ListItem> 
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
-                    to="/">
+                    to="/Casos">
                         <ListItemText primary="Casos" />
                       </ListItemButton>
                     </ListItem> 

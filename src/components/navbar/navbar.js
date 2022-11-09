@@ -1,7 +1,11 @@
 //components
 import { NavLink } from "react-router-dom";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+
+//dependencias
+import useUser from '../../hooks/useUser'
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -10,37 +14,52 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = () => {
+  const {isLogged, logout} = useUser()
   const classes = useStyles();
-  const data = localStorage.getItem("user");
-  const user = JSON.parse(data);
 
-  if (!user) {
-    return (
+  const handleClick = e => {
+    e.preventDefault()
+    logout()
+  }
+
+  return (      
+      isLogged ?
+      <>
       <Button
         href="#"
-        color="primary"
         variant="outlined"
+        sx={{ color: '#ffff' }} 
         className={classes.link}
         component={NavLink}
-        to="/login"
+        to="/Perfil"
       >
-        Login
+        <AccountCircleIcon></AccountCircleIcon>
+        Perfil
       </Button>
-    );
-  } else {
-    return (
       <Button
         href="#"
         color="primary"
         variant="outlined"
         className={classes.link}
         component={NavLink}
-        to="/logout"
+        to='#' onClick={handleClick}
       >
         Logout
       </Button>
+      </>
+      :
+      <>
+      <Button
+        href="#"
+        color="primary"
+        variant="outlined"
+        className={classes.link}
+        component={NavLink}
+        to="/login">
+        Login
+      </Button>
+      </>    
     );
-  }
 };
 
 export default Navbar;

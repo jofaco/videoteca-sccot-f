@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./navbar/navbar";
 import { NavLink } from "react-router-dom";
 import Switch from "../Switch"
+import {  useContext } from "react";
+
 //dependencies
+import Context from "./context/UserContext";
+import useUser from '../hooks/useUser'
 import Sidebar from "./navbar/sidebarUser";
 import { ListCategorias } from "../services/category";
 //componentes
@@ -29,12 +33,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
   const classes = useStyles();
-  //let history = useNavigate();
+  const { isLogged } = useUser()
+
   const [open] = useState(false);
   const [categories, setCategories] = useState("");
-
-  const userData = localStorage.getItem("user");
-  const user = JSON.parse(userData);
+  const { user } = useContext(Context)
 
   const listCategorias = async () => {
     try {
@@ -49,7 +52,7 @@ const Header = () => {
     listCategorias();
   }, []);
 
-  if (user && categories) {
+  if (isLogged && categories) {
     return <Sidebar user={user} categories={categories} />;
   } else {
     return (

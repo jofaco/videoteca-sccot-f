@@ -23,7 +23,6 @@ const IframeVideo =  ({video, ...props}) => {
 
   const iframe = document.getElementById('iframe1');
   const URL_API = 'https://ipwho.is/';
-  
 
   const getUbication= async ()=> {
     await fetch(URL_API)
@@ -70,6 +69,7 @@ const IframeVideo =  ({video, ...props}) => {
     let duracion = 0;
     let tiempo;
     let player;
+
     if (video.code_esp && histUser) {
       let options = {
         id: video.code_esp,
@@ -81,7 +81,8 @@ const IframeVideo =  ({video, ...props}) => {
       if (histUser.tiempo !== null) {
         const segundos = convertTime(histUser.tiempo);
         player.setCurrentTime(segundos);
-      }      
+      }
+
       player.on('play', async () => {
         const res = await UbicacionServer.ListUbicacionHist({ 'histUser_id': histUser.id });
         const data = new FormData();
@@ -134,9 +135,13 @@ const IframeVideo =  ({video, ...props}) => {
           else{await  FechareproServer.RegisterFechaRepro({ 'historial_user': histUser.id, 'historial_Video':histVideo[0].id})}            
         }
       });
-
-      player.on('pause', async () => {
+      
+      const repetirCada10Segundos = (player)=> {
+        setInterval(saveTime, 10000, player);
+      }  
+      const saveTime =(player)=> {
         tiempo = 0;
+        console.log("Guardado después de 10s");
         player.getDuration().then( (duration) => {
           duracion = parseInt(duration);
         }).catch(function(error) {
@@ -163,13 +168,10 @@ const IframeVideo =  ({video, ...props}) => {
         }).catch((error) => {
           console.error(error);
         });
-      });
-
-      player.getEnded().then((ended) => {
-        console.log(ended);
-    }).catch(function(error) {
-        // an error occurred
-    });
+      }
+      if (document.URL.includes('/seeVideo/')) {
+        repetirCada10Segundos(player); 
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[ histUser , iframe, ubicacionUsers, video.code_esp]);
@@ -179,13 +181,16 @@ const IframeVideo =  ({video, ...props}) => {
   },[getVimeoVideo]);
 
   useEffect(()=>{
-    getUbication();
+    //getUbication();
     getHistUser();
     getHistorialVideo();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   
+  useEffect(()=>{
+    
+  })
   return (
       <div id="iframe1">
       </div>

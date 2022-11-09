@@ -23,6 +23,13 @@ export const ListSeries = async () => {
   }
 }
 
+export const ListCasos = async () => {
+  const response = await axiosInstance.get(`${API_URL}listCasos/`);
+  if (response.status === 200) {
+    return await response.data;
+  }
+}
+
 export const getVideo = async (videoID) => {
   const response = await axiosInstance.get(`${API_URL}${videoID}`);
   if (response.status === 200) {

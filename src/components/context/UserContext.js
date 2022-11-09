@@ -1,34 +1,26 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState,useEffect  } from "react";
 
-const UserContext = React.createContext({});
+const Context = React.createContext({});
 
 export function UserContextProvider({ children }) {
-  const [jwt, setJWT] = useState(() =>
-    window.localStorage.getItem("refresh_token")
-  );
-  const [user, setUSER] = useState(() => window.localStorage.getItem("user"));
-
+  const [jwt, setJWT] = useState(
+    () => window.localStorage.getItem("access_token")
+  )
+  const [user, setUSER] = useState(
+    () => JSON.parse(window.localStorage.getItem("user"))
+  )
   useEffect(() => {
-    if (!jwt) return setJWT([]);
-  }, [jwt]);
+    if (!user) return setUSER([])
+  }, [user])
 
-  useEffect(() => {
-    if (!user) return setUSER([]);
-  }, [user]);
-
-  return (
-    <UserContext.Provider
-      value={{
+  return <Context.Provider value={{
         jwt,
-        setJWT,
         user,
+        setJWT,
         setUSER,
-      }}
-    >
+      }}>
       {children}
-    </UserContext.Provider>
-  );
+    </Context.Provider>
 }
 
-export default UserContext;
+export default Context

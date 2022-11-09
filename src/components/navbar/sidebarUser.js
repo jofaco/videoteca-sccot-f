@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 //dependencies
-import NavbarAd from "../admin/navbarAd";
+import NavbarAd from "./navbarAd";
 import Navbar from "../navbar/navbar";
 import DrawerS from "./drawer";
 import Switch from "../../Switch";

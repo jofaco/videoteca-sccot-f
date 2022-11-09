@@ -20,7 +20,18 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
 
   },
-  
+  imagenCarousel:{
+    maxWidth:850,
+    maxHeight:480,  
+  },
+  "@media (min-width: 1200px)": {
+    imagen:{
+      minWidth: 820,
+    },
+    row:{
+      width:1240,
+    },
+  },
 }));
 
 const VideosItemAdmin = ({ video,...props }) => {
@@ -35,13 +46,14 @@ const VideosItemAdmin = ({ video,...props }) => {
 
   return (
     <div  id="contenedorItemVideo">
-      <div className="row ">
-        <div className="col-md-8  col-12 ">
+      <div className={"row "+classes.row}>
+        <div className={"col-md-8  col-12 "+classes.imagen}>
           <Button onClick={() => props.verVideo(video.id)}>
             <Image
               src={"http://localhost:8000" + video.featured_image}
-              className="img-fluid"
-            ></Image>
+              className={classes.imagenCarousel}
+            >
+            </Image>
           </Button>
         </div>
         <div className="col-md-4 col-12 ">

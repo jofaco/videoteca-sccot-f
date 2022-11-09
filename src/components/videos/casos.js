@@ -1,7 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import {  useContext } from "react";
-
+import * as VideoServer from "../../services/videoServer";
 //Components
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
@@ -10,25 +9,23 @@ import VideosListAd from "../admin/videosListAdmin";
 import VideosListUser from "./videoListUser2";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
-import * as VideoServer from "../../services/videoServer";
-import Context from "../context/UserContext";
 
-
-const PeliculasList = () => {
+const CasosList = () => {
   const [query, setQuery] = useState("");
-  const [peliculas, setPeliculas] = useState([]);
+  const [casos, setCasos] = useState([]);
   const [categories, setCategories] = useState("");
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
-  const { user } = useContext(Context)
+
   const [filterParam, setFilterParam] = useState(["All"]);
 
-  
+  const data = localStorage.getItem("user");
+  const user = JSON.parse(data);
 
-  const listPeliculas = async () => {
+  const listCasos = async () => {
     try {
-      const res = await VideoServer.ListPeliculas();
-      setPeliculas(res.videos);
+      const res = await VideoServer.ListCasos();
+      setCasos(res.videos);
     } catch (error) {
       console.log("Error");
     }
@@ -44,12 +41,12 @@ const PeliculasList = () => {
   };
 
   useEffect(() => {
-    listPeliculas();
+    listCasos();
     listCategorias();
   }, []);
   
-  const search = (peliculas) => {
-    return peliculas.filter((item) => {
+  const search = (casos) => {
+    return casos.filter((item) => {
       return searchParam.some((parameter) => {
         return (
           item[parameter]
@@ -80,7 +77,7 @@ const PeliculasList = () => {
       else if (filterParam == "All") {
         contenedorCarousel.style.visibility = "visible";
         contenedorCarousel.style.height = "100%";
-        return peliculas.filter((item) => {
+        return casos.filter((item) => {
           return searchParam.some((parameter) => {
             return (
               item[parameter]
@@ -94,7 +91,7 @@ const PeliculasList = () => {
     });
   };
 
-  if (user && peliculas) {
+  if (user && casos) {
     if (user.is_superuser) {
       return (
         <div >
@@ -106,7 +103,7 @@ const PeliculasList = () => {
             categories={categories}
           ></SearchComponent>
           <VideosListAd
-            videos={peliculas}
+            videos={casos}
             categories={categories}
             search={search}
             search2={search2}
@@ -124,7 +121,7 @@ const PeliculasList = () => {
           categories={categories}
         ></SearchComponent>
         <VideosListUser
-          videos={peliculas}
+          videos={casos}
           categories={categories}
           search={search}
           search2={search2}
@@ -137,4 +134,4 @@ const PeliculasList = () => {
   );
 };
 
-export default PeliculasList;
+export default CasosList;

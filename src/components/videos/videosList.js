@@ -1,15 +1,20 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import * as VideoServer from "../../services/videoServer";
+import {  useContext } from "react";
 
-//dependencies
+//Components
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
-//Components
+
+//dependencies
+import * as VideoServer from "../../services/videoServer";
+import * as PreferenciasUserServer from "../../services/preferenciasUser";
 import VideosListAd from "../admin/videosListAdmin";
 import VideosListUser from "./videoListUser";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
+import Context from "../context/UserContext";
+
 
 const VideosList = () => {
   const [query, setQuery] = useState("");
@@ -17,11 +22,11 @@ const VideosList = () => {
   const [categories, setCategories] = useState("");
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
+  const { user } = useContext(Context)
+  const [prefUsers, setPrefUsers] = useState(null);  
 
   const [filterParam, setFilterParam] = useState(["All"]);
 
-  const data = localStorage.getItem("user");
-  const user = JSON.parse(data);
 
   const listVideos = async () => {
     try {
@@ -41,9 +46,20 @@ const VideosList = () => {
     }
   };
   
+  const getPreferenciasUser = async () => {
+    try {
+      const res = await PreferenciasUserServer.ListPreferenciaUser({'user_id':user.id});
+      setPrefUsers(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     listVideos();
     listCategorias();
+    getPreferenciasUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   
@@ -94,7 +110,7 @@ const VideosList = () => {
       }
     });
   };
-
+  console.log(prefUsers);
   if (user) {
     if (user.is_superuser) {
       return (

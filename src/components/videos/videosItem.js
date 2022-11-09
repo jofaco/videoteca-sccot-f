@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize:10,
     color: "white"
   },
+  imagenCarousel:{
+    maxWidth:850,
+    maxHeight:480,
+
+  },
   "@media (min-width: 1200px)": {
     info:{
       height:480,
@@ -46,7 +51,7 @@ const VideosItem = ({ video,...props } ) => {
         <div className={"col-md-8  col-12 " +classes.imagen}>          
             <Image
               src={"http://localhost:8000" + video.featured_image}
-              className="img-fluid"
+              className={classes.imagenCarousel }
             ></Image>
         </div>
         <div className={"col-md-4 col-12 " + classes.info}>
