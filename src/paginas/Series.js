@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 //dependencies
+import * as VideoServer from "../services/videoServer";
 import SeriesList from "../components/videos/series";
 import VideoLoadingComponent from "../components/videos/videoLoading";
-import axiosInstance from "../axios";
 //components
 import { Container } from "@material-ui/core";
 
@@ -16,16 +16,16 @@ function AppSeries() {
   });
 
   useEffect(() => {
-    axiosInstance.get().then((res) => {
-      const allVideos = res.data;
-      setAppState({ loading: false, videos: allVideos });
+    VideoServer.ListSeries().then((res) => {
+      const allSeries = res.videos;
+      setAppState({ loading: false, series: allSeries });
     });
   }, [setAppState]);
 
   return (
     <Container>
       <div className="App">
-        <VideoLoading isLoading={appState.loading} videos={appState.videos} />
+        <VideoLoading isLoading={appState.loading} series={appState.series} />
       </div>
     </Container>
   );

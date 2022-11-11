@@ -9,9 +9,6 @@ export function UserContextProvider({ children }) {
   const [user, setUSER] = useState(
     () => JSON.parse(window.localStorage.getItem("user"))
   )
-  useEffect(() => {
-    if (!user) return setUSER([])
-  }, [user])
 
   return <Context.Provider value={{
         jwt,

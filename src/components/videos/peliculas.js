@@ -10,29 +10,17 @@ import VideosListAd from "../admin/videosListAdmin";
 import VideosListUser from "./videoListUser2";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
-import * as VideoServer from "../../services/videoServer";
 import Context from "../context/UserContext";
 
 
-const PeliculasList = () => {
+const PeliculasList = ({peliculas, ...props}) => {
   const [query, setQuery] = useState("");
-  const [peliculas, setPeliculas] = useState([]);
   const [categories, setCategories] = useState("");
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
   const { user } = useContext(Context)
   const [filterParam, setFilterParam] = useState(["All"]);
 
-  
-
-  const listPeliculas = async () => {
-    try {
-      const res = await VideoServer.ListPeliculas();
-      setPeliculas(res.videos);
-    } catch (error) {
-      console.log("Error");
-    }
-  };
   
   const listCategorias = async () => {
     try {
@@ -44,7 +32,6 @@ const PeliculasList = () => {
   };
 
   useEffect(() => {
-    listPeliculas();
     listCategorias();
   }, []);
   

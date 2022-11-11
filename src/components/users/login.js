@@ -60,7 +60,8 @@ export default function SignIn({onLogin}) {
   useEffect(() => {
     if (isLogged) {
       history('/')
-      onLogin && onLogin()
+      onLogin && onLogin();
+      window.location.reload();
     }
   }, [history, isLogged,onLogin]);
 

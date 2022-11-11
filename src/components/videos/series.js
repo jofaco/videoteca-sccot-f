@@ -1,6 +1,5 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import * as VideoServer from "../../services/videoServer";
 //Components
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
@@ -10,9 +9,8 @@ import VideosListUser from "./videoListUser2";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 
-const SeriesList = () => {
+const SeriesList = ({series, ...props}) => {
   const [query, setQuery] = useState("");
-  const [series, setSeries] = useState([]);
   const [categories, setCategories] = useState("");
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
@@ -22,14 +20,6 @@ const SeriesList = () => {
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
 
-  const listSeries = async () => {
-    try {
-      const res = await VideoServer.ListSeries();
-      setSeries(res.videos);
-    } catch (error) {
-      console.log("Error");
-    }
-  };
 
   const listCategorias = async () => {
     try {
@@ -41,10 +31,10 @@ const SeriesList = () => {
   };
 
   useEffect(() => {
-    listSeries();
     listCategorias();
   }, []);
   
+
   const search = (series) => {
     return series.filter((item) => {
       return searchParam.some((parameter) => {

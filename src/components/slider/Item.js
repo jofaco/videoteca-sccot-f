@@ -14,7 +14,7 @@ const Item = ({ video,...props }) => {
     <SliderContext.Consumer>
       {({ onSelectSlide, currentSlide, elementRef, history }) => {
         const isActive = currentSlide && currentSlide.id === video.id;
-
+        
         return (
           <div
             ref={elementRef}

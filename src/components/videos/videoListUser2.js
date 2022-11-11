@@ -23,11 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function VideosListUser2(props) {
+function VideosListUser2({videos, categories, ...props}) {
   const history = useNavigate();
 
-  const [videos, setVideos] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [histUsers, setHistUsers] = useState();  
   
   const data = localStorage.getItem("user");
@@ -43,10 +41,8 @@ function VideosListUser2(props) {
   };
   useEffect(() => {
     getHistorialUsers();
-    setVideos(props.videos);
-    setCategories(props.categories);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.categories, props.videos]);
+  }, []);
 
   const verVideo = async (id) =>{
     const formData = new FormData();

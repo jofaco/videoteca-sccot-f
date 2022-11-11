@@ -9,15 +9,13 @@ import * as PreferenciasUserServer from "../../services/preferenciasUser";
 import * as CategoriaServer from "../../services/category";
 import ModalPreferencias from "./modalPreferencia";
 import ModalImagen from "./modalImagen";
-
+import Preferencias from "./profilePref";
 //components
 import { Image } from "react-bootstrap"
 
 //MaterialUI
-import Box from "@mui/material/Box";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 
 //styles
 import "../../styles/modalsProfile.css";
@@ -38,6 +36,7 @@ const UserProfile = () => {
       marginBottom: theme.spacing(2),
       marginLeft: "auto",
       marginRight: "auto",
+      borderRadius: 1000,
     },
     contenedorImg: {
       flexWrap: "wrap",      
@@ -46,7 +45,9 @@ const UserProfile = () => {
       margin: theme.spacing(3, 1),
       color: "black",
     },
-
+    title1: {
+      textAlign: "center",
+    },
     "@media only screen and (max-width: 1000px)": {
       imagenPerfil: {
         width: "100%",
@@ -95,8 +96,8 @@ const UserProfile = () => {
     <Container>
       {dataUser && dataUser.image ? (
         <div className="row">
-          <div className={"col-md-5 "+classes.contenedorImg}>
-            <h1>Prueba de usuario:</h1>
+          <h1 id="tituloName"><center>{dataUser.name}</center></h1>
+          <div className={"col-md-5 "+classes.contenedorImg}>            
             <Image src={"http://localhost:8000" + dataUser.image} className= {classes.imagenPerfil}></Image>
             <div className="d-grid  col-8  mx-auto">
               <button
@@ -109,80 +110,16 @@ const UserProfile = () => {
               </button>
             </div>
           </div>
-          <div className="col-md-7">            
-            <Box
-            display="flex"
-            mt={10}
-            ml={10}
-            justifyContent="space-between"
-            fontWeight={600}
-            >
-              <Typography component={"span"} variant={"h4"}> {user.name}</Typography>
-            </Box>
-            <Box
-            display="flex"
-            mt={5}
-            ml={10}
-            justifyContent="space-between"
-            fontWeight={900}
-            >
-              <Typography component={"span"} variant={"h4"}> PREFERENCIAS</Typography>
-            </Box>
-            <br></br>
-
-            { !prefUsers ?
-              <Box
-                display="flex"
-                mt={5}
-                justifyContent="space-between"
-              >
-                <div className="d-grid  col-8  mx-auto">
-                  <button
-                    className="btn btn-secondary btn-lg"
-                    type="submit"
-                    onClick={handleShow}
-                  >
-                    Ingresar Preferencia
-                  </button>
-                </div>
-              </Box>
-              :
-              <> 
-                <div className="container">
-                  <Typography component={"span"} variant={"h4"}> Tus gustos:</Typography>
-                  <br/>
-                  <Box sx={{ display: { xs: 'none', sm: 'block' } }}>              
-                    {prefUsers && prefUsers.map((categ, index) => (
-                        <button 
-                          sx={{ color: '#fff' }} 
-                          key={index}
-                          className={"btn btn-warning "+classes.botonList}
-                        >
-                          {categ.categoria}
-                        </button>
-                    ))}
-                  </Box>
-                    
-                  
-                </div>
-                <br></br>
-                <div className="container">
-                  <div className="d-grid  col-8  mx-auto">
-                    <button
-                      className="btn btn-secondary btn-lg"
-                      type="submit"
-                      onClick={handleShow}
-                    >
-                      Ingresar Preferencia
-                    </button>
-                  </div>
-                </div>
-              </>
-              }
+          <div className="col-md-7">
+            <Preferencias
+              prefUsers={prefUsers}
+              handleShow={handleShow}
+            />
           </div>
         </div>
       ) : (
         <div className="row">
+          <h1 id="tituloName"><center>{user.name}</center></h1>
           <div className={"col-md-5 "+classes.contenedorImg}>
             <Image src={imgDeault} className= {classes.imagenPerfil}></Image>
             <div className="d-grid  col-8  mx-auto">
@@ -195,76 +132,11 @@ const UserProfile = () => {
               </button>
             </div>
           </div>
-          <div className="col-md-7">            
-            <Box
-            display="flex"
-            mt={10}
-            ml={10}
-            justifyContent="space-between"
-            fontWeight={600}
-            >
-              <Typography component={"span"} variant={"h4"}> {user.name}</Typography>
-            </Box>
-            <Box
-            display="flex"
-            mt={5}
-            ml={10}
-            justifyContent="space-between"
-            fontWeight={900}
-            >
-              <Typography component={"span"} variant={"h4"}> PREFERENCIAS</Typography>
-            </Box>
-            <br></br>
-
-            { !prefUsers ?
-              <Box
-                display="flex"
-                mt={5}
-                justifyContent="space-between"
-              >
-                <div className="d-grid  col-8  mx-auto">
-                  <button
-                    className="btn btn-secondary btn-lg"
-                    type="submit"
-                    onClick={handleShow}
-                  >
-                    Ingresar Preferencia
-                  </button>
-                </div>
-              </Box>
-              :
-              <> 
-                <div className="container">
-                  <Typography component={"span"} variant={"h4"}> Tus gustos:</Typography>
-                  <br/>
-                  <Box sx={{ display: { xs: 'none', sm: 'block' } }}>              
-                    {prefUsers && prefUsers.map((categ, index) => (
-                        <button 
-                          sx={{ color: '#fff' }} 
-                          key={index}
-                          className={"btn btn-warning "+classes.botonList}
-                        >
-                          {categ.categoria}
-                        </button>
-                    ))}
-                  </Box>
-                    
-                  
-                </div>
-                <br></br>
-                <div className="container">
-                  <div className="d-grid  col-8  mx-auto">
-                    <button
-                      className="btn btn-secondary btn-lg"
-                      type="submit"
-                      onClick={handleShow}
-                    >
-                      Ingresar Preferencia
-                    </button>
-                  </div>
-                </div>
-              </>
-              }
+          <div className="col-md-7">
+            <Preferencias
+              prefUsers={prefUsers}
+              handleShow={handleShow}
+            />
           </div>
         </div>
       )}

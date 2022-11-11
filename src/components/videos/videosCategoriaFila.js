@@ -16,7 +16,7 @@ const VideosCategoriaFila = ({ categoria, verVideo,...props }) => {
       <div className="">
         <h1 className="titleCateg" key = {categoria.id}>{categoria.categoria}</h1>
         <div >
-        <Slider verVideo = {verVideo}>          
+        <Slider verVideo = {verVideo}>
           {props.videos && props.search(props.videos).map((video) =>(
             video.categorias.map((element) => {
               if (categoria.categoria === element.categoria)
