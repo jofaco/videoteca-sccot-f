@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Componente Header
+ * @returns Componentes de header, si está logeado se envia sidebar
+ */
 const Header = () => {
   const classes = useStyles();
   const { isLogged } = useUser()
@@ -39,6 +43,9 @@ const Header = () => {
   const [categories, setCategories] = useState("");
   const { user } = useContext(Context)
 
+  /**
+   * Función para enviar la consulta de categorias al backend
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -47,10 +54,16 @@ const Header = () => {
       console.log("Error");
     }
   };
-
+  
+  /**
+   * hook para ejecutar la función listCategorias solo si está logeado.
+   */
   useEffect(() => {
-    listCategorias();
-  }, []);
+    if (isLogged) {
+      listCategorias();
+      
+    }
+  }, [isLogged]);
 
   if (isLogged && categories) {
     return <Sidebar user={user} categories={categories} />;

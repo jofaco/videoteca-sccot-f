@@ -13,10 +13,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Navbar para el header
+ * @returns Navbar para el header, dependiendo si esta logeado se retorna un componente diferente
+ */
 const Navbar = () => {
-  const {isLogged, logout} = useUser()
+  const {isLogged, logout } = useUser()
   const classes = useStyles();
 
+  /**
+   * Función para ejecutar logout del hook useUser.
+   * @param {*} e 
+   */
   const handleClick = e => {
     e.preventDefault()
     logout()

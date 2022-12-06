@@ -14,6 +14,11 @@ import SearchComponent from "./search";
 import Context from "../context/UserContext";
 
 
+/**
+ * Función para mostrar los videos en la pantalla principal 
+ * @param {object} videos
+ * @returns Componente del buscador y componente lista (Dependendiendo si el usuario es admin o no, se retorna un componente distinto)
+ */
 const VideosList = ({videos}) => {
   const [query, setQuery] = useState("");
   const [categories, setCategories] = useState([]);
@@ -23,7 +28,9 @@ const VideosList = ({videos}) => {
 
   const [filterParam, setFilterParam] = useState(["All"]);
 
-
+  /**
+   * Función para traer la lista de categorias 
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -37,7 +44,12 @@ const VideosList = ({videos}) => {
     listCategorias();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-    
+  
+  /**
+   * Función para realizar la busqueda mediante el componente search
+   * @param {*} videos 
+   * @returns Parametros de la busqueda
+   */
   const search = (videos) => {
     return videos.filter((item) => {
       return searchParam.some((parameter) => {
@@ -51,7 +63,13 @@ const VideosList = ({videos}) => {
       });
     });
   };
+  
   const contenedorCarousel = document.getElementById('carousel_videos');
+  /**
+   * Función para realizar el filtro por categoria
+   * @param {*} categories 
+   * @returns Resultado del filtro
+   */
   const search2 = (categories) => {
     return categories.filter((item) => {
       if (item.categoria === filterParam) {

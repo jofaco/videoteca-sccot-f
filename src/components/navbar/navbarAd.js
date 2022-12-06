@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
   },
 }));
+/**
+ * Componente con botones para el nabvar
+ * @returns Botones para el nabvar dependiendo si es admin o no
+ */
 const NavbarAd = () => {
   const { isLogged } = useUser()
   const { user } = useContext(Context)

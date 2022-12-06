@@ -4,6 +4,12 @@ import './Content.scss';
 //import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import '../../styles/content.css'
 
+/**
+ * Componente con los detalles del elemento.
+ * @param {Object} video 
+ * @param {Function} onClose 
+ * @returns detalles del video.
+ */
 const Content = ({ video, onClose, ...props }) => {
   return (
   <div className="content">

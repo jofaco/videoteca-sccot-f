@@ -5,7 +5,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1.5),
   },
 }));
-
+/**
+ * 
+ * @returns Componente con mensaje de alerta al ingresar mal las credenciales de autenticación
+ */
 function Notification() {
   const classes = useStyles();
 

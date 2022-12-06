@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },  
 }));
+
 const VideoDetail = () => {
   const location = useLocation();
   const { id } = useParams();

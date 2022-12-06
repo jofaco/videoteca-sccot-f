@@ -1,7 +1,12 @@
-import React, { useState,useEffect  } from "react";
+import React, { useState  } from "react";
 
 const Context = React.createContext({});
 
+/**
+ * Context con la información del usuario y el jwt
+ * @param {*} param0 
+ * @returns Context
+ */
 export function UserContextProvider({ children }) {
   const [jwt, setJWT] = useState(
     () => window.localStorage.getItem("access_token")

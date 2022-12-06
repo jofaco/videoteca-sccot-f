@@ -12,6 +12,11 @@ import {
 } from "@material-ui/core";
 import ListItemButton from "@mui/material/ListItemButton";
 
+/**
+ * Componente con los botones para el slider 
+ * @param {*} props 
+ * @returns Botones para el slider dependiendo si es admin o no
+ */
 const DrawerS = (props) => {
 
     if (props.user.is_superuser) {

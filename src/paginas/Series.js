@@ -7,6 +7,9 @@ import VideoLoadingComponent from "../components/videos/videoLoading";
 //components
 import { Container } from "@material-ui/core";
 
+/**
+ * Carga todos los videos que sean 'Series' para el modulo Series de la aplicación
+ */
 function AppSeries() {
   const VideoLoading = VideoLoadingComponent(SeriesList);
 

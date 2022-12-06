@@ -12,12 +12,22 @@ import Form from "react-bootstrap/Form";
 //styles
 import "../../styles/modalsProfile.css";
 
+/**
+ * Componente modal Preferencias con formulario para actualizar las preferencias(gustos) de un usuario.
+ * @param {Object} categorias
+ * @param {Function} handleClose
+ * @returns Componente modal Preferencias
+ */
 const ModalPreferencias = ({categorias, handleClose, show, ...props}) => {
   const history = useNavigate();
   const [preferencias, setPreferencias] = useState({
     categoria: null,
   });
   
+   /**
+   * Verifica cambios en el formulario y agrega los valores a preferencias
+   * @param {*} e 
+   */
   const handleSelectCategory = (e) => {
     let target = e.target;
     let name = target.name;
@@ -27,6 +37,10 @@ const ModalPreferencias = ({categorias, handleClose, show, ...props}) => {
     setPreferencias({ ...preferencias, [name]: value });
   };
 
+  /**
+   * Evento de submit del formulario para agregar las preferencias de usuario.
+   * @param {*} e 
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();

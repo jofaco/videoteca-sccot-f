@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Componente para organizar en el index los videos en su respectiva categoria, con un buscador y filtro
+ * @param {*} videos
+ * @param {*} categories
+ * @returns Contenedor con los videos y categorias 
+ */
 function VideosListUser({videos, categories, ...props}) {
   const history = useNavigate();
 
@@ -34,7 +40,9 @@ function VideosListUser({videos, categories, ...props}) {
   const [categoriasFalt, setCategoriasFalt] = useState(null);
   const { user } = useContext(Context)
 
-
+/**
+ * Función para obtener el historial de los usuarios.
+ */
   const getHistorialUsers = async () => {
     try {
       const res = await HistorialUserServer.ListHistorialUser({'user_id':user.id});
@@ -43,7 +51,9 @@ function VideosListUser({videos, categories, ...props}) {
       console.log(error);
     }
   };
-
+/**
+ * Función para obtener las preferencias de los usuarios
+ */
   const getPreferenciasUser = async () => {
     try {
       const res = await PreferenciasUserServer.ListPreferenciaUser({'user_id':user.id});   
@@ -58,19 +68,43 @@ function VideosListUser({videos, categories, ...props}) {
     getPreferenciasUser();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+  /**
+   * Función para organizar las categorias de videos dependiendo de las preferencias.
+   */
   useEffect(() => {
+
     if(prefUsers && categories) {
-      prefUsers.forEach(element => {
-        const result = categories.filter(checkCategory);
-        function checkCategory(value) {        
-            return value.categoria !== element.categoria;        
-        }
-        setCategoriasFalt(result);
+      let array1 =[];
+      let array2 = [];
+      let repetidos = [];
+      let temporal = [];
+
+      for (let i = 0; i < prefUsers.length; i++) {
+        array1.push(prefUsers[i].categoria);        
+      }      
+      array1.forEach(element => {
+        categories.filter(value => {       
+          if (value.categoria !== element){
+            array2.push(value);
+          }
+          return value.categoria !== element 
+        });
       });
+      array2.forEach((value,index)=>{
+        temporal = Object.assign([],array2); //Copiado de elemento
+        temporal.splice(index,1); //Se elimina el elemnto q se compara
+        if(temporal.indexOf(value)!==-1 && repetidos.indexOf(value)===-1) repetidos.push(value);
+      });
+      if (repetidos.length >0)  setCategoriasFalt(repetidos);
+      else setCategoriasFalt(array2)
+      
     }
   },[categories, prefUsers])
 
+  /**
+   * Función para redireccionar al reproductor del video seleccionado, se crea un nuevo historial de usuario si es la primera vez en ver el video, de lo contrario se envía este historial como state
+   * @param {*} id 
+   */
   const verVideo = async (id) =>{
     const formData = new FormData();
     let histUser;
@@ -88,8 +122,7 @@ function VideosListUser({videos, categories, ...props}) {
       if(contador ===0) {
         const hu = await  HistorialUserServer.RegisterHistorialUser(formData);
         histUser = hu.data;
-      }
-      
+      }      
     } catch (error) {
       console.log(error);
     }

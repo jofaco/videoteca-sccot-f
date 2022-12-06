@@ -6,8 +6,13 @@ import VideoLoadingComponent from "../components/videos/videoLoading";
 import * as VideoServer from "../services/videoServer";
 //components
 import { Container } from "@material-ui/core";
+import PropTypes from "prop-types"
 
-function Principal() {
+
+/**
+ * Carga todos los videos para el Home de la aplicación
+ */
+const  Principal = () =>{
   const VideoLoading = VideoLoadingComponent(VideosList);
 
   const [appState, setAppState] = useState({
@@ -15,6 +20,7 @@ function Principal() {
     videos: null,
   });
 
+  
   useEffect(() => {
     VideoServer.ListVideos().then((res) => {
       const allVideos = res.videos;
@@ -29,5 +35,10 @@ function Principal() {
       </div>
     </Container>
   );
+  
+}
+Principal.propTypes  = {
+  loading: PropTypes.bool,
+  videos: PropTypes.object
 }
 export default Principal;

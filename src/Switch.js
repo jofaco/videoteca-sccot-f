@@ -51,7 +51,10 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-
+/**
+ * 
+ * @returns Componente boton para realizar el cambio de tema en la aplicación (noche-dia)
+ */
 export default function CustomizedSwitches() {
     const [theme, setTheme] = React.useState('dark');
 

@@ -39,6 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Función para mostrar componente de login y hacer la validación de login con el backend.
+ * @param {boolean} param0 
+ * @returns redirecciona al index si es correcto el login, de lo contrario muestra mensaje de error.
+ */
 export default function SignIn({onLogin}) {
   const history = useNavigate();
   const {isLoginLoading, hasLoginError, login, isLogged} = useUser()
@@ -50,6 +55,10 @@ export default function SignIn({onLogin}) {
   const Notificacion = Notification();
   const [formData, updateFormData] = useState(initialFormData);
 
+  /**
+   * Verifica cambios en el formulario y agrega los valores al formData
+   * @param {*} e 
+   */
   const handleChange = (e) => {
     updateFormData({
       ...formData,
@@ -57,6 +66,9 @@ export default function SignIn({onLogin}) {
     });
   };
 
+  /**
+   * Valida si el login es correcto para redireccionar al index
+   */
   useEffect(() => {
     if (isLogged) {
       history('/')
@@ -65,6 +77,9 @@ export default function SignIn({onLogin}) {
     }
   }, [history, isLogged,onLogin]);
 
+  /**
+   * Valida si el login es incorrecto para enviar mensaje de error
+   */
   useEffect(() => {
     if (hasLoginError) {
       setErrorMessage("Credenciales erroneas");
@@ -74,6 +89,10 @@ export default function SignIn({onLogin}) {
     }
   }, [hasLoginError])
   
+  /**
+   * Envia los datos del formulario a la función login que está en el hook useUser para consultar con el backend.
+   * @param {*} e 
+   */
   const handleLogin = (e) => {
     e.preventDefault();    
     login({

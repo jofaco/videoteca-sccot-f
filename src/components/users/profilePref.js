@@ -7,8 +7,13 @@ import { makeStyles } from "@material-ui/core/styles";
 //styles
 import "../../styles/modalsProfile.css";
 
+/**
+ * Componente para mostrar las preferencias del usuario y el boton de agregar mas preferencias.
+ * @param {object} prefUsers
+ * @param {Function} handleShow
+ * @returns Componente con preferencias y boton de agregar.
+ */
 const Preferencias = ({ prefUsers, handleShow, ...props }) => {
-
   const useStyles = makeStyles((theme) => ({
     botonList: {
       margin: theme.spacing(3, 1),
@@ -21,14 +26,13 @@ const Preferencias = ({ prefUsers, handleShow, ...props }) => {
         width: "100%",
       },
     },
-    
   }));
 
   const classes = useStyles();
 
   return (
     <div className="container container1">
-      <h3 className={classes.title1}> PREFERENCIAS</h3>
+      <h3 className={classes.title1}>PREFERENCIAS</h3>
       <br></br>
       {!prefUsers ? (
         <Box display="flex" mt={5} justifyContent="space-between">
@@ -45,7 +49,14 @@ const Preferencias = ({ prefUsers, handleShow, ...props }) => {
       ) : (
         <>
           <div className="container ">
-            <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }} className="btn-group btn-group-lg">
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+              className="btn-group btn-group-lg"
+            >
               {prefUsers &&
                 prefUsers.map((categ, index) => (
                   <button

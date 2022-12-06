@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 
+/**
+ * Calcula el tamaño del slider.
+ * @returns 
+ */
 const useSizeElement = () => {
   const elementRef = useRef(null);
   const [width, setWidth] = useState(elementRef);

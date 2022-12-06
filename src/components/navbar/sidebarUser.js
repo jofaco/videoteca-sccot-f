@@ -48,7 +48,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const drawerWidth = 350;
-
+/**
+ * Componente para nabvar y sidebar 
+ * @param {*} props 
+ * @returns Componente para nabvar y sidebar 
+ */
 const Sidebar = (props) => {
   const classes = useStyles();
   const { window } = props;

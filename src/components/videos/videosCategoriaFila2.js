@@ -6,7 +6,12 @@ import VideosItemRow from "./videosItemRow";
 import "../../styles/styles.css";
 import "../../styles/conCate.css";
 
-
+/**
+ * Componente para organizar los videos por categoria
+ * @param {*} categoria
+ * @param {*} verVideo
+ * @returns Elemento con los videos organizados por categoria
+ */
 const VideosCategoriaFila2 = ({ categoria,verVideo, ...props }) => {
 
   if(categoria){

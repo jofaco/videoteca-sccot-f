@@ -12,14 +12,28 @@ import Form from "react-bootstrap/Form";
 //styles
 import "../../styles/modalsProfile.css";
 
+/**
+ * Componente modal Imagen con formulario para actualizar la imagen de perfil.
+ * @param {Function} handleClose
+ * @param {state} show
+ * @returns Componente modal Imagen
+ */
 const ModalPreferencias = ({handleClose, show, ...props}) => {
   const history = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   
+  /**
+   * Verifica cambios en el formulario y agrega los valores a selectedFile
+   * @param {*} e 
+   */
   const handleInputChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
+  /**
+   * Evento de submit del formulario para actualizar la imagen de perfil.
+   * @param {*} e 
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();

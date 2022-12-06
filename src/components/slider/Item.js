@@ -7,8 +7,12 @@ import "./Item.scss";
 //Components
 import Button from "@material-ui/core/Button";
 
+/**
+ * Componente para mostrar el elemento en el slider
+ * @param {Object} video 
+ * @returns 
+ */
 const Item = ({ video,...props }) => {
-
 
   return (
     <SliderContext.Consumer>

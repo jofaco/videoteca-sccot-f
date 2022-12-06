@@ -11,7 +11,11 @@ import './Slider.scss'
 import { useNavigate } from "react-router-dom";
 
 
-
+/**
+ * Componente Slider para los videos del home.
+ * @param {*} children 
+ * @returns Slider
+ */
 const Slider = ({ children, activeSlide, ...props }) => {
   const history = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(activeSlide);
@@ -25,14 +29,23 @@ const Slider = ({ children, activeSlide, ...props }) => {
     hasPrev
   } = useSliding(width, React.Children.count(children));
 
+  /**
+   * Función para mostrar los detalles de un video que se seleccione en el slider.
+   * @param {Object} video 
+   */
   const handleSelect = video => {
     setCurrentSlide(video);
   };
 
+  /**
+   * Función para cerrar los detalles de un video que se seleccione en el slider.
+   * @param {Object} video 
+   */
   const handleClose = () => {
     setCurrentSlide(null);
   };
 
+  /**props enviadas al Context.Provider */
   const contextValue = {
     onSelectSlide: handleSelect,
     onCloseSlide: handleClose,

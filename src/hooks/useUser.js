@@ -7,12 +7,18 @@ import axiosInstance from "../axios";
 
 
 
-
+/**
+ * Hook para realizar login y logout 
+ * @returns Funciones necesarias para login y logout.
+ */
 export default function useUser() {
     const history = useNavigate();
     const { jwt, setUSER, setJWT } = useContext(Context)
     const [state, setState] = useState({ loading: false, error: false });
 
+    /**
+     * Función para validar con el backend si las credenciales son correctas.
+     */
   const login = useCallback(
     ({ username, password }) => {
       setState({ loading: true, error: false });
@@ -38,6 +44,9 @@ export default function useUser() {
         });
     },[setJWT, setUSER]);
 
+  /**
+   * Función para realizar el logout.
+   */
   const logout = useCallback(() => {
     axiosInstance.post("logout/", {
         refresh_token: localStorage.getItem("refresh_token"),

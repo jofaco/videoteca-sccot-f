@@ -7,6 +7,9 @@ import axiosInstance from "../axios";
 //components
 import { Container } from "@material-ui/core";
 
+/**
+ * Carga todos los videos que sean Casos para el modulo Casos de la aplicación
+ */
 function AppCasos() {
   const VideoLoading = VideoLoadingComponent(CasosList);
 

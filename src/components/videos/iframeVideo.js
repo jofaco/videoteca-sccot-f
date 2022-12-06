@@ -127,7 +127,7 @@ const IframeVideo =  ({video, ...props}) => {
                 console.log("Ya exite una fecha igual registrada!");
               }
               else{
-                await  UbicacionServer.RegisterUbicacion(formData);
+                await  FechareproServer.RegisterFechaRepro({ 'historial_user': histUser.id, 'historial_Video':histVideo[0].id})
                 break;
               }
             }

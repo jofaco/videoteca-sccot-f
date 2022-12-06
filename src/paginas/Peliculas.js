@@ -7,6 +7,9 @@ import VideoLoadingComponent from "../components/videos/videoLoading";
 //components
 import { Container } from "@material-ui/core";
 
+/**
+ * Carga todos los videos que sean 'Peliculas' para el modulo Videos de la aplicación
+ */
 function AppPeliculas() {
   const VideoLoading = VideoLoadingComponent(PeliculasList);
 

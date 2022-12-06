@@ -17,7 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
+/**
+ * Componente para agregar un elemento a un row
+ * @param {*} video
+ * @returns Elemento con la información del video
+ */
 const VideosItemRow = ({ video,...props }) => {
   const classes = useStyles();  
   
