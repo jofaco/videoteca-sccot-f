@@ -5,9 +5,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import "../../index.css";
 //dependencies
 import VideosListAd from "../admin/videosListAdmin";
-import VideosListUser from "./videoListUser2";
+import { ErrorBoundary } from "./errorsBoundary";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
+import VideosListUser2 from "./videoListUser2";
 
 /**
  * Función para mostrar los videos con tipo Serie en la pestaña Series
@@ -126,12 +127,14 @@ const SeriesList = ({series, ...props}) => {
           setFilterParam={setFilterParam}
           categories={categories}
         ></SearchComponent>
-        <VideosListUser
-          videos={series}
-          categories={categories}
-          search={search}
-          search2={search2}
-        ></VideosListUser>
+        <ErrorBoundary>
+        <VideosListUser2
+            videos={series}
+            categories={categories}
+            search={search}
+            search2={search2}
+          />
+        </ErrorBoundary>
       </div>
     );
   }

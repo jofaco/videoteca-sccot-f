@@ -7,10 +7,11 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import "../../index.css";
 //dependencies
 import VideosListAd from "../admin/videosListAdmin";
-import VideosListUser from "./videoListUser2";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 import Context from "../context/UserContext";
+import { ErrorBoundary } from "./errorsBoundary";
+import VideosListUser2 from './videoListUser2'
 
 /**
  * Función para mostrar los videos con tipo Pelicula en la pestaña Peliculas
@@ -79,8 +80,8 @@ const PeliculasList = ({peliculas, ...props}) => {
           );
         });
       }
-      // eslint-disable-next-line eqeqeq
-      else if (filterParam == "All") {
+      
+      else if (filterParam === "All") {
         contenedorCarousel.style.visibility = "visible";
         contenedorCarousel.style.height = "100%";
         return peliculas.filter((item) => {
@@ -126,12 +127,14 @@ const PeliculasList = ({peliculas, ...props}) => {
           setFilterParam={setFilterParam}
           categories={categories}
         ></SearchComponent>
-        <VideosListUser
-          videos={peliculas}
-          categories={categories}
-          search={search}
-          search2={search2}
-        ></VideosListUser>
+        <ErrorBoundary>
+          <VideosListUser2
+            videos={peliculas}
+            categories={categories}
+            search={search}
+            search2={search2}
+          />
+        </ErrorBoundary>
       </div>
     );
   }

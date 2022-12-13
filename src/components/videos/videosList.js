@@ -8,10 +8,11 @@ import "../../index.css";
 
 //dependencies
 import VideosListAd from "../admin/videosListAdmin";
-import VideosListUser from "./videoListUser";
+import { ErrorBoundary } from "./errorsBoundary";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 import Context from "../context/UserContext";
+import VideosListUser from "./videoListUser";
 
 
 /**
@@ -85,8 +86,8 @@ const VideosList = ({videos}) => {
             );
         });
       }
-      // eslint-disable-next-line eqeqeq
-      else if (filterParam == "All") {
+      
+      else if (filterParam === "All") {
         contenedorCarousel.style.visibility = 'visible'
         contenedorCarousel.style.height = '100%';
         return videos.filter((item) => {
@@ -133,12 +134,14 @@ const VideosList = ({videos}) => {
           setFilterParam ={setFilterParam}
           categories={categories}
         ></SearchComponent>
+        <ErrorBoundary>
         <VideosListUser
-          videos={videos}
-          categories={categories}
-          search={search}
-          search2={search2}
-        ></VideosListUser>
+            videos={videos}
+            categories={categories}
+            search={search}
+            search2={search2}
+          />
+        </ErrorBoundary>
       </div>
     );
   }

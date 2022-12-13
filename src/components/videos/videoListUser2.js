@@ -128,10 +128,10 @@ function VideosListUser2({videos, categories, ...props}) {
     }
     history(`/seeVideo/${id}`,{state:histUser});
   }
+  
 
   const classes = useStyles();
   if (videos.length >0 ) {
-    console.log(prefUsers);
     return (
       <div>
         <div id="carousel_videos">
@@ -155,9 +155,10 @@ function VideosListUser2({videos, categories, ...props}) {
         <br></br>
         <hr></hr>
         <div id="card_videos">
-          {prefUsers ? 
+          {
+          prefUsers ? 
             <div>
-              {props.search2(prefUsers).map((element, index) => (
+              {prefUsers && props.search2(prefUsers).map((element, index) => (
                 <VideosCategoriaFila2
                   key= {index}
                   categoria ={element}
@@ -169,20 +170,18 @@ function VideosListUser2({videos, categories, ...props}) {
                 >
                 </VideosCategoriaFila2>
                 ))}
-                {            
-                categoriasFalt && props.search2(categoriasFalt).map((element, index) => (
-                  <VideosCategoriaFila2
-                    key= {index}
-                    categoria ={element}
-                    videos={videos}
-                    search={props.search}
-                    histUsers = {histUsers}
-                    user = {user}
-                    verVideo= {verVideo}  
-                  >
-                  </VideosCategoriaFila2>
-                  ))
-                }
+              {categoriasFalt && props.search2(categoriasFalt).map((element, index) => (
+                <VideosCategoriaFila2
+                  key= {index}
+                  categoria ={element}
+                  videos={videos}
+                  search={props.search}
+                  histUsers = {histUsers}
+                  user = {user}
+                  verVideo= {verVideo}  
+                >
+                </VideosCategoriaFila2>
+                ))}
             </div>
           :
           categories && props.search2(categories).map((element) => (
