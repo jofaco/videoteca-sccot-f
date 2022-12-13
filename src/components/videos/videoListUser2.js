@@ -130,44 +130,86 @@ function VideosListUser2({videos, categories, ...props}) {
   }
 
   const classes = useStyles();
-  return (
-    <div>
-      <div id="carousel_videos">
-        <h2>Latest videos</h2>
-        <Carousel className={classes.root} id="carousel" fade >
-          {videos &&
-            props.search(videos).slice(0, 4).map((video) => (
-              <Carousel.Item key={video.id}>
-                <VideosItem
-                  key={video.id}
-                  video={video}
-                  listVideos={props.listVideos}
+  if (videos.length >0 ) {
+    console.log(prefUsers);
+    return (
+      <div>
+        <div id="carousel_videos">
+          <h2>Latest videos</h2>
+          <Carousel className={classes.root} id="carousel" fade >
+            {videos &&
+              props.search(videos).slice(0, 4).map((video) => (
+                <Carousel.Item key={video.id}>
+                  <VideosItem
+                    key={video.id}
+                    video={video}
+                    listVideos={props.listVideos}
+                    histUsers = {histUsers}
+                    user = {user}
+                    verVideo = {verVideo}
+                  />
+                </Carousel.Item>
+              ))}
+          </Carousel>
+        </div>
+        <br></br>
+        <hr></hr>
+        <div id="card_videos">
+          {prefUsers ? 
+            <div>
+              {props.search2(prefUsers).map((element, index) => (
+                <VideosCategoriaFila2
+                  key= {index}
+                  categoria ={element}
+                  videos={videos}
+                  search={props.search}
                   histUsers = {histUsers}
                   user = {user}
-                  verVideo = {verVideo}
-                />
-              </Carousel.Item>
-            ))}
-        </Carousel>
+                  verVideo= {verVideo}
+                >
+                </VideosCategoriaFila2>
+                ))}
+                {            
+                categoriasFalt && props.search2(categoriasFalt).map((element, index) => (
+                  <VideosCategoriaFila2
+                    key= {index}
+                    categoria ={element}
+                    videos={videos}
+                    search={props.search}
+                    histUsers = {histUsers}
+                    user = {user}
+                    verVideo= {verVideo}  
+                  >
+                  </VideosCategoriaFila2>
+                  ))
+                }
+            </div>
+          :
+          categories && props.search2(categories).map((element) => (
+            <VideosCategoriaFila2
+              key= {element.id}
+              categoria ={element}
+              videos={videos}
+              search={props.search}
+              histUsers = {histUsers}
+              user = {user}
+              verVideo= {verVideo}
+
+            >
+            </VideosCategoriaFila2>
+            ))
+          }
+        </div>
       </div>
-      <br></br>
-      <hr></hr>
+    );
+  }
+  else {
+    return (
       <div id="card_videos">
-        {videos && categories && props.search2(categories).map((element) => (
-          <VideosCategoriaFila2
-            key= {element.id}
-            categoria ={element}
-            videos={videos}
-            search={props.search}
-            histUsers = {histUsers}
-            user = {user}
-            verVideo= {verVideo}
-          >
-          </VideosCategoriaFila2>
-          ))}
+        <h2 style={{color:"red"}}><center>No hay videos en este modulo!!</center></h2>
       </div>
-    </div>
-  );
+    )
+  }
 }
 
 export default VideosListUser2;

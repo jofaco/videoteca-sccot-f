@@ -13,9 +13,9 @@ import {
 import ListItemButton from "@mui/material/ListItemButton";
 
 /**
- * Componente con los botones para el slider 
+ * Componente con los botones para el sidebar 
  * @param {*} props 
- * @returns Botones para el slider dependiendo si es admin o no
+ * @returns Botones para el sidebar dependiendo si es admin o no
  */
 const DrawerS = (props) => {
 

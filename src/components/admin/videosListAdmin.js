@@ -24,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Componente para organizar en el index del admin los videos en su respectiva categoria, con un buscador y filtro
+ * @param {*} videos
+ * @param {*} categories
+ * @returns Contenedor con los videos y categorias 
+ */
 function VideosListAd({videos, categories, ...props}) {
   const history = useNavigate();
 
@@ -32,6 +38,9 @@ function VideosListAd({videos, categories, ...props}) {
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
 
+  /**
+ * Función para obtener el historial de los usuarios.
+ */
   const getHistorialUsers = async () => {
     try {
       const res = await HistorialUserServer.ListHistorial();
@@ -45,6 +54,10 @@ function VideosListAd({videos, categories, ...props}) {
     getHistorialUsers();
   }, []);
 
+  /**
+   * Función para redireccionar al reproductor del video seleccionado, se crea un nuevo historial de usuario si es la primera vez en ver el video, de lo contrario se envía este historial como state
+   * @param {*} id 
+   */
   const verVideo = async (id) =>{
     const formData = new FormData();
     let histUser;

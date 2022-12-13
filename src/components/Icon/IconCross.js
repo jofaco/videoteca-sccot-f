@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Componente para obtener el icon de flecha hacia el lado
+ * @returns Icono flecha hacia el lado usado en el Slider
+ */
 const IconCross = () => (
   <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
     <path

@@ -1,6 +1,5 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import * as VideoServer from "../../services/videoServer";
 //Components
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
@@ -10,9 +9,13 @@ import VideosListUser from "./videoListUser2";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 
-const CasosList = () => {
+/**
+ * Función para mostrar los videos con tipo Casos en la pestaña Casos
+ * @param {object} casos
+ * @returns Componente del buscador y componente lista (Dependendiendo si el usuario es admin o no, se retorna un componente distinto)
+ */
+const CasosList = ({casos, ...props}) => {
   const [query, setQuery] = useState("");
-  const [casos, setCasos] = useState([]);
   const [categories, setCategories] = useState("");
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
@@ -22,15 +25,9 @@ const CasosList = () => {
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
 
-  const listCasos = async () => {
-    try {
-      const res = await VideoServer.ListCasos();
-      setCasos(res.videos);
-    } catch (error) {
-      console.log("Error");
-    }
-  };
-  
+  /**
+   * Función para traer la lista de categorias 
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -41,10 +38,14 @@ const CasosList = () => {
   };
 
   useEffect(() => {
-    listCasos();
     listCategorias();
   }, []);
   
+  /**
+   * Función para realizar la busqueda mediante el componente search
+   * @param {*} casos 
+   * @returns Parametros de la busqueda
+   */
   const search = (casos) => {
     return casos.filter((item) => {
       return searchParam.some((parameter) => {
@@ -57,7 +58,12 @@ const CasosList = () => {
       });
     });
   };
-  const contenedorCarousel = document.getElementById("carousel_videos");
+  const contenedorCarousel = document.getElementById("carousel");
+  /**
+   * Función para realizar el filtro por categoria
+   * @param {*} categories 
+   * @returns Resultado del filtro
+   */
   const search2 = (categories) => {
     return categories.filter((item) => {
       if (item.categoria === filterParam) {
@@ -91,7 +97,7 @@ const CasosList = () => {
     });
   };
 
-  if (user && casos) {
+  if (user) {
     if (user.is_superuser) {
       return (
         <div >

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 function VideosListUser({videos, categories, ...props}) {
   const history = useNavigate();
 
-  const [histUsers, setHistUsers] = useState();
+  const [histUsers, setHistUsers] = useState(null);
   const [prefUsers, setPrefUsers] = useState(null); 
   const [categoriasFalt, setCategoriasFalt] = useState(null);
   const { user } = useContext(Context)
@@ -90,14 +90,15 @@ function VideosListUser({videos, categories, ...props}) {
           return value.categoria !== element 
         });
       });
-      array2.forEach((value,index)=>{
+      if (array2) {
+        array2.forEach((value,index)=>{
         temporal = Object.assign([],array2); //Copiado de elemento
-        temporal.splice(index,1); //Se elimina el elemnto q se compara
+        temporal.splice(index,1); //Se elimina el elemnto que se compara
         if(temporal.indexOf(value)!==-1 && repetidos.indexOf(value)===-1) repetidos.push(value);
-      });
-      if (repetidos.length >0)  setCategoriasFalt(repetidos);
-      else setCategoriasFalt(array2)
-      
+        });
+        if (repetidos.length >0)  setCategoriasFalt(repetidos);
+        else setCategoriasFalt(array2)
+      }
     }
   },[categories, prefUsers])
 
@@ -166,7 +167,7 @@ function VideosListUser({videos, categories, ...props}) {
                 verVideo= {verVideo}
               >
               </VideosCategoriaFila>
-              ))}
+              ))} 
               {            
               categoriasFalt && props.search2(categoriasFalt).map((element, index) => (
                 <VideosCategoriaFila

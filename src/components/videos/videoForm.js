@@ -7,6 +7,10 @@ import * as CategoriaServer from "../../services/category";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+/**
+ * Función para realizar las operaciones necesarias para crear o editar un video. 
+ * @returns Componente con el formulario para Agregar nuevo video o editar un video.
+ */
 const VideoForm = () => {
   const history = useNavigate();
   const params = useParams();
@@ -36,6 +40,10 @@ const VideoForm = () => {
   const [video, setVideo] = useState(initialState);
   const [categorias, setCategorias] = useState();
 
+  /**
+   * Actualiza el estado del idioma seleccionado en el formulario.
+   * @param {*} e 
+   */
   const handleSelectIdioma = (e) => {
     let target = e.target;
     let name = target.name;
@@ -43,6 +51,10 @@ const VideoForm = () => {
     let value = Array.from(target.selectedOptions, (option) => option.value);
     setVideo({ ...video, [name]: value });
   };
+  /**
+   * Actualiza el estado de la categoria seleccionada en el formulario.
+   * @param {*} e 
+   */
   const handleSelectCategory = (e) => {
     let target = e.target;
     let name = target.name;
@@ -50,6 +62,10 @@ const VideoForm = () => {
     let value = Array.from(target.selectedOptions, (option) => option.value);
     setVideo({ ...video, [name]: value });
   };
+  /**
+   * Actualiza el estado de demás campos seleccionados en el formulario.
+   * @param {*} e 
+   */
   const handleInputChange = (e) => {
     let target = e.target;
     let name = target.name;
@@ -63,6 +79,11 @@ const VideoForm = () => {
       setVideo({ ...video, [name]: e.target.value });
     }
   };
+  /**
+   * Guarda la información llenada en el formulario y la envia al backend para su registro o actualización.
+   * Al finalizar si el proceso es exitoso redirecciona al index.
+   * @param {*} e 
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     let featured_image;
@@ -112,6 +133,10 @@ const VideoForm = () => {
       }      
     }
   };
+  /**
+   * Función para obtener el video con sus campos a editar.
+   * @param {*} videoID 
+   */
   const getVideo = async (videoID) => {
     try {
       const res = await VideoServer.getVideoDT(videoID);
@@ -147,6 +172,9 @@ const VideoForm = () => {
       console.log(error);
     }
   };
+  /**
+   * función para obtener todas las categorias en la base de datos.
+   */
   const getCategorias = async () => {
     try {
       const res = await CategoriaServer.ListCategorias();

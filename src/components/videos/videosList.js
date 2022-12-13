@@ -26,7 +26,7 @@ const VideosList = ({videos}) => {
   const [searchParam2] = useState(["categoria"]);
   const { user } = useContext(Context)
 
-  const [filterParam, setFilterParam] = useState(["All"]);
+  const [filterParam, setFilterParam] = useState("All");
 
   /**
    * Función para traer la lista de categorias 
@@ -64,7 +64,7 @@ const VideosList = ({videos}) => {
     });
   };
   
-  const contenedorCarousel = document.getElementById('carousel_videos');
+  const contenedorCarousel = document.getElementById('carousel');
   /**
    * Función para realizar el filtro por categoria
    * @param {*} categories 

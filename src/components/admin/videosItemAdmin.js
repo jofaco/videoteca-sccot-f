@@ -34,9 +34,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Componente para mostrar en el carousel del admin los videos con algunos campos.
+ * @param {*} video
+ * @returns Item de un video.
+ */
 const VideosItemAdmin = ({ video,...props }) => {
   const history = useNavigate();
 
+  /**
+   * Elimina el video seleccionado y recarga la pagina.
+   * @param {pk} videoID 
+   */
   const handleDelete = async (videoID) => {
     await VideoServer.DeleteVideo(videoID);
     window.location.reload();

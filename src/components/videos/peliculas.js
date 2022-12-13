@@ -12,16 +12,22 @@ import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 import Context from "../context/UserContext";
 
-
+/**
+ * Función para mostrar los videos con tipo Pelicula en la pestaña Peliculas
+ * @param {object} peliculas
+ * @returns Componente del buscador y componente lista (Dependendiendo si el usuario es admin o no, se retorna un componente distinto)
+ */
 const PeliculasList = ({peliculas, ...props}) => {
   const [query, setQuery] = useState("");
   const [categories, setCategories] = useState("");
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
   const { user } = useContext(Context)
-  const [filterParam, setFilterParam] = useState(["All"]);
+  const [filterParam, setFilterParam] = useState("All");
 
-  
+  /**
+   * Función para traer la lista de categorias 
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -34,7 +40,12 @@ const PeliculasList = ({peliculas, ...props}) => {
   useEffect(() => {
     listCategorias();
   }, []);
-  
+
+  /**
+   * Función para realizar la busqueda mediante el componente search
+   * @param {*} peliculas 
+   * @returns Parametros de la busqueda
+   */
   const search = (peliculas) => {
     return peliculas.filter((item) => {
       return searchParam.some((parameter) => {
@@ -47,7 +58,12 @@ const PeliculasList = ({peliculas, ...props}) => {
       });
     });
   };
-  const contenedorCarousel = document.getElementById("carousel_videos");
+  const contenedorCarousel = document.getElementById("carousel");
+  /**
+   * Función para realizar el filtro por categoria
+   * @param {*} categories 
+   * @returns Resultado del filtro
+   */
   const search2 = (categories) => {
     return categories.filter((item) => {
       if (item.categoria === filterParam) {
@@ -81,7 +97,7 @@ const PeliculasList = ({peliculas, ...props}) => {
     });
   };
 
-  if (user && peliculas) {
+  if (user) {
     if (user.is_superuser) {
       return (
         <div >

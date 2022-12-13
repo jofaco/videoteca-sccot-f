@@ -40,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Componente para mostrar en el carousel los videos con algunos campos.
+ * @param {*} video
+ * @returns Item de un video.
+ */
 const VideosItem = ({ video,...props } ) => {
   const classes = useStyles();
 

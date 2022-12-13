@@ -25,7 +25,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },  
 }));
-
+/**
+ * Función para mostrar el detalle de un video y guardar la puntuación.
+ * @returns Componente que muestra el detalle de un video junto con el iframe
+ */
 const VideoDetail = () => {
   const location = useLocation();
   const { id } = useParams();
@@ -36,6 +39,11 @@ const VideoDetail = () => {
   const [activeStar, setActiveStar] = useState(-1);
   const totalStars = 5;
 
+  /**
+   * Función para almacenar la duración del video en un formato adecuado para mostrarla en pantalla.
+   * @param {time} duration 
+   * @returns Duración en el formato adecuado.
+   */
   const changeDuration = (duration) => {
     let tiempo = duration.split(':');
     let new_duration = "";
@@ -54,6 +62,9 @@ const VideoDetail = () => {
     return new_duration;
   };
 
+  /**
+   * Función para obtener la información del video en reproducción
+   */
   useEffect(() => {
     const getVideo = async (videoID) => {
       const res = await VideoServer.getVideo(videoID);
@@ -72,6 +83,10 @@ const VideoDetail = () => {
 
   }, [duracion, histUser.user_score, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
   
+  /**
+   * Función para cambiar la calificación del video.
+   * @param {int} index 
+   */
   const handleClick = async (index) => {
     setActiveStar(index);
     setHistUser({...histUser, user_score:index+1});

@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import "../../index.css";
 
+/**
+ * Componente con el buscador y el filtro por categoria
+ * @param {*} props 
+ * @returns Componente con el buscador y el filtro por categoria
+ */
 const SearchComponent = (props) => {
 
   const [categories, setCategories] = useState([]);

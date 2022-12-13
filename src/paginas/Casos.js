@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 //dependencies
 import CasosList from "../components/videos/casos";
 import VideoLoadingComponent from "../components/videos/videoLoading";
-import axiosInstance from "../axios";
+import * as VideoServer from "../services/videoServer";
+
 //components
 import { Container } from "@material-ui/core";
 
@@ -19,8 +20,8 @@ function AppCasos() {
   });
 
   useEffect(() => {
-    axiosInstance.get().then((res) => {
-      const allVideos = res.data;
+    VideoServer.ListCasos().then((res) => {
+      const allVideos = res.videos;
       setAppState({ loading: false, videos: allVideos });
     });
   }, [setAppState]);
@@ -28,7 +29,7 @@ function AppCasos() {
   return (
     <Container>
       <div className="App">
-        <VideoLoading isLoading={appState.loading} videos={appState.videos} />
+        <VideoLoading isLoading={appState.loading} casos={appState.videos} />
       </div>
     </Container>
   );

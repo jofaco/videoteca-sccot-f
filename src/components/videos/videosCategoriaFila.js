@@ -6,7 +6,11 @@ import '../../styles/slider.css'
 import "../../styles/styles.css";
 import "../../styles/conCate.css";
 
-
+/**
+ * Componente que retorna los videos ordenados en un slider dependiendo de su categoria.
+ * @param {*} param0 
+ * @returns Slider con los videos.
+ */
 const VideosCategoriaFila = ({ categoria, verVideo,...props }) => {
 
   if(categoria){

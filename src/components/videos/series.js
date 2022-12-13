@@ -9,6 +9,11 @@ import VideosListUser from "./videoListUser2";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 
+/**
+ * Función para mostrar los videos con tipo Serie en la pestaña Series
+ * @param {object} series
+ * @returns Componente del buscador y componente lista (Dependendiendo si el usuario es admin o no, se retorna un componente distinto)
+ */
 const SeriesList = ({series, ...props}) => {
   const [query, setQuery] = useState("");
   const [categories, setCategories] = useState("");
@@ -20,7 +25,9 @@ const SeriesList = ({series, ...props}) => {
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
 
-
+  /**
+   * Función para traer la lista de categorias 
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -34,7 +41,11 @@ const SeriesList = ({series, ...props}) => {
     listCategorias();
   }, []);
   
-
+  /**
+   * Función para realizar la busqueda mediante el componente search
+   * @param {*} series 
+   * @returns Parametros de la busqueda
+   */
   const search = (series) => {
     return series.filter((item) => {
       return searchParam.some((parameter) => {
@@ -47,7 +58,12 @@ const SeriesList = ({series, ...props}) => {
       });
     });
   };
-  const contenedorCarousel = document.getElementById("carousel_videos");
+  const contenedorCarousel = document.getElementById("carousel");
+  /**
+   * Función para realizar el filtro por categoria
+   * @param {*} categories 
+   * @returns Resultado del filtro
+   */
   const search2 = (categories) => {
     return categories.filter((item) => {
       if (item.categoria === filterParam) {

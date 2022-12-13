@@ -5,7 +5,7 @@ const Context = React.createContext({});
 /**
  * Context con la información del usuario y el jwt
  * @param {*} param0 
- * @returns Context
+ * @returns Context.Provider
  */
 export function UserContextProvider({ children }) {
   const [jwt, setJWT] = useState(
