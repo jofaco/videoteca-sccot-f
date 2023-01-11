@@ -135,12 +135,12 @@ const VideosList = ({videos}) => {
           categories={categories}
         ></SearchComponent>
         <ErrorBoundary>
-        <VideosListUser
-            videos={videos}
-            categories={categories}
-            search={search}
-            search2={search2}
-          />
+          <VideosListUser
+              videos={videos}
+              categories={categories}
+              search={search}
+              search2={search2}
+            />
         </ErrorBoundary>
       </div>
     );

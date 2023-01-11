@@ -93,10 +93,10 @@ function VideosListUser2({videos, categories, ...props}) {
       });
       array2.forEach((value,index)=>{
         temporal = Object.assign([],array2); //Copiado de elemento
-        temporal.splice(index,1); //Se elimina el elemnto q se compara
         if(temporal.indexOf(value)!==-1 && repetidos.indexOf(value)===-1) repetidos.push(value);
+        temporal.splice(index,1); //Se elimina el elemnto q se compara
       });
-      if (repetidos.length >0)  setCategoriasFalt(repetidos);
+      if (repetidos.length >0)  setCategoriasFalt(null);
       else setCategoriasFalt(array2)
       
     }
@@ -114,7 +114,7 @@ function VideosListUser2({videos, categories, ...props}) {
     try {
       for (let index = 0; index < histUsers.length; index++) {
       const element = histUsers[index];
-        if (element.usuario_id === user.id && element.video_id === id) {
+        if (element.usuario.id === user.id && element.video === id) {
           histUser= element;
           contador++;
         }
@@ -127,9 +127,9 @@ function VideosListUser2({videos, categories, ...props}) {
       console.log(error);
     }
     history(`/seeVideo/${id}`,{state:histUser});
+    
   }
   
-
   const classes = useStyles();
   if (videos.length >0 ) {
     return (

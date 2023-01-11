@@ -7,16 +7,17 @@ import { getUser } from "../../services/auth";
 import imgDeault from "../../imgs/logosccot.png";
 import * as PreferenciasUserServer from "../../services/preferenciasUser";
 import * as CategoriaServer from "../../services/category";
+import { useModal } from "../../hooks/useModal";
+
+//components
 import ModalPreferencias from "./modalPreferencia";
 import ModalImagen from "./modalImagen";
 import Preferencias from "./profilePref";
-//components
-import { Image } from "react-bootstrap";
 
 //MaterialUI
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { Image } from "react-bootstrap";
 //styles
 import "../../styles/modalsProfile.css";
 
@@ -28,9 +29,10 @@ const UserProfile = () => {
   const { user } = useContext(Context);
   const [dataUser, setDataUser] = useState(null);
   const [prefUsers, setPrefUsers] = useState(null);
-  const [show, setShow] = useState(false);
-  const [showImg, setShowImg] = useState(false);
   const [categorias, setCategorias] = useState();
+  const [show, handleShow, handleClose] = useModal(false);
+  const [showImg, handleShowImg, handleCloseImg] = useModal(false);
+
 
   const useStyles = makeStyles((theme) => ({
     imagenPerfil: {
@@ -104,11 +106,6 @@ const UserProfile = () => {
     getCategorias();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id]);
-
-  const handleClose = () => setShow(false); //función para cerrar el modal de preferencias.
-  const handleShow = () => setShow(true); //función para mostrar el modal de preferencias.
-  const handleCloseImg = () => setShowImg(false); //función para cerrar el modal de imagen.
-  const handleShowImg = () => setShowImg(true); //función para mostrar el modal de imagen.
 
   const classes = useStyles();
 

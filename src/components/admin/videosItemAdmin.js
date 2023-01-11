@@ -2,8 +2,12 @@ import React from "react";
 //components
 import { useNavigate } from "react-router-dom";
 import { Image } from "react-bootstrap";
+
+//MaterialUI
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 
 //dependencias
 import * as VideoServer from "../../services/videoServer";
@@ -68,7 +72,11 @@ const VideosItemAdmin = ({ video,...props }) => {
         <div className="col-md-4 col-12 ">
           <h3 className={classes.paper}>{video.title_espanol}</h3>
           <p className="card-text">Duración: {video.duration}</p>
-          <p className="card-text">Puntuación: {video.score}</p>
+          <Box
+            sx={{'& > legend': { mt: 2 },}}
+          >
+            <Rating name="read-only" value={parseFloat(video.score)} precision={0.5} readOnly />
+          </Box>
           <br></br>
           <div className="d-grid gap-2 col-6 mx-auto">
             <button

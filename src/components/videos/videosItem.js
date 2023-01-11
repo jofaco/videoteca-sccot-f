@@ -2,9 +2,12 @@ import React from "react";
 
 //components
 import { Image } from "react-bootstrap";
+
+//MaterialUI
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -62,7 +65,11 @@ const VideosItem = ({ video,...props } ) => {
         <div className={"col-md-4 col-12 " + classes.info}>
           <h3 className={classes.paper}>{video.title_espanol}</h3>
           <p className={classes.letter}>Duración: {video.duration}</p>
-          <p className={classes.letter}>Puntuación: {video.score}</p>
+          <Box
+            sx={{'& > legend': { mt: 2 }}}
+          >
+            <Rating name="read-only" value={parseFloat(video.score)} precision={0.5} readOnly />
+          </Box>
           <p className={classes.letter}>{video.description_esp}</p>
           <br></br>
         </div>

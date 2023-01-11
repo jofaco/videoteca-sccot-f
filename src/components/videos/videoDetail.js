@@ -5,17 +5,23 @@ import { useParams } from "react-router-dom";
 //dependencias
 import * as VideoServer from "../../services/videoServer";
 import * as HistorialUserServer from "../../services/historialUser";
+import { useModal } from "../../hooks/useModal";
 
-import IframeVideo from "./iframeVideo";
 //MaterialUI
 import Box from "@mui/material/Box";
+import Button from '@mui/material/Button';
 import Container from "@material-ui/core/Container";
 import StarIcon from "@mui/icons-material/Star";
 import { makeStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import Stack from '@mui/material/Stack';
 import Typography from "@material-ui/core/Typography";
+
 //components
 import "../../styles/styles.css";
+import ModalComentario from "./comentarioModal";
+import ModalComentarios from "./listComentariosModal";
+import IframeVideo from "./iframeVideo";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
  * @returns Componente que muestra el detalle de un video junto con el iframe
  */
 const VideoDetail = () => {
+  const [show, handleShow, handleClose] = useModal(false);
+  const [show2, handleShow2, handleClose2] = useModal(false);
+
   const location = useLocation();
   const { id } = useParams();
   const [video, setVideo] = useState([]);
@@ -89,11 +98,25 @@ const VideoDetail = () => {
    */
   const handleClick = async (index) => {
     setActiveStar(index);
-    setHistUser({...histUser, user_score:index+1});
+    let cumulative_score = video.cumulative_score;
+    let number_votes = video.numberOfVotes;
 
+    if (histUser.user_score) {
+      cumulative_score = cumulative_score - histUser.user_score + index+1;
+      const score_video = cumulative_score/number_votes;
+      setHistUser({...histUser, user_score:index+1});
+      await VideoServer.partialUpdateVideo(video.id, {'cumulative_score': cumulative_score, 'score': score_video})
+
+    } else {
+      number_votes +=1;
+      cumulative_score = cumulative_score + index+1;
+      const score_video = cumulative_score/number_votes;
+      setHistUser({...histUser, user_score:index+1});
+      await VideoServer.partialUpdateVideo(video.id, {'cumulative_score': cumulative_score,'numberOfVotes': number_votes,'score': score_video})
+    }
     await HistorialUserServer.updateHistorialUser(histUser.id,{'user_score': index+1});
-  };
 
+  };
   const classes = useStyles();
   return (
     <Container>
@@ -104,61 +127,107 @@ const VideoDetail = () => {
       </div>
       <br></br>
       <div className="row">
-      <div className="col-md-8 col-12 iframe1">
-        <IframeVideo
-          video={video}
-          >
-        </IframeVideo>
-      </div>
-      <div className="col-md-4 col-12 infoVideo">
-        <Typography component="h5" variant="body1">
-          {video.duration}&nbsp;&nbsp;{uploadDate}
-        </Typography>
-        <br></br>
-        <Typography component="h5" variant="body1">
-          {video.description_esp}
-        </Typography>
-        <br></br>
-        <Typography component="h1" variant="h5">
-          Calificación:   &nbsp;&nbsp;
-          <Box 
-            sx={{
-              display: "inline-flex",
-              position: "relative",
-              cursor: "pointer",
-              textAlign: "left",
-            }}
-          >
-            {[...new Array(totalStars)].map((arr, index) => {
-              return (
-                <Box 
-                key={index} 
-                position="relative"
-                sx={{
-                  cursor: "pointer",
-                }}
-                onClick={(e) => handleClick(index)}
-                >
+        <div className="col-md-8 col-12 iframe1">
+          <IframeVideo
+            video={video}
+            >
+          </IframeVideo>
+        </div>
+        <div className="col-md-4 col-12 infoVideo">
+          <Typography component="h5" variant="body1">
+            {video.duration}&nbsp;&nbsp;{uploadDate}
+          </Typography>
+          <br></br>
+          <Typography component="h5" variant="body1">
+            {video.description_esp}
+          </Typography>
+          <br></br>
+          <Typography component="h1" variant="h5">
+            Tu Calificación:   &nbsp;&nbsp;
+            <Box 
+              sx={{
+                display: "inline-flex",
+                position: "relative",
+                cursor: "pointer",
+                textAlign: "left",
+              }}
+            >
+              {[...new Array(totalStars)].map((arr, index) => {
+                return (
                   <Box 
-                    sx={{
-                      width: index <= activeStar ? "100%" : "0%",
-                      overflow: "hidden",
-                      position: "absolute",
-                    }}
+                  key={index} 
+                  position="relative"
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                  onClick={(e) => handleClick(index)}
                   >
-                    <StarIcon />
+                    <Box 
+                      sx={{
+                        width: index <= activeStar ? "100%" : "0%",
+                        overflow: "hidden",
+                        position: "absolute",
+                      }}
+                    >
+                      <StarIcon />
+                    </Box>
+                    <Box>
+                      <StarBorderIcon />
+                    </Box>
                   </Box>
-                  <Box>
-                    <StarBorderIcon />
-                  </Box>
-                </Box>
-              )
-            })}
-          </Box>
-        </Typography>
+                )
+              })}
+            </Box>
+          </Typography>
+          <br></br>
+          {!histUser.commentary ? 
+            <Stack  alignItems="center">
+              <Button 
+              variant="contained" 
+              color="success"
+              type="submit"
+              onClick={handleShow}>
+                Realizar comentario
+              </Button>
+            </Stack>
+          : 
+          <Stack alignItems="center">
+            <Typography component="h5" variant="body1">
+              { histUser.commentary }
+            </Typography>
+            <Button 
+              variant="contained" 
+              color="success"
+              type="submit"
+              onClick={handleShow}>
+              Editar
+            </Button>
+          </Stack>
+          }
+          <br/>
+          <Stack  alignItems="center">
+            <Button 
+              variant="contained" 
+              color="primary"
+              type="submit"
+              onClick={handleShow2}>
+              Ver otros comentarios
+            </Button>
+          </Stack>
+        </div>
       </div>
-      </div>
-      
+      <ModalComentario
+        handleClose={handleClose}
+        show={show}
+        histUser={histUser}
+        setHistUser= {setHistUser}
+      ></ModalComentario>
+      <ModalComentarios
+        handleClose={handleClose2}
+        show={show2}
+        histUser={histUser}
+        id= {id}
+      ></ModalComentarios>
     </Container>
   );
 };

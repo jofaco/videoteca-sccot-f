@@ -4,6 +4,9 @@ import './Content.scss';
 //import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import '../../styles/content.css'
 
+//MaterialUI
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 /**
  * Componente con los detalles del elemento.
  * @param {Object} video 
@@ -22,7 +25,13 @@ const Content = ({ video, onClose, ...props }) => {
     </div>
     <div className="content__area"> 
       <div className="content__area__container">
-        <div className="content__title">{video.title_espanol}</div>
+        <div className="content__title">{video.title_espanol}
+        <Box
+            sx={{'& > legend': { mt: 2 }}}
+          >
+            <Rating name="read-only" value={parseFloat(video.score)} precision={0.5} readOnly />
+          </Box>
+        </div>
         <div className="content__description">
           {video.description_esp}
         </div>

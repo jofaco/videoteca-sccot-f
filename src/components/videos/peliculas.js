@@ -6,7 +6,6 @@ import {  useContext } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
 //dependencies
-import VideosListAd from "../admin/videosListAdmin";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
 import Context from "../context/UserContext";
@@ -109,12 +108,14 @@ const PeliculasList = ({peliculas, ...props}) => {
             setFilterParam={setFilterParam}
             categories={categories}
           ></SearchComponent>
-          <VideosListAd
-            videos={peliculas}
-            categories={categories}
-            search={search}
-            search2={search2}
-          ></VideosListAd>
+          <ErrorBoundary>
+            <VideosListUser2
+              videos={peliculas}
+              categories={categories}
+              search={search}
+              search2={search2}
+            />
+          </ErrorBoundary>
         </div>
       );
     }

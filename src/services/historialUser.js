@@ -23,6 +23,14 @@ export const ListHistorial = async () => {
       return await response.data;
     }
   };
+
+export const ListHistorial4Comments = async () => {
+    const response = await axiosInstance.get(`${API_URL}list_4_comments/`);
+    if (response.status === 200) {
+      return await response.data;
+    }
+  };
+  
 /**
  * Función para obtener un historial en específico.
  * @param {pk} histID 

@@ -88,6 +88,13 @@ export const UpdateVideo = async (videoID, updateVideo) => {
     return await response.data;
   }
 };
+
+export const partialUpdateVideo = async(id,PupdateVideo) =>{
+  const response = await axiosInstance.patch(API_URL+id+"/",PupdateVideo);
+  if (response.status === 200) {
+      return response.data;
+  }
+}
 /**
  * Función para eliminar un video.
  * @returns La data enviada desde el backend. 

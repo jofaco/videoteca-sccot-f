@@ -67,7 +67,7 @@ function VideosListAd({videos, categories, ...props}) {
     try {
       for (let index = 0; index < histUsers.length; index++) {
       const element = histUsers[index];
-        if (element.usuario === user.id && element.video === id) {
+        if (element.usuario.id === user.id && element.video === id) {
           histUser= element;
           contador++;
         }
