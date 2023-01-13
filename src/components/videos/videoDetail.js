@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 //dependencias
 import * as VideoServer from "../../services/videoServer";
 import * as HistorialUserServer from "../../services/historialUser";
+import * as commentaryServer from "../../services/commentary";
 import { useModal } from "../../hooks/useModal";
 
 //MaterialUI
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },  
+  },
 }));
 /**
  * Función para mostrar el detalle de un video y guardar la puntuación.
@@ -45,6 +46,7 @@ const VideoDetail = () => {
   const [duracion, setDuracion] = useState([]);
   const [uploadDate, setUploadDate] = useState(null);
   const [histUser, setHistUser] = useState(location.state);
+  const [commentaries, setCommentaries] = useState([]);
   const [activeStar, setActiveStar] = useState(-1);
   const totalStars = 5;
 
@@ -92,6 +94,13 @@ const VideoDetail = () => {
 
   }, [duracion, histUser.user_score, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
   
+  useEffect(() => {
+    const getCommentaries = async (videoId) => {
+      const res = await commentaryServer.ListCommentaryVideo({'video_id':videoId});
+      setCommentaries(res);
+    }
+    getCommentaries(id);
+  }, [id]);
   /**
    * Función para cambiar la calificación del video.
    * @param {int} index 
@@ -117,6 +126,7 @@ const VideoDetail = () => {
     await HistorialUserServer.updateHistorialUser(histUser.id,{'user_score': index+1});
 
   };
+  
   const classes = useStyles();
   return (
     <Container>
@@ -133,12 +143,12 @@ const VideoDetail = () => {
             >
           </IframeVideo>
         </div>
-        <div className="col-md-4 col-12 infoVideo">
-          <Typography component="h5" variant="body1">
+        <div className="col-md-4 col-12 infoVideo" >
+          <Typography component="h4" variant="h5" style={{color:"aqua"}} align="center">
             {video.duration}&nbsp;&nbsp;{uploadDate}
           </Typography>
           <br></br>
-          <Typography component="h5" variant="body1">
+          <Typography component="h6" variant="body1" align="justify">
             {video.description_esp}
           </Typography>
           <br></br>
@@ -180,53 +190,44 @@ const VideoDetail = () => {
             </Box>
           </Typography>
           <br></br>
-          {!histUser.commentary ? 
+          <Stack  alignItems="center">
+            <Button 
+            variant="contained" 
+            color="success"
+            type="submit"
+            onClick={handleShow}>
+              Realizar comentario
+            </Button>
+          </Stack>
+          <br/>
+          {commentaries ? 
             <Stack  alignItems="center">
               <Button 
-              variant="contained" 
-              color="success"
-              type="submit"
-              onClick={handleShow}>
-                Realizar comentario
+                variant="contained" 
+                color="primary"
+                type="submit"
+                onClick={handleShow2}>
+                Ver otros comentarios
               </Button>
             </Stack>
           : 
-          <Stack alignItems="center">
-            <Typography component="h5" variant="body1">
-              { histUser.commentary }
-            </Typography>
-            <Button 
-              variant="contained" 
-              color="success"
-              type="submit"
-              onClick={handleShow}>
-              Editar
-            </Button>
-          </Stack>
+            null
           }
           <br/>
-          <Stack  alignItems="center">
-            <Button 
-              variant="contained" 
-              color="primary"
-              type="submit"
-              onClick={handleShow2}>
-              Ver otros comentarios
-            </Button>
-          </Stack>
         </div>
       </div>
       <ModalComentario
         handleClose={handleClose}
         show={show}
         histUser={histUser}
-        setHistUser= {setHistUser}
+        videoID ={id}
       ></ModalComentario>
       <ModalComentarios
         handleClose={handleClose2}
         show={show2}
         histUser={histUser}
-        id= {id}
+        commentaries = {commentaries}
+        videoID= {id}
       ></ModalComentarios>
     </Container>
   );

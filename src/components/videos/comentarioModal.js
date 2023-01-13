@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 //dependencias
-import * as HistorialUserServer from "../../services/historialUser";
+import * as commentaryServer from "../../services/commentary";
 
 //components
 import Modal from "react-bootstrap/Modal";
@@ -18,12 +18,17 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "4px 4px 4px 0px #5a28e550",
   },
   cloud: {
-    Background: "#BFF",
-    top: "50px",
-    borderRadius: "100px",
-    position: "absolute",
-    margin: "120px auto 20px",
-},
+    width: "25rem",
+    background: "#BFF",
+    borderRadius: 50,
+  },
+  containerForm: {
+    height:"3rem",
+    background: "#BFF",
+    border: "2px solid #ccc",
+    borderRadius: 50,
+    boxShadow: "4px 4px 4px 0px #5a28e550",
+  },
 
   "@media (max-width: 720px)": {
     root: {
@@ -31,24 +36,32 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const ModalComentario = ({histUser, handleClose, show,setHistUser, ...props}) => {
+const ModalComentario = ({histUser, handleClose, show, ...props}) => {
+  const initialFormData = {commentary:"", historial_user:histUser, video:props.videoID};
+  const [commentary, setCommentary] = useState(initialFormData);
 
   const handleInputChange = (e) => {
-    setHistUser({...histUser, commentary: e.target.value });
+    let target = e.target;
+    let name = target.name;
+    setCommentary({...commentary, [name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {        
-        await HistorialUserServer.updateHistorialUser(histUser.id,{'commentary': histUser.commentary});
+    const formData = new FormData();
+
+    try {
+      formData.append("commentary", commentary.commentary);
+      formData.append("historial_user", commentary.historial_user.id);
+      formData.append("video", commentary.video);
+      await commentaryServer.RegisterCommentary(formData);
     } catch (error) {
-        for (const property in error.response.data) {
-          alert(`${property}: ${error.response.data[property]}`);
-        }      
-      }
+      for (const property in error.response.data) {
+        alert(`${property}: ${error.response.data[property]}`);
+      }      
+    }
   }
   const classes = useStyles();
-
   return (
     <Modal 
       show={show} 
@@ -61,10 +74,15 @@ const ModalComentario = ({histUser, handleClose, show,setHistUser, ...props}) =>
         <Modal.Title id="tituloModal" >Ingrese su Comentario</Modal.Title>
       </Modal.Header>
       <Modal.Body id="bodyModal" >
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Control as="textarea" rows={3} value={histUser.commentary || ""}
-              onChange={handleInputChange}/>
+        <Form onSubmit={handleSubmit}  >
+          <Form.Group className={"mb-2 "} controlId="exampleForm.ControlInput1">
+            <Form.Control as="textarea" 
+            className={classes.containerForm}
+            rows={1} 
+            name="commentary"
+            value={commentary.commentary || ""}
+            onChange={handleInputChange} 
+            />
           </Form.Group>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>

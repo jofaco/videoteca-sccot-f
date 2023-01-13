@@ -1,11 +1,14 @@
 import React, {useEffect,useState} from "react";
 //dependencias
-import * as HistorialUserServer from "../../services/historialUser";
+//import * as commentaryServer from "../../services/commentary";
 
 //components
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "react-bootstrap/Modal";
 import Container from "@material-ui/core/Container";
+import { Button } from "@mui/material";
+import Stack from '@mui/material/Stack';
+
 
 const useStyles = makeStyles((theme) => ({
   title:{
@@ -33,19 +36,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalComentarios = ({ handleClose, show, histUser, ...props}) => {
-  const [comentarios, setComentarios] = useState([]);
+const ModalComentarios = ({ handleClose, show, histUser, commentaries,  ...props}) => {
   
-  useEffect(() => {
-    const getComentarios = async () => {
-      const histsUsers = await HistorialUserServer.ListHistorial4Comments();      
-      setComentarios(histsUsers);
-    }
-    getComentarios();
-  }, []);
-
   const classes = useStyles();
-  return (
+  if (commentaries) {
+    return (
     <Modal 
       show={show} 
       onHide={handleClose}
@@ -60,19 +55,34 @@ const ModalComentarios = ({ handleClose, show, histUser, ...props}) => {
       </Modal.Header>
       <Modal.Body id="bodyModal" className={classes.containerModal}>
         {
-          comentarios.map( (element, index) => {
-            return  parseInt(element.video) === parseInt(props.id) && histUser.usuario.id !== element.usuario.id ?
+          commentaries.map( (element, index) => (
               <Container key={index} className={classes.containerComment}>
-                <h4 className={classes.nameUser} >User: {element.usuario.name}</h4>
-                <h5 >{element.commentary}</h5>
-                <hr/>
+                <div className="row">
+                  <div className="col-9 ">
+                    <p>fecha: {new Date(element.created_date).toLocaleDateString()}</p>
+                    <h5 className={classes.nameUser} >User: {element.historial_user.usuario.name}</h5>
+                    <h5 >{element.commentary}</h5>
+                  </div>
+                  <div className="col-2">
+                    <Stack  alignItems="center" alignContent="center">
+                      <Button 
+                      variant="contained" 
+                      color="info"
+                      onClick={handleClose}>
+                        EDITAR
+                      </Button>
+                    </Stack>
+                  </div>
+                  <hr/>
+                </div>
               </Container>
-            :null
-            })
+            ))
         }
       </Modal.Body>
     </Modal>
-  )
+    )
+  }
+  
 };
 
 export default ModalComentarios;
