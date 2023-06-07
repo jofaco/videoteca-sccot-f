@@ -74,9 +74,33 @@ function VideosListUser({videos, categories, ...props}) {
   useEffect(() => {
 
     if(prefUsers && categories) {
+      let array = [];
       let array1 =[];
       let array2 = [];
-      let repetidos = [];
+
+      for (let i = 0; i < prefUsers.length; i++) {
+        array1.push(prefUsers[i].categoria);        
+      } 
+      for (let i = 0; i < categories.length; i++) {
+        array2.push(categories[i]);        
+      }    
+      
+      for (var i = 0; i < array2.length; i++) {
+          var igual=false;
+           for (var j = 0; j < array1.length & !igual; j++) {
+               if(array2[i].categoria === array1[j] )
+                igual=true;
+              }
+          if(!igual)array.push(array2[i]);
+      }
+      console.log();
+      if (array) {
+        setCategoriasFalt(array);
+      }
+      else {
+        setCategoriasFalt(null);
+      }
+      /* let repetidos = [];
       let temporal = [];
 
       for (let i = 0; i < prefUsers.length; i++) {
@@ -98,7 +122,7 @@ function VideosListUser({videos, categories, ...props}) {
         });
         if (repetidos.length >0)  setCategoriasFalt(null);
         else setCategoriasFalt(array2)
-      }
+      } */
     }
   },[categories, prefUsers])
 
@@ -129,7 +153,7 @@ function VideosListUser({videos, categories, ...props}) {
     }
     history(`/seeVideo/${id}`,{state:histUser});
   }
-  
+  console.log(categoriasFalt);
   const classes = useStyles();
   return (
     <div>

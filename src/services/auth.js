@@ -20,6 +20,7 @@ export const Login = async (credentials) => {
 export const getUser = async (userID) => {
   const response = await axiosInstance.get(`${API_URL}users/${userID}`);
   if (response.status === 200) {
+    console.log(response)
     return await response.data;
   }
 };

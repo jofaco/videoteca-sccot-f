@@ -43,7 +43,7 @@ const IframeVideo =  ({video, ...props}) => {
    * Función para obtener el historial de usuario para el video en reproducción
    */
   const getHistUser= async ()=> {
-   const res = await HistorialUserServer.getHistorial(location.state.id);
+   const res = await HistorialUserServer.getHistorial(location.state.id);   
    setHistUser(res);
   };
 

@@ -1,6 +1,8 @@
-import React, {useEffect,useState} from "react";
+import React, {useEffect, useState}from "react";
 //dependencias
 //import * as commentaryServer from "../../services/commentary";
+import { useModal } from "../../hooks/useModal";
+import ModalComentario from "./comentarioModal";
 
 //components
 import { makeStyles } from "@material-ui/core/styles";
@@ -37,8 +39,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ModalComentarios = ({ handleClose, show, histUser, commentaries,  ...props}) => {
-  
+  const [showEdit, handleShowEdit, handleCloseEdit] = useModal(false);
   const classes = useStyles();
+  
   if (commentaries) {
     return (
     <Modal 
@@ -64,15 +67,23 @@ const ModalComentarios = ({ handleClose, show, histUser, commentaries,  ...props
                     <h5 >{element.commentary}</h5>
                   </div>
                   <div className="col-2">
+                  { element.historial_user.usuario.id === histUser.usuario.id ?
                     <Stack  alignItems="center" alignContent="center">
                       <Button 
                       variant="contained" 
                       color="info"
-                      onClick={handleClose}>
-                        EDITAR
+                      onClick={handleShowEdit}>
+                        EDITAR 
                       </Button>
+                      <ModalComentario
+                        handleClose={handleCloseEdit}
+                        show={showEdit}
+                        commentary_id = {element.id}
+                      ></ModalComentario>
                     </Stack>
-                  </div>
+                    : null
+                    }
+                  </div>                  
                   <hr/>
                 </div>
               </Container>

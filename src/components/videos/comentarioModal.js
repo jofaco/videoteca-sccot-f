@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //dependencias
 import * as commentaryServer from "../../services/commentary";
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const ModalComentario = ({histUser, handleClose, show, ...props}) => {
+const ModalComentario = ({histUser, handleClose, show, commentary_id, ...props}) => {
   const initialFormData = {commentary:"", historial_user:histUser, video:props.videoID};
   const [commentary, setCommentary] = useState(initialFormData);
 
@@ -51,16 +51,41 @@ const ModalComentario = ({histUser, handleClose, show, ...props}) => {
     const formData = new FormData();
 
     try {
-      formData.append("commentary", commentary.commentary);
-      formData.append("historial_user", commentary.historial_user.id);
-      formData.append("video", commentary.video);
-      await commentaryServer.RegisterCommentary(formData);
+      if (!commentary_id) {
+        formData.append("commentary", commentary.commentary);
+        formData.append("historial_user", commentary.historial_user.id);
+        formData.append("video", commentary.video);
+        await commentaryServer.RegisterCommentary(formData);
+      } else {
+        formData.append("commentary", commentary.commentary);
+        await commentaryServer.updateCommentary(commentary_id, formData);        
+      }
+      
     } catch (error) {
       for (const property in error.response.data) {
         alert(`${property}: ${error.response.data[property]}`);
       }      
     }
   }
+
+  
+
+  useEffect(() => {
+    const getCommentary = async (commentary_id) => {
+      try {
+        const res = await commentaryServer.getCommentary(commentary_id)
+        setCommentary({...commentary, commentary: res.commentary})
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (commentary_id) {
+      getCommentary(commentary_id)      
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commentary_id])
+  
   const classes = useStyles();
   return (
     <Modal 

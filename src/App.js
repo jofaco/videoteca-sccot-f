@@ -12,6 +12,7 @@ import Principal from "./paginas/Principal";
 import Peliculas from "./paginas/Peliculas";
 import Series from "./paginas/Series";
 import Casos from "./paginas/Casos";
+import Categorias from "./paginas/Categorias";
 import VideoDetail from "./components/videos/videoDetail";
 import VideoForm from "./components/videos/videoForm";
 

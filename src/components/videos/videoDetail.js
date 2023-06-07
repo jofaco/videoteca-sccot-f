@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
 //dependencias
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
  * @returns Componente que muestra el detalle de un video junto con el iframe
  */
 const VideoDetail = () => {
+  const history = useNavigate();
   const [show, handleShow, handleClose] = useModal(false);
   const [show2, handleShow2, handleClose2] = useModal(false);
 
@@ -83,7 +84,6 @@ const VideoDetail = () => {
 
       setUploadDate(new Date(res.upload_date).toDateString());
       setDuracion(changeDuration(res.duration));
-      setActiveStar(histUser.user_score-1);
       setVideo({
         ...video,
         duration: duracion,        
@@ -92,7 +92,16 @@ const VideoDetail = () => {
     };
     getVideo(id);
 
-  }, [duracion, histUser.user_score, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
+  }, [duracion, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
+  
+   useEffect(() => {      
+    if (histUser) {
+      setActiveStar(histUser.user_score-1);
+    } else {
+      history("/login");      
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) 
   
   useEffect(() => {
     const getCommentaries = async (videoId) => {
@@ -128,7 +137,9 @@ const VideoDetail = () => {
   };
   
   const classes = useStyles();
-  return (
+
+  if (histUser) {
+    return (
     <Container>
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
@@ -230,7 +241,12 @@ const VideoDetail = () => {
         videoID= {id}
       ></ModalComentarios>
     </Container>
+    );
+  }
+  return (
+    <p style={{ fontSize: "25px" }}>Inicia sesión para ver todos los videos!</p>
   );
+  
 };
 
 export default VideoDetail;

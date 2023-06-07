@@ -75,9 +75,33 @@ function VideosListUser2({videos, categories, ...props}) {
   useEffect(() => {
 
     if(prefUsers && categories) {
+      let array = [];
       let array1 =[];
       let array2 = [];
-      let repetidos = [];
+
+      for (let i = 0; i < prefUsers.length; i++) {
+        array1.push(prefUsers[i].categoria);        
+      } 
+      for (let i = 0; i < categories.length; i++) {
+        array2.push(categories[i]);        
+      }    
+      
+      for (var i = 0; i < array2.length; i++) {
+          var igual=false;
+           for (var j = 0; j < array1.length & !igual; j++) {
+               if(array2[i].categoria === array1[j] )
+                igual=true;
+              }
+          if(!igual)array.push(array2[i]);
+      }
+      console.log();
+      if (array) {
+        setCategoriasFalt(array);
+      }
+      else {
+        setCategoriasFalt(null);
+      }
+      /* let repetidos = [];
       let temporal = [];
 
       for (let i = 0; i < prefUsers.length; i++) {
@@ -91,13 +115,15 @@ function VideosListUser2({videos, categories, ...props}) {
           return value.categoria !== element 
         });
       });
-      array2.forEach((value,index)=>{
+      if (array2) {
+        array2.forEach((value,index)=>{
         temporal = Object.assign([],array2); //Copiado de elemento
         if(temporal.indexOf(value)!==-1 && repetidos.indexOf(value)===-1) repetidos.push(value);
-        temporal.splice(index,1); //Se elimina el elemnto q se compara
-      });
-      if (repetidos.length >0)  setCategoriasFalt(null);
-      else setCategoriasFalt(array2)
+        temporal.splice(index,1); //Se elimina el elemnto que se compara
+        });
+        if (repetidos.length >0)  setCategoriasFalt(null);
+        else setCategoriasFalt(array2)
+      } */
       
     }
   },[categories, prefUsers])

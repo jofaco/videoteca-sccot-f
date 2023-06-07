@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
     Authorization: localStorage.getItem("access_token")
       ? "JWT " + localStorage.getItem("access_token")
       : null,
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",//tocó cambiarlo antes estaba "Content-Type": "application/json"
     accept: "application/json",
   },
 });
@@ -100,7 +100,10 @@ axiosInstance.interceptors.response.use(
           //alert("Prueba2");
       }
     }
-
+    if (error.response.status === 401)
+    {
+      window.location.href = "/login/";
+    }
     // specific error handling done elsewhere
     return Promise.reject(error);
   }

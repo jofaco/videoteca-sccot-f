@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 //dependencias
 import Context from "../context/UserContext";
@@ -26,6 +27,8 @@ import "../../styles/modalsProfile.css";
  * @returns Componentes necesario para la vista del perfil
  */
 const UserProfile = () => {
+  const history = useNavigate();
+
   const { user } = useContext(Context);
   const [dataUser, setDataUser] = useState(null);
   const [prefUsers, setPrefUsers] = useState(null);
@@ -101,15 +104,21 @@ const UserProfile = () => {
    * Hook para ejectutar las funciones GetUser, getPreferenciasUser y getCategorias
    */
   useEffect(() => {
-    GetUser(user.id);
-    getPreferenciasUser();
-    getCategorias();
+    if (user) {
+      GetUser(user.id);
+      getPreferenciasUser();
+      getCategorias();
+    } else {
+    history("/login");
+      
+    }
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  }, []);
 
   const classes = useStyles();
-
-  return (
+  if (user) {
+    return (
     <Container>
       {dataUser && dataUser.image ? (
         <div className="row">
@@ -170,6 +179,10 @@ const UserProfile = () => {
         user={dataUser}
       ></ModalImagen>
     </Container>
+    );
+  }
+  return (
+    <p style={{ fontSize: "25px" }}>Inicia sesión para ver todos los videos!</p>
   );
 };
 
