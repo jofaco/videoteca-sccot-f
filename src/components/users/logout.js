@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import axiosInstance from "../../axios";
 import { useNavigate } from "react-router-dom";
 
+/**
+   * Función para realizar el logout.
+   * ¡NO SE USA ACTUALMENTE!, SE ACTUALIZÓ POR EL HOOK useUser
+   */
 export default function SignUp() {
   const history = useNavigate();
 

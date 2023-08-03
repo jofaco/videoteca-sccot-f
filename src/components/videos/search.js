@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import "../../index.css";
 
+/**
+ * Componente con el buscador y el filtro por categoria
+ * @param {*} props 
+ * @returns Componente con el buscador y el filtro por categoria
+ */
 const SearchComponent = (props) => {
 
   const [categories, setCategories] = useState([]);
@@ -29,9 +34,9 @@ const SearchComponent = (props) => {
             <select
               onChange={(e) => props.setFilterParam(e.target.value)}
               className="custom-select"
-              aria-label="Filter Videos By Categoria"
+              aria-label="Filter Videos By Category"
             >
-              <option value="All">Filter By Categoria ▼</option>
+              <option value="All">Filter By Category ▼</option>
               { categories.map((categ, index) => (
                 <option key={index} value={categ.categoria}>
                   {categ.categoria}

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./navbar/navbar";
 import { NavLink } from "react-router-dom";
 import Switch from "../Switch"
+import {  useContext } from "react";
+
 //dependencies
+import Context from "./context/UserContext";
+import useUser from '../hooks/useUser'
 import Sidebar from "./navbar/sidebarUser";
 import { ListCategorias } from "../services/category";
 //componentes
@@ -27,15 +31,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Componente Header
+ * @returns Componentes de header, si está logeado se envia sidebar
+ */
 const Header = () => {
   const classes = useStyles();
-  //let history = useNavigate();
+  const { isLogged } = useUser()
+
   const [open] = useState(false);
   const [categories, setCategories] = useState("");
+  const { user } = useContext(Context)
 
-  const userData = localStorage.getItem("user");
-  const user = JSON.parse(userData);
-
+  /**
+   * Función para enviar la consulta de categorias al backend
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -44,12 +54,18 @@ const Header = () => {
       console.log("Error");
     }
   };
-
+  
+  /**
+   * hook para ejecutar la función listCategorias solo si está logeado.
+   */
   useEffect(() => {
-    listCategorias();
-  }, []);
+    if (isLogged) {
+      listCategorias();
+      
+    }
+  }, [isLogged]);
 
-  if (user && categories) {
+  if (isLogged && categories) {
     return <Sidebar user={user} categories={categories} />;
   } else {
     return (

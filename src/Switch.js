@@ -51,11 +51,14 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-
+/**
+ * 
+ * @returns Componente boton para realizar el cambio de tema en la aplicación (noche-dia)
+ */
 export default function CustomizedSwitches() {
-    const [theme, setTheme] = React.useState('light');
+    const [theme, setTheme] = React.useState('dark');
 
-    const handleChange = (e) => setTheme(e.target.checked ? 'dark' : 'light')
+    const handleChange = (e) => setTheme(e.target.checked ? 'light' : 'dark')
 
     React.useEffect(() => {
         document.getElementById('carousel')
@@ -67,7 +70,7 @@ export default function CustomizedSwitches() {
         <FormControlLabel
             control={<MaterialUISwitch sx={{ m: 1 }}  />}
             label="Tema"
-            onChange={handleChange} checked={theme === 'dark'}
+            onChange={handleChange} checked={theme === 'light'}
         />
         </>
     );

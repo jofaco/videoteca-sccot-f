@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 //import Select from "react-select";
-import * as VideoServer from "./videoServer";
+import * as VideoServer from "../../services/videoServer";
 import * as CategoriaServer from "../../services/category";
 //components
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+/**
+ * Función para realizar las operaciones necesarias para crear o editar un video. 
+ * @returns Componente con el formulario para Agregar nuevo video o editar un video.
+ */
 const VideoForm = () => {
   const history = useNavigate();
   const params = useParams();
@@ -31,10 +35,15 @@ const VideoForm = () => {
     categorias: [1],
   };
 
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile2, setSelectedFile2] = useState(null);
   const [video, setVideo] = useState(initialState);
   const [categorias, setCategorias] = useState();
 
+  /**
+   * Actualiza el estado del idioma seleccionado en el formulario.
+   * @param {*} e 
+   */
   const handleSelectIdioma = (e) => {
     let target = e.target;
     let name = target.name;
@@ -42,6 +51,10 @@ const VideoForm = () => {
     let value = Array.from(target.selectedOptions, (option) => option.value);
     setVideo({ ...video, [name]: value });
   };
+  /**
+   * Actualiza el estado de la categoria seleccionada en el formulario.
+   * @param {*} e 
+   */
   const handleSelectCategory = (e) => {
     let target = e.target;
     let name = target.name;
@@ -49,19 +62,43 @@ const VideoForm = () => {
     let value = Array.from(target.selectedOptions, (option) => option.value);
     setVideo({ ...video, [name]: value });
   };
+  /**
+   * Actualiza el estado de demás campos seleccionados en el formulario.
+   * @param {*} e 
+   */
   const handleInputChange = (e) => {
     let target = e.target;
     let name = target.name;
     if (name === "image") {
       setSelectedFile(e.target.files[0]);
-    } else {
+    }
+    else if (name === "min_image"){
+      setSelectedFile2(e.target.files[0]);
+    }
+    else {
       setVideo({ ...video, [name]: e.target.value });
     }
   };
+  /**
+   * Guarda la información llenada en el formulario y la envia al backend para su registro o actualización.
+   * Al finalizar si el proceso es exitoso redirecciona al index.
+   * @param {*} e 
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var featured_image = selectedFile;
+    let featured_image;
+    let min_image;
     const formData = new FormData();
+
+    if (selectedFile) {
+      featured_image = selectedFile;
+      formData.append("featured_image", featured_image);
+
+    }
+    if (selectedFile2) {
+      min_image = selectedFile2;
+      formData.append("min_image", min_image);
+    }
 
     try {
       //let res;
@@ -73,8 +110,8 @@ const VideoForm = () => {
       formData.append("title_cap_english", video.title_cap_english);
       formData.append("description_esp", video.description_esp);
       formData.append("description_english", video.description_english);
-      formData.append("featured_image", featured_image);
       formData.append("tipe_of_video", video.tipe_of_video);
+
       for (let i = 0; i <= video.languages.length - 1; i++) {
         formData.append("languages", video.languages[i]);
       }
@@ -84,18 +121,22 @@ const VideoForm = () => {
       let res;
       if (!params.id) {
         res = await VideoServer.RegisterVideo(formData);
-        console.log(res);
       } else {
-        res = await VideoServer.UpdateVideo(params.id, formData);
-        console.log(res);
+        res = await VideoServer.UpdateVideo(params.id, formData);        
       }
-
+      alert(res.message);
       history("/");
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      for (const property in error.response.data) {
+        alert(`${property}: ${error.response.data[property]}`);
+      }      
     }
   };
+  /**
+   * Función para obtener el video con sus campos a editar.
+   * @param {*} videoID 
+   */
   const getVideo = async (videoID) => {
     try {
       const res = await VideoServer.getVideoDT(videoID);
@@ -131,6 +172,9 @@ const VideoForm = () => {
       console.log(error);
     }
   };
+  /**
+   * función para obtener todas las categorias en la base de datos.
+   */
   const getCategorias = async () => {
     try {
       const res = await CategoriaServer.ListCategorias();
@@ -167,8 +211,10 @@ const VideoForm = () => {
               label="tipe_of_video"
               onChange={handleInputChange}
             >
-              <MenuItem value={1}>Pelicula</MenuItem>
+              <MenuItem value={1}>Video</MenuItem>
               <MenuItem value={2}>Serie</MenuItem>
+              <MenuItem value={3}>Casos</MenuItem>
+
             </Select>
           </div>
           <div className="mb-3">
@@ -341,16 +387,22 @@ const VideoForm = () => {
               name="image"
               onChange={handleInputChange}
               type="file"
-              placeholder="Imagen para banner"
-              required
+              placeholder="Imagen para banner"              
             />
           </div>
-          {/*<div className="mb-3">
-          <label className="form-label" htmlFor="minImage">
-            Imagen para email
-          </label>
-          <input className="form-control" id="minImage" name="min_image" value={video.min_image} onChange={handleInputChange} type="file" placeholder="Imagen para email" required/>
-        </div> */}
+          <div className="mb-3">
+            <label className="form-label" htmlFor="minImage">
+              Imagen para email
+            </label>
+            <input
+              className="form-control"
+              id="min_image"
+              name="min_image"
+              onChange={handleInputChange}
+              type="file"
+              placeholder="Imagen para Email"                
+              />
+          </div>
 
           <div className="d-grid">
             {params.id ? (

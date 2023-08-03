@@ -1,37 +1,37 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import * as VideoServer from "./videoServer";
+import {  useContext } from "react";
 
 //Components
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
+
 //dependencies
 import VideosListAd from "../admin/videosListAdmin";
-import VideosListUser from "./videoListUser";
+import { ErrorBoundary } from "./errorsBoundary";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
+import Context from "../context/UserContext";
+import VideosListUser from "./videoListUser";
 
-const VideosList = () => {
+
+/**
+ * Función para mostrar los videos en la pantalla principal 
+ * @param {object} videos
+ * @returns Componente del buscador y componente lista (Dependendiendo si el usuario es admin o no, se retorna un componente distinto)
+ */
+const VideosList = ({videos}) => {
   const [query, setQuery] = useState("");
-  const [videos, setVideos] = useState([]);
-  const [categories, setCategories] = useState("");
+  const [categories, setCategories] = useState([]);
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
+  const { user } = useContext(Context)
 
-  const [filterParam, setFilterParam] = useState(["All"]);
+  const [filterParam, setFilterParam] = useState("All");
 
-  const data = localStorage.getItem("user");
-  const user = JSON.parse(data);
-
-  const listVideos = async () => {
-    try {
-      const res = await VideoServer.ListVideos();
-      setVideos(res.videos);
-    } catch (error) {
-      console.log("Error");
-    }
-  };
-
+  /**
+   * Función para traer la lista de categorias 
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -42,11 +42,15 @@ const VideosList = () => {
   };
   
   useEffect(() => {
-    listVideos();
     listCategorias();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
-  
+  /**
+   * Función para realizar la busqueda mediante el componente search
+   * @param {*} videos 
+   * @returns Parametros de la busqueda
+   */
   const search = (videos) => {
     return videos.filter((item) => {
       return searchParam.some((parameter) => {
@@ -60,7 +64,13 @@ const VideosList = () => {
       });
     });
   };
-  const contenedorCarousel = document.getElementById('carousel_videos');
+  
+  const contenedorCarousel = document.getElementById('carousel');
+  /**
+   * Función para realizar el filtro por categoria
+   * @param {*} categories 
+   * @returns Resultado del filtro
+   */
   const search2 = (categories) => {
     return categories.filter((item) => {
       if (item.categoria === filterParam) {
@@ -76,8 +86,8 @@ const VideosList = () => {
             );
         });
       }
-      // eslint-disable-next-line eqeqeq
-      else if (filterParam == "All") {
+      
+      else if (filterParam === "All") {
         contenedorCarousel.style.visibility = 'visible'
         contenedorCarousel.style.height = '100%';
         return videos.filter((item) => {
@@ -124,12 +134,14 @@ const VideosList = () => {
           setFilterParam ={setFilterParam}
           categories={categories}
         ></SearchComponent>
-        <VideosListUser
-          videos={videos}
-          categories={categories}
-          search={search}
-          search2={search2}
-        ></VideosListUser>
+        <ErrorBoundary>
+          <VideosListUser
+              videos={videos}
+              categories={categories}
+              search={search}
+              search2={search2}
+            />
+        </ErrorBoundary>
       </div>
     );
   }

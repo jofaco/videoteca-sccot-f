@@ -12,6 +12,11 @@ import {
 } from "@material-ui/core";
 import ListItemButton from "@mui/material/ListItemButton";
 
+/**
+ * Componente con los botones para el sidebar 
+ * @param {*} props 
+ * @returns Botones para el sidebar dependiendo si es admin o no
+ */
 const DrawerS = (props) => {
 
     if (props.user.is_superuser) {
@@ -44,7 +49,7 @@ const DrawerS = (props) => {
                     </ListItem>
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
-                    to="/Peliculas">
+                    to="/Videos">
                         <ListItemText primary="Peliculas" />
                       </ListItemButton>
                     </ListItem> 
@@ -52,6 +57,12 @@ const DrawerS = (props) => {
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
                     to="/Series">
                         <ListItemText primary="Series" />
+                      </ListItemButton>
+                    </ListItem> 
+                    <ListItem  >
+                      <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
+                    to="/Casos">
+                        <ListItemText primary="Casos" />
                       </ListItemButton>
                     </ListItem> 
                     <ListItem  >
@@ -68,9 +79,6 @@ const DrawerS = (props) => {
     } else {
         return (
             <Box onClick={props.handleDrawerToggle} sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" sx={{ my: 2 }}>
-                SCCOT
-              </Typography>
               <Divider />
               <Box
                 display="flex"
@@ -95,14 +103,20 @@ const DrawerS = (props) => {
                     </ListItem>
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
-                    to="/Peliculas">
-                        <ListItemText primary="Peliculas" />
+                    to="/Videos">
+                        <ListItemText primary="Videos" />
                       </ListItemButton>
                     </ListItem> 
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
                     to="/Series">
                         <ListItemText primary="Series" />
+                      </ListItemButton>
+                    </ListItem> 
+                    <ListItem  >
+                      <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
+                    to="/Casos">
+                        <ListItemText primary="Casos" />
                       </ListItemButton>
                     </ListItem> 
                   </List>

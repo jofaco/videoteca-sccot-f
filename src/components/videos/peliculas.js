@@ -1,36 +1,33 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import * as VideoServer from "./videoServer";
+import {  useContext } from "react";
+
 //Components
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "../../index.css";
 //dependencies
-import VideosListAd from "../admin/videosListAdmin";
-import VideosListUser from "./videoListUser";
 import { ListCategorias } from "../../services/category";
 import SearchComponent from "./search";
+import Context from "../context/UserContext";
+import { ErrorBoundary } from "./errorsBoundary";
+import VideosListUser2 from './videoListUser2'
 
-const PeliculasList = () => {
+/**
+ * Función para mostrar los videos con tipo Pelicula en la pestaña Peliculas
+ * @param {object} peliculas
+ * @returns Componente del buscador y componente lista (Dependendiendo si el usuario es admin o no, se retorna un componente distinto)
+ */
+const PeliculasList = ({peliculas, ...props}) => {
   const [query, setQuery] = useState("");
-  const [peliculas, setPeliculas] = useState([]);
   const [categories, setCategories] = useState("");
   const [searchParam] = useState(["title_espanol"]);
   const [searchParam2] = useState(["categoria"]);
+  const { user } = useContext(Context)
+  const [filterParam, setFilterParam] = useState("All");
 
-  const [filterParam, setFilterParam] = useState(["All"]);
-
-  const data = localStorage.getItem("user");
-  const user = JSON.parse(data);
-
-  const listPeliculas = async () => {
-    try {
-      const res = await VideoServer.ListPeliculas();
-      setPeliculas(res.videos);
-    } catch (error) {
-      console.log("Error");
-    }
-  };
-  
+  /**
+   * Función para traer la lista de categorias 
+   */
   const listCategorias = async () => {
     try {
       const res = await ListCategorias();
@@ -41,10 +38,14 @@ const PeliculasList = () => {
   };
 
   useEffect(() => {
-    listPeliculas();
     listCategorias();
   }, []);
-  
+
+  /**
+   * Función para realizar la busqueda mediante el componente search
+   * @param {*} peliculas 
+   * @returns Parametros de la busqueda
+   */
   const search = (peliculas) => {
     return peliculas.filter((item) => {
       return searchParam.some((parameter) => {
@@ -57,7 +58,12 @@ const PeliculasList = () => {
       });
     });
   };
-  const contenedorCarousel = document.getElementById("carousel_videos");
+  const contenedorCarousel = document.getElementById("carousel");
+  /**
+   * Función para realizar el filtro por categoria
+   * @param {*} categories 
+   * @returns Resultado del filtro
+   */
   const search2 = (categories) => {
     return categories.filter((item) => {
       if (item.categoria === filterParam) {
@@ -73,8 +79,8 @@ const PeliculasList = () => {
           );
         });
       }
-      // eslint-disable-next-line eqeqeq
-      else if (filterParam == "All") {
+      
+      else if (filterParam === "All") {
         contenedorCarousel.style.visibility = "visible";
         contenedorCarousel.style.height = "100%";
         return peliculas.filter((item) => {
@@ -91,7 +97,7 @@ const PeliculasList = () => {
     });
   };
 
-  if (user && peliculas) {
+  if (user) {
     if (user.is_superuser) {
       return (
         <div >
@@ -102,12 +108,14 @@ const PeliculasList = () => {
             setFilterParam={setFilterParam}
             categories={categories}
           ></SearchComponent>
-          <VideosListAd
-            videos={peliculas}
-            categories={categories}
-            search={search}
-            search2={search2}
-          ></VideosListAd>
+          <ErrorBoundary>
+            <VideosListUser2
+              videos={peliculas}
+              categories={categories}
+              search={search}
+              search2={search2}
+            />
+          </ErrorBoundary>
         </div>
       );
     }
@@ -120,12 +128,14 @@ const PeliculasList = () => {
           setFilterParam={setFilterParam}
           categories={categories}
         ></SearchComponent>
-        <VideosListUser
-          videos={peliculas}
-          categories={categories}
-          search={search}
-          search2={search2}
-        ></VideosListUser>
+        <ErrorBoundary>
+          <VideosListUser2
+            videos={peliculas}
+            categories={categories}
+            search={search}
+            search2={search2}
+          />
+        </ErrorBoundary>
       </div>
     );
   }

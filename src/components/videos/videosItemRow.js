@@ -1,11 +1,10 @@
 import React from "react";
 //components
-import { useNavigate } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import "../../styles.css";
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,15 +17,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VideosItemRow = ({ video }) => {
-  const history = useNavigate();
-  const classes = useStyles();
+/**
+ * Componente para agregar un elemento a un row
+ * @param {*} video
+ * @returns Elemento con la información del video
+ */
+const VideosItemRow = ({ video,...props }) => {
+  const classes = useStyles();  
+  
   
   return (
-    <div className="col-md-4  col-12 mb-4">
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
       <h3 className={classes.paper}>{video.title_espanol}</h3>
       <div className="card card-body">
-        <Button onClick={() => history(`/seeVideo/${video.id}`)}>
+        <Button onClick={() =>props.verVideo(video.id)}>
           <Image
             src={"http://localhost:8000" + video.featured_image}
             className="img-fluid"

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 //dependencies
-import NavbarAd from "../admin/navbarAd";
+import NavbarAd from "./navbarAd";
 import Navbar from "../navbar/navbar";
 import DrawerS from "./drawer";
 import Switch from "../../Switch";
@@ -48,7 +48,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const drawerWidth = 350;
-
+/**
+ * Componente para nabvar y sidebar 
+ * @param {*} props 
+ * @returns Componente para nabvar y sidebar 
+ */
 const Sidebar = (props) => {
   const classes = useStyles();
   const { window } = props;

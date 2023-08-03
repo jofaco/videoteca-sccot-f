@@ -4,18 +4,24 @@ import {Buffer} from 'buffer';
 
 const API_URL = "http://127.0.0.1:8000/";
 
+/**
+ * Función para realizar las peticiones al backend enviando headers con el token 
+ */
 const axiosInstance = axios.create({
   baseURL: API_URL,
   timeout: 5000,
-  headers: {
+  headers: {  
     Authorization: localStorage.getItem("access_token")
       ? "JWT " + localStorage.getItem("access_token")
       : null,
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",//tocó cambiarlo antes estaba "Content-Type": "application/json"
     accept: "application/json",
   },
 });
 
+/**
+ * Función que valida si existe y es valido un access_token para manejo de sesión
+ */
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
@@ -46,7 +52,6 @@ axiosInstance.interceptors.response.use(
       error.response.statusText === "Unauthorized"
     ) {
       const refreshToken = localStorage.getItem("refresh_token");
-      console.log(refreshToken);
       if (refreshToken) {
         //const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
         const tokenParts = JSON.parse(
@@ -83,16 +88,22 @@ axiosInstance.interceptors.response.use(
             });
         } else {
           console.log("Refresh token is expired", tokenParts.exp, now);
+          window.localStorage.removeItem("access_token")
+          window.localStorage.removeItem("refresh_token")
+          window.localStorage.removeItem("user")
           window.location.href = "/login/";
           //alert("Prueba");
         }
       } else {
         console.log("Refresh token not available.");
-        window.location.href = "/login/";
-        //alert("Prueba2");
+          window.location.href = "/login/";
+          //alert("Prueba2");
       }
     }
-
+    if (error.response.status === 401)
+    {
+      window.location.href = "/login/";
+    }
     // specific error handling done elsewhere
     return Promise.reject(error);
   }

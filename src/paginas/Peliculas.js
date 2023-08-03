@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 //dependencies
-import PeliculasList from "./components/videos/peliculas";
-import VideoLoadingComponent from "./components/videos/videoLoading";
-import axiosInstance from "./axios";
+import * as VideoServer from "../services/videoServer";
+import PeliculasList from "../components/videos/peliculas";
+import VideoLoadingComponent from "../components/videos/videoLoading";
 //components
 import { Container } from "@material-ui/core";
 
+/**
+ * Carga todos los videos que sean 'Peliculas' para el modulo Videos de la aplicación
+ */
 function AppPeliculas() {
   const VideoLoading = VideoLoadingComponent(PeliculasList);
 
@@ -16,8 +19,8 @@ function AppPeliculas() {
   });
 
   useEffect(() => {
-    axiosInstance.get().then((res) => {
-      const allVideos = res.data;
+    VideoServer.ListPeliculas().then((res) => {
+      const allVideos = res.videos;
       setAppState({ loading: false, videos: allVideos });
     });
   }, [setAppState]);
@@ -25,7 +28,7 @@ function AppPeliculas() {
   return (
     <Container>
       <div className="App">
-        <VideoLoading isLoading={appState.loading} videos={appState.videos} />
+        <VideoLoading isLoading={appState.loading} peliculas={appState.videos} />
       </div>
     </Container>
   );
