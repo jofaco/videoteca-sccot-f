@@ -84,6 +84,7 @@ export const UpdateVideo = async (videoID, updateVideo) => {
     API_URL + videoID + "/",
     updateVideo
   );
+  console.log(response);
   if (response.status === 200) {
     return await response.data;
   }

@@ -67,6 +67,12 @@ const DrawerS = (props) => {
                     </ListItem> 
                     <ListItem  >
                       <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
+                    to="/Ajustes">
+                        <ListItemText primary="Ajustes" />
+                      </ListItemButton>
+                    </ListItem> 
+                    <ListItem  >
+                      <ListItemButton sx={{ textAlign: 'center' }} component={NavLink}
                     to="/VideoForm">
                         <ListItemText primary="Agregar video" />
                       </ListItemButton>

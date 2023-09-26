@@ -161,7 +161,7 @@ function VideosListUser2({videos, categories, ...props}) {
     return (
       <div>
         <div id="carousel_videos">
-          <h2>Latest videos</h2>
+          <h2>Ultimos videos</h2>
           <Carousel className={classes.root} id="carousel" fade >
             {videos &&
               props.search(videos).slice(0, 4).map((video) => (

@@ -27,6 +27,7 @@ iframe {
   background-color: rgb(44, 42, 42);
   color: azure;
   width: 100%;
+  overflow: hidden;
 }
 
 @media (max-width: 650px) {

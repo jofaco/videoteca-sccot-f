@@ -12,7 +12,14 @@ import Principal from "./paginas/Principal";
 import Peliculas from "./paginas/Peliculas";
 import Series from "./paginas/Series";
 import Casos from "./paginas/Casos";
-import Categorias from "./paginas/Categorias";
+import Categorias from "./components/admin/Categorias";
+import Especialidades from "./components/admin/Especialidades";
+import SubEspecialidades from "./components/admin/SubEspecialidades";
+import SeriesAdmin from "./components/admin/SeriesAdmin";
+import TemporadasAdmin from "./components/admin/TemporadasAdmin";
+
+import Ajustes from "./paginas/Ajustes";
+
 import VideoDetail from "./components/videos/videoDetail";
 import VideoForm from "./components/videos/videoForm";
 
@@ -40,6 +47,13 @@ function App() {
           <Route path="/updateVideo/:id" element={<VideoForm />} />
           <Route path="/seeVideo/:id" element={<VideoDetail />} />
           <Route path="/Perfil" element={<Profile />} />
+          <Route path="/Ajustes" element={<Ajustes />} />
+          <Route path="/Ajustes/Categorias" element={<Categorias />} />
+          <Route path="/Ajustes/Especialidades" element={<Especialidades />} />
+          <Route path="/Ajustes/SubEspecialidades" element={<SubEspecialidades />} />
+          <Route path="/Ajustes/Series" element={<SeriesAdmin />} />
+          <Route path="/Ajustes/Temporadas" element={<TemporadasAdmin />} />
+
           <Route path="/login" element={<SignIn />} />
           <Route path="/logout" element={<SignUp />} />
         </Routes>

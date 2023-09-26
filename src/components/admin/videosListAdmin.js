@@ -86,7 +86,7 @@ function VideosListAd({videos, categories, ...props}) {
   return (
     <>
       <div id="carousel_videos">
-        <h2 >Latest videos</h2>
+        <h2 >Ultimos videos</h2>
         <Carousel className={classes.root} id="carousel" fade >
           {videos &&
             props.search(videos).map((video) => (

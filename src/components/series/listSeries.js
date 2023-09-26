@@ -15,20 +15,20 @@ import Button from '@mui/material/Button';
 
 //dependencies
 import Context from "../context/UserContext";
-import * as categoryServer from "../../services/category";
-import CategoryModal from "./categoryModal";
+import * as serieServer from "../../services/serie";
+import SerieModal from "./serieModal";
 import { useModal } from "../../hooks/useModal";
 
 
 
-const CategoryList = ({ categories }) => {
+const EspecialidadList = ({series}) => {
   const history = useNavigate();
 
   const [show, handleShow, handleClose] = useModal(false);
   const [id, setId] = useState("");
   const [currentItem, setCurrentItem] = useState({});
-  const [listCategories, setCategories] = useState(categories);
-  const initialFormData = {categoria:""};
+  const [listSeries, setSeries] = useState(series);
+  const initialFormData = {serie:"", description:"", quantity:0};
   const [newData, setFormData] = useState(initialFormData);
   const { user } = useContext(Context);
 
@@ -50,24 +50,23 @@ const CategoryList = ({ categories }) => {
   const editar = async (item) => {
     setId(item.id);
     setCurrentItem(item);
-    setFormData({ categoria: item.categoria });
+    setFormData({ serie: item.serie, description:item.description, quantity:item.quantity});
     handleShow(true)
   };
 
   const registrar = async () => {
     setId(null);
     setCurrentItem({});
-    setFormData({categoria:""});
+    setFormData({serie:"", description:"", quantity:0});
     handleShow(true)
   };
-  
 
 
-  const getCategorias = async () => {
+  const getSeries = async () => {
     try {
-      const res = await categoryServer.ListCategorias();
+      const res = await serieServer.ListSeries();
       const data = await res;
-      setCategories(data);
+      setSeries(data);
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +74,7 @@ const CategoryList = ({ categories }) => {
 
   useEffect(() => {
     if (user) {
-      getCategorias();
+      getSeries();
       setId(null)
     } else {
     history("/login");
@@ -93,7 +92,7 @@ const CategoryList = ({ categories }) => {
         
         <div className={classes.paper}>
               <Typography component="h1" variant="h3">
-              CATEGORIAS
+              Series
               </Typography>
         </div>
         <Stack  alignItems="center">
@@ -102,7 +101,7 @@ const CategoryList = ({ categories }) => {
           color="success"
           type="submit"
           onClick={()=>registrar()}>
-            Registrar Categoria
+            Registrar Series
           </Button>
         </Stack>
         <br/><br/> <br/>     
@@ -119,26 +118,31 @@ const CategoryList = ({ categories }) => {
                 <tr>
                   <th style={{ display: "none" }}>Id</th>
                   <th>Codigo</th>
-                  <th>Categoria</th>
+                  <th>Serie</th>
+                  <th>Descripción</th>
+                  <th>Cantidad de videos</th>
+
                   <th></th>
                 </tr>
               </thead>
               <tbody style={{ backgroundColor: "white" }}>
-                {listCategories.length === 0 ? (
+                {listSeries.length === 0 ? (
                   <tr>
                     <td colSpan={11}>No hay datos</td>
                   </tr>
                 ) : (
-                  listCategories.map((Categoria, index) => (
+                  listSeries.map((Serie, index) => (
                     <tr key={index}>
-                      <td style={{ display: "none" }}>{Categoria.id}</td>
-                      <td>{Categoria.id}</td>
-                      <td>{Categoria.categoria}</td>
+                      <td style={{ display: "none" }}>{Serie.id}</td>
+                      <td>{Serie.id}</td>
+                      <td>{Serie.serie}</td>
+                      <td>{Serie.description}</td>
+                      <td>{Serie.quantity}</td>
                       <td>
                         <button
                           className="btn btn-warning btn-sm float-right"
                           type="submit"
-                          onClick={()=>editar(Categoria)}
+                          onClick={()=>editar(Serie)}
                         >
                           editar
                         </button>
@@ -151,15 +155,15 @@ const CategoryList = ({ categories }) => {
           </div>
         </section>
         </div>
-        <CategoryModal
+        <SerieModal
           handleClose={handleClose}
           show={show}
-          category_id ={id}
+          serie_id ={id}
           currentItem={currentItem}
-          setCategories = {setCategories}
+          setSeries = {setSeries}
           setFormData = {setFormData}
           newData={newData}
-        ></CategoryModal>
+        ></SerieModal>
       </Container>
     );
   }
@@ -168,4 +172,4 @@ const CategoryList = ({ categories }) => {
   );
 };
 
-export default CategoryList;
+export default EspecialidadList;

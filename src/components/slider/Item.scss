@@ -4,9 +4,16 @@
     margin: 0 0px;
     position: relative;
   
-    img {
-      height: 100%;
-      width: 100%;
-      vertical-align: top;
-    }
+    
   }
+  .imagen-container {
+    width: 350px; /* Ancho fijo deseado */
+    height: 180px; /* Altura fija deseada */
+    overflow: hidden; /* Recorta las imágenes que sean más grandes */
+  }
+  img {
+      max-width: 100%; /* Establece un ancho máximo del 100% */
+      width: 300px; /* Ancho fijo deseado */
+      min-height: 200px; /* Altura automática para mantener la proporción original */
+      object-fit: cover;
+    }

@@ -25,7 +25,7 @@ const SearchComponent = (props) => {
               name="search-form"
               id="search-form"
               className="search-input"
-              placeholder="      Search for..."
+              placeholder="      Buscar ..."
               value={props.query}
               onChange={(e) => props.setQuery(e.target.value)}
             />
@@ -36,7 +36,7 @@ const SearchComponent = (props) => {
               className="custom-select"
               aria-label="Filter Videos By Category"
             >
-              <option value="All">Filter By Category ▼</option>
+              <option value="All">Filtre por Categoria ▼</option>
               { categories.map((categ, index) => (
                 <option key={index} value={categ.categoria}>
                   {categ.categoria}

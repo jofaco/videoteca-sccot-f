@@ -3,10 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 //import Select from "react-select";
 import * as VideoServer from "../../services/videoServer";
 import * as CategoriaServer from "../../services/category";
-//components
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import * as EspecialidadServer from "../../services/especialidad";
+import * as SubEspecialidadServer from "../../services/subEspecialidad";
+import * as SerieServer from "../../services/serie";
+import * as TemporadaServer from "../../services/temporada";
 
+//components
+//import Select from "@mui/material/Select";
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 /**
  * Función para realizar las operaciones necesarias para crear o editar un video. 
  * @returns Componente con el formulario para Agregar nuevo video o editar un video.
@@ -15,10 +20,7 @@ const VideoForm = () => {
   const history = useNavigate();
   const params = useParams();
 
-  /* const options2 = [
-    { value: "1" , label: "Español"},
-    { value: "2" , label: "Ingles"}
-  ];*/
+  const animatedComponents = makeAnimated();
 
   const initialState = {
     id: 0,
@@ -33,12 +35,40 @@ const VideoForm = () => {
     tipe_of_video: 1,
     languages: [1],
     categorias: [1],
+    especialidades: [1],
+    subEspecialidades: [1],
+    serie: 0,
+    temporada: 0,
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFile2, setSelectedFile2] = useState(null);
   const [video, setVideo] = useState(initialState);
   const [categorias, setCategorias] = useState();
+  const [especialidades, setEspecialidades] = useState();
+  const [subEspecialidades, setSubEspecialidades] = useState();
+  const [series, setSeries] = useState();
+  const [temporadas, setTemporadas] = useState();
+  const [isSerieSelectEnabled, setIsSerieSelectEnabled] = useState(false);
+  const [isTempSelectEnabled, setIsTempSelectEnabled] = useState(false);
+
+  const optionesTipoVideo = [
+    { value: '1', label: 'Video' },
+    { value: '2', label: 'Serie' },
+    { value: '3', label: 'Casos' },
+  ];
+
+  const handleSelectTypeVideo = (selectedValue, fielName) => {
+    setVideo({ ...video, [fielName]: selectedValue.value });
+    
+    if (selectedValue.value == 2){
+      setIsSerieSelectEnabled(true);
+    }
+    else{
+      setIsSerieSelectEnabled(false)
+      setIsTempSelectEnabled(false)
+    }
+  };
 
   /**
    * Actualiza el estado del idioma seleccionado en el formulario.
@@ -55,13 +85,24 @@ const VideoForm = () => {
    * Actualiza el estado de la categoria seleccionada en el formulario.
    * @param {*} e 
    */
-  const handleSelectCategory = (e) => {
-    let target = e.target;
-    let name = target.name;
-    //here
-    let value = Array.from(target.selectedOptions, (option) => option.value);
-    setVideo({ ...video, [name]: value });
+  const handleSelectCategoryEspSub= (selectedValues, fielName) => {
+    let value = Array.from(selectedValues, (option) => option.value);
+    setVideo({ ...video, [fielName]: value });
   };
+
+  const handleSelectSerie = (selectedValue, fielName) => {    
+    setVideo({ ...video, [fielName]: selectedValue.value });
+    
+    if (selectedValue.value == 0){
+      setIsTempSelectEnabled(false);
+    }
+    else{
+      setIsTempSelectEnabled(true)
+    }
+  };
+  const handleSelectTem = (selectedValue, fielName) => {    
+    setVideo({ ...video, [fielName]: selectedValue.value });
+  }
   /**
    * Actualiza el estado de demás campos seleccionados en el formulario.
    * @param {*} e 
@@ -111,12 +152,20 @@ const VideoForm = () => {
       formData.append("description_esp", video.description_esp);
       formData.append("description_english", video.description_english);
       formData.append("tipe_of_video", video.tipe_of_video);
+      formData.append("temporada", video.temporada);
+
 
       for (let i = 0; i <= video.languages.length - 1; i++) {
         formData.append("languages", video.languages[i]);
       }
       for (let i = 0; i <= video.categorias.length - 1; i++) {
         formData.append("categorias", video.categorias[i]);
+      }
+      for (let i = 0; i <= video.especialidades.length - 1; i++) {
+        formData.append("especialidad", video.especialidades[i]);
+      }
+      for (let i = 0; i <= video.subEspecialidades.length - 1; i++) {
+        formData.append("subEspecialidad", video.subEspecialidades[i]);
       }
       let res;
       if (!params.id) {
@@ -153,6 +202,10 @@ const VideoForm = () => {
         tipe_of_video,
         languages,
         categorias,
+        especialidades,
+        subEspecialidades,
+        serie,
+        temporada,
       } = data;
 
       setVideo({
@@ -167,6 +220,8 @@ const VideoForm = () => {
         tipe_of_video,
         languages,
         categorias,
+        especialidades,
+        subEspecialidades
       });
     } catch (error) {
       console.log(error);
@@ -184,9 +239,49 @@ const VideoForm = () => {
       console.log(error);
     }
   };
+  const getEspecialidades = async () => {
+    try {
+      const res = await EspecialidadServer.ListEspecialidades()
+      const data = await res;
+      setEspecialidades(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getSubEspecialidades = async () => {
+    try {
+      const res = await SubEspecialidadServer.ListSubEspecialidades()
+      const data = await res;
+      setSubEspecialidades(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getSeries = async () => {
+    try {
+      const res = await SerieServer.ListSeries()
+      const data = await res;
+      setSeries(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getTemporadas = async () => {
+    try {
+      const res = await TemporadaServer.ListTemporadas()
+      const data = await res;
+      setTemporadas(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getCategorias();
+    getEspecialidades();
+    getSubEspecialidades();
+    getSeries();
+    getTemporadas();
     if (params.id) {
       getVideo(params.id);
     }
@@ -194,7 +289,32 @@ const VideoForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (categorias) {
+  if (series) {
+    var optionsSeries = series.map((opcion) => ({
+      value: opcion.id,
+      label: opcion.serie,
+    }));
+  }
+  if (temporadas) {
+    var optionsTemporadas = temporadas.map((opcion) => ({
+      value: opcion.id,
+      label: opcion.temporada,
+    }));
+  }
+
+  if (categorias && especialidades && subEspecialidades) {
+    const optionsCategorias = categorias.map((opcion) => ({
+      value: opcion.id,
+      label: opcion.categoria,
+    }));
+    const optionsEspecialidades = especialidades.map((opcion) => ({
+      value: opcion.id,
+      label: opcion.especialidad,
+    }));
+    const optionsSubEspecialidades = subEspecialidades.map((opcion) => ({
+      value: opcion.id,
+      label: opcion.subEspecialidad,
+    }));
     return (
       <div className="col-md-6 mx-auto">
         <form onSubmit={handleSubmit}>
@@ -204,19 +324,37 @@ const VideoForm = () => {
             </label>
             <Select
               className="form-select"
-              labelId="tipe_of_video"
-              id="tipe_of_video"
-              name="tipe_of_video"
-              value={video.tipe_of_video}
-              label="tipe_of_video"
-              onChange={handleInputChange}
-            >
-              <MenuItem value={1}>Video</MenuItem>
-              <MenuItem value={2}>Serie</MenuItem>
-              <MenuItem value={3}>Casos</MenuItem>
-
-            </Select>
+              defaultValue={optionesTipoVideo}
+              options={optionesTipoVideo}
+              onChange={(selectedValue) => handleSelectTypeVideo(selectedValue, 'tipe_of_video')}
+            />
           </div>
+          {isSerieSelectEnabled && (
+          <div className="mb-3">
+            <label className="form-label" htmlFor="tipeOfVideo">
+              Serie
+            </label>
+            <Select
+              className="form-select"
+              defaultValue={video.serie || 0}             
+              options={optionsSeries}
+              onChange={(selectedValue) => handleSelectSerie(selectedValue, 'serie')}
+              />
+          </div>
+          )}
+          {isTempSelectEnabled && (
+            <div className="mb-3">
+              <label className="form-label" htmlFor="otroCampo">
+                Temporada
+              </label>
+              <Select
+              className="form-select"
+              defaultValue={video.temporada || 0}             
+              options={optionsTemporadas}
+              onChange={(selectedValue) => handleSelectTem(selectedValue, 'temporada')}
+              />
+            </div>
+          )}
           <div className="mb-3">
             <label className="form-label" htmlFor="languages">
               Idiomas del video
@@ -241,21 +379,41 @@ const VideoForm = () => {
             </label>
             <Select
               className="form-select"
-              id="categorias"
-              name="categorias"
-              value={video.categorias || null}
-              onChange={handleSelectCategory}
-              aria-label="categorias"
-              multiple
-              native
-              required
-            >
-              {categorias.map((categ, index) => (
-                <option key={index} value={categ.id}>
-                  {categ.categoria}
-                </option>
-              ))}
-            </Select>
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              options={optionsCategorias}
+              isClearable
+              onChange={(selectedValues) => handleSelectCategoryEspSub(selectedValues, 'categorias')}
+              isMulti
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="Especialidades">
+              Especialidades del video
+            </label>
+            <Select
+              className="form-select"
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              options={optionsEspecialidades}
+              isClearable
+              onChange={(selectedValues) => handleSelectCategoryEspSub(selectedValues, 'especialidades')}
+              isMulti
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="SubEspecialidades">
+              SubEspecialidades del video
+            </label>
+            <Select
+              className="form-select"
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              options={optionsSubEspecialidades}
+              isClearable
+              onChange={(selectedValues) => handleSelectCategoryEspSub(selectedValues, 'subEspecialidades')}
+              isMulti
+            />
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="codeEsp">

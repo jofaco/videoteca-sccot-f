@@ -78,6 +78,14 @@ const NavbarAd = () => {
           sx={{ color: '#fff' }} 
           className={classes.link}
           component={NavLink}
+          to="/Ajustes"
+        >
+          Ajustes
+        </Button>
+        <Button
+          sx={{ color: '#fff' }} 
+          className={classes.link}
+          component={NavLink}
           to="/VideoForm"
         >
           Agregar video

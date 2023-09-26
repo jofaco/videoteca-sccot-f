@@ -25,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
     color: "white"
   },
   imagenCarousel:{
-    maxWidth:850,
-    maxHeight:480,
+    maxWidth:"100%",
+    maxHeight:"100%", 
+    objectFit:"cover",
 
   },
   "@media (min-width: 1200px)": {

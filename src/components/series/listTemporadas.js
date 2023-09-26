@@ -15,20 +15,23 @@ import Button from '@mui/material/Button';
 
 //dependencies
 import Context from "../context/UserContext";
-import * as categoryServer from "../../services/category";
-import CategoryModal from "./categoryModal";
+import * as TemporadaServer from "../../services/temporada";
+import TemporadaModal from "./temporadaModal";
+import * as serieServer from "../../services/serie";
+
 import { useModal } from "../../hooks/useModal";
 
 
 
-const CategoryList = ({ categories }) => {
+const SubEspecialidadList = ({temporadas}) => {
   const history = useNavigate();
+  const [listSeries, setSeries] = useState(null);
 
   const [show, handleShow, handleClose] = useModal(false);
   const [id, setId] = useState("");
-  const [currentItem, setCurrentItem] = useState({});
-  const [listCategories, setCategories] = useState(categories);
-  const initialFormData = {categoria:""};
+  const [currentItem, setCurrentItem] = useState(null);
+  const [listTemporadas, setTemporadas] = useState(temporadas);
+  const initialFormData = {temporada:"",temporada_letras:"", temporada_numero:0, description:"", serie:1};
   const [newData, setFormData] = useState(initialFormData);
   const { user } = useContext(Context);
 
@@ -50,32 +53,41 @@ const CategoryList = ({ categories }) => {
   const editar = async (item) => {
     setId(item.id);
     setCurrentItem(item);
-    setFormData({ categoria: item.categoria });
+    setFormData({ temporada:item.temporada,temporada_letras: item.temporada_letras, temporada_numero: item.temporada_numero, description: item.description, serie: item.serie });
     handleShow(true)
   };
 
   const registrar = async () => {
     setId(null);
     setCurrentItem({});
-    setFormData({categoria:""});
+    setFormData({temporada:"",temporada_letras:"", temporada_numero:0, description:"", serie:1});
     handleShow(true)
   };
-  
 
 
-  const getCategorias = async () => {
+  const getTemporadas = async () => {
     try {
-      const res = await categoryServer.ListCategorias();
+      const res = await TemporadaServer.ListTemporadas();
       const data = await res;
-      setCategories(data);
+      setTemporadas(data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getSeries = async () => {
+  try {
+      const res = await serieServer.ListSeries();
+      const data = await res;      
+      setSeries(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     if (user) {
-      getCategorias();
+      getSeries();
+      getTemporadas();
       setId(null)
     } else {
     history("/login");
@@ -85,15 +97,14 @@ const CategoryList = ({ categories }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const classes = useStyles();
-  
-  if (user) {
+  if (user && listSeries) {
     
     return (
       <Container> 
         
         <div className={classes.paper}>
               <Typography component="h1" variant="h3">
-              CATEGORIAS
+              Temporadas
               </Typography>
         </div>
         <Stack  alignItems="center">
@@ -102,7 +113,7 @@ const CategoryList = ({ categories }) => {
           color="success"
           type="submit"
           onClick={()=>registrar()}>
-            Registrar Categoria
+            Registrar Temporada
           </Button>
         </Stack>
         <br/><br/> <br/>     
@@ -119,26 +130,36 @@ const CategoryList = ({ categories }) => {
                 <tr>
                   <th style={{ display: "none" }}>Id</th>
                   <th>Codigo</th>
-                  <th>Categoria</th>
+                  <th>Temporada</th>
+                  <th>Temporada en tetras</th>
+                  <th>Temporada en número</th>
+                  <th>Descripción</th>
+                  <th>Fecha de registro</th>
+                  <th>Serie</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody style={{ backgroundColor: "white" }}>
-                {listCategories.length === 0 ? (
+                {listTemporadas.length === 0 ? (
                   <tr>
                     <td colSpan={11}>No hay datos</td>
                   </tr>
                 ) : (
-                  listCategories.map((Categoria, index) => (
+                  listTemporadas.map((Temporada, index) => (
                     <tr key={index}>
-                      <td style={{ display: "none" }}>{Categoria.id}</td>
-                      <td>{Categoria.id}</td>
-                      <td>{Categoria.categoria}</td>
+                      <td style={{ display: "none" }}>{Temporada.id}</td>
+                      <td>{Temporada.id}</td>
+                      <td>{Temporada.temporada}</td>
+                      <td>{Temporada.temporada_letras}</td>
+                      <td>{Temporada.temporada_numero}</td>
+                      <td>{Temporada.description}</td>
+                      <td>{Temporada.create_date}</td>
+                      <td>{Temporada.serie}</td>
                       <td>
                         <button
                           className="btn btn-warning btn-sm float-right"
                           type="submit"
-                          onClick={()=>editar(Categoria)}
+                          onClick={()=>editar(Temporada)}
                         >
                           editar
                         </button>
@@ -151,15 +172,16 @@ const CategoryList = ({ categories }) => {
           </div>
         </section>
         </div>
-        <CategoryModal
+        <TemporadaModal
           handleClose={handleClose}
           show={show}
-          category_id ={id}
+          temporada_id ={id}
           currentItem={currentItem}
-          setCategories = {setCategories}
+          setTemporadas = {setTemporadas}
           setFormData = {setFormData}
           newData={newData}
-        ></CategoryModal>
+          listSeries={listSeries}
+        ></TemporadaModal>
       </Container>
     );
   }
@@ -168,4 +190,4 @@ const CategoryList = ({ categories }) => {
   );
 };
 
-export default CategoryList;
+export default SubEspecialidadList;

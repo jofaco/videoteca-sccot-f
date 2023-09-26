@@ -15,20 +15,20 @@ import Button from '@mui/material/Button';
 
 //dependencies
 import Context from "../context/UserContext";
-import * as categoryServer from "../../services/category";
-import CategoryModal from "./categoryModal";
+import * as subEspecialidadServer from "../../services/subEspecialidad";
+import SubEspecialidadModal from "./subespecialidadModal";
 import { useModal } from "../../hooks/useModal";
 
 
 
-const CategoryList = ({ categories }) => {
+const SubEspecialidadList = ({subEspecialidades}) => {
   const history = useNavigate();
 
   const [show, handleShow, handleClose] = useModal(false);
   const [id, setId] = useState("");
   const [currentItem, setCurrentItem] = useState({});
-  const [listCategories, setCategories] = useState(categories);
-  const initialFormData = {categoria:""};
+  const [listSubEspecialidades, setSubEspecialidades] = useState(subEspecialidades);
+  const initialFormData = {subEspecialidad:""};
   const [newData, setFormData] = useState(initialFormData);
   const { user } = useContext(Context);
 
@@ -50,24 +50,23 @@ const CategoryList = ({ categories }) => {
   const editar = async (item) => {
     setId(item.id);
     setCurrentItem(item);
-    setFormData({ categoria: item.categoria });
+    setFormData({ subEspecialidad: item.subEspecialidad });
     handleShow(true)
   };
 
   const registrar = async () => {
     setId(null);
     setCurrentItem({});
-    setFormData({categoria:""});
+    setFormData({subEspecialidad:""});
     handleShow(true)
   };
-  
 
 
-  const getCategorias = async () => {
+  const getEspecialidades = async () => {
     try {
-      const res = await categoryServer.ListCategorias();
+      const res = await subEspecialidadServer.ListSubEspecialidades();
       const data = await res;
-      setCategories(data);
+      setSubEspecialidades(data);
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +74,7 @@ const CategoryList = ({ categories }) => {
 
   useEffect(() => {
     if (user) {
-      getCategorias();
+      getEspecialidades();
       setId(null)
     } else {
     history("/login");
@@ -93,7 +92,7 @@ const CategoryList = ({ categories }) => {
         
         <div className={classes.paper}>
               <Typography component="h1" variant="h3">
-              CATEGORIAS
+              Especialidades
               </Typography>
         </div>
         <Stack  alignItems="center">
@@ -102,7 +101,7 @@ const CategoryList = ({ categories }) => {
           color="success"
           type="submit"
           onClick={()=>registrar()}>
-            Registrar Categoria
+            Registrar SubEspecialidad
           </Button>
         </Stack>
         <br/><br/> <br/>     
@@ -119,26 +118,26 @@ const CategoryList = ({ categories }) => {
                 <tr>
                   <th style={{ display: "none" }}>Id</th>
                   <th>Codigo</th>
-                  <th>Categoria</th>
+                  <th>SubEspecialidad</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody style={{ backgroundColor: "white" }}>
-                {listCategories.length === 0 ? (
+                {listSubEspecialidades.length === 0 ? (
                   <tr>
                     <td colSpan={11}>No hay datos</td>
                   </tr>
                 ) : (
-                  listCategories.map((Categoria, index) => (
+                  listSubEspecialidades.map((SubEspecialidad, index) => (
                     <tr key={index}>
-                      <td style={{ display: "none" }}>{Categoria.id}</td>
-                      <td>{Categoria.id}</td>
-                      <td>{Categoria.categoria}</td>
+                      <td style={{ display: "none" }}>{SubEspecialidad.id}</td>
+                      <td>{SubEspecialidad.id}</td>
+                      <td>{SubEspecialidad.subEspecialidad}</td>
                       <td>
                         <button
                           className="btn btn-warning btn-sm float-right"
                           type="submit"
-                          onClick={()=>editar(Categoria)}
+                          onClick={()=>editar(SubEspecialidad)}
                         >
                           editar
                         </button>
@@ -151,15 +150,15 @@ const CategoryList = ({ categories }) => {
           </div>
         </section>
         </div>
-        <CategoryModal
+        <SubEspecialidadModal
           handleClose={handleClose}
           show={show}
-          category_id ={id}
+          subespecialidad_id ={id}
           currentItem={currentItem}
-          setCategories = {setCategories}
+          setSubEspecialidades = {setSubEspecialidades}
           setFormData = {setFormData}
           newData={newData}
-        ></CategoryModal>
+        ></SubEspecialidadModal>
       </Container>
     );
   }
@@ -168,4 +167,4 @@ const CategoryList = ({ categories }) => {
   );
 };
 
-export default CategoryList;
+export default SubEspecialidadList;

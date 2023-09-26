@@ -100,29 +100,7 @@ function VideosListUser({videos, categories, ...props}) {
       else {
         setCategoriasFalt(null);
       }
-      /* let repetidos = [];
-      let temporal = [];
 
-      for (let i = 0; i < prefUsers.length; i++) {
-        array1.push(prefUsers[i].categoria);        
-      }      
-      array1.forEach(element => {
-        categories.filter(value => {       
-          if (value.categoria !== element){
-            array2.push(value);
-          }
-          return value.categoria !== element 
-        });
-      });
-      if (array2) {
-        array2.forEach((value,index)=>{
-        temporal = Object.assign([],array2); //Copiado de elemento
-        if(temporal.indexOf(value)!==-1 && repetidos.indexOf(value)===-1) repetidos.push(value);
-        temporal.splice(index,1); //Se elimina el elemnto que se compara
-        });
-        if (repetidos.length >0)  setCategoriasFalt(null);
-        else setCategoriasFalt(array2)
-      } */
     }
   },[categories, prefUsers])
 
@@ -158,7 +136,7 @@ function VideosListUser({videos, categories, ...props}) {
   return (
     <div>
       <div id="carousel_videos">
-        <h2>Latest videos</h2>
+        <h2>Ultimos videos</h2>
         <Carousel className={classes.root} id="carousel" fade >
           {videos &&
             props.search(videos).slice(0, 4).map((video) => (

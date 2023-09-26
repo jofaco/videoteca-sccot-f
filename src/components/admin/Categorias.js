@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import {  useContext } from "react";
 
 //dependencies
-import ListCategories from "../components/categories/listCategories"
-import * as categoryServer from "../services/category";
-import VideoLoadingComponent from "../components/videos/videoLoading";
+import ListCategories from "../categories/listCategories"
+import * as categoryServer from "../../services/category";
+import VideoLoadingComponent from "../videos/videoLoading";
+import Context from "../context/UserContext";
+
 //components
 import { Container } from "@material-ui/core";
 
 const  Principal = () =>{
     const CategoryLoading = VideoLoadingComponent(ListCategories);
+    const { user } = useContext(Context);
 
     const [appState, setAppState] = useState({
       loading: true,
@@ -22,7 +25,7 @@ const  Principal = () =>{
         setAppState({ loading: false, categories: allCategories });
       });
     }, [setAppState]);
-  
+  if (user) {
     return (
       <Container>
         <div className="App">
@@ -30,6 +33,10 @@ const  Principal = () =>{
         </div>
       </Container>
     );
+  }
+  return (
+    <p style={{ fontSize: "25px" }}>Inicia sesión para ver todos los videos!</p>
+  );
 }
 
 export default Principal;
