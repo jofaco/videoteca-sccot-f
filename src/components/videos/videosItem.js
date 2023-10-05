@@ -31,16 +31,18 @@ const useStyles = makeStyles((theme) => ({
 
   },
   "@media (min-width: 1200px)": {
-    info:{
-      height:480,
-      minWidth: 410,
-    },
+
     imagen:{
       minWidth: 820,
     },
-  row:{
-    width:1240,
-  },
+    imagenCarousel:{
+      width:1240,
+      height:400,
+    },
+    row:{
+      width:1240,
+      height:400,
+    },
   },
 }));
 

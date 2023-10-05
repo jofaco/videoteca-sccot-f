@@ -98,6 +98,7 @@ const ModalTemporada = ({ handleClose, show, temporada_id, currentItem, setFormD
             <Form.Group className={"mb-2 "} controlId="exampleForm.ControlInput1">
               <Form.Control type="text" 
               name="temporada"
+              placeholder="Nombre de la temporada"
               value={newData.temporada || ""}
               onChange={handleInputChange} 
               />
@@ -105,6 +106,7 @@ const ModalTemporada = ({ handleClose, show, temporada_id, currentItem, setFormD
             <Form.Group className={"mb-2 "} controlId="exampleForm.ControlInput1">
               <Form.Control type="text" 
               name="temporada_letras"
+              placeholder="Temporada en letras"
               value={newData.temporada_letras || ""}
               onChange={handleInputChange} 
               />
@@ -112,6 +114,7 @@ const ModalTemporada = ({ handleClose, show, temporada_id, currentItem, setFormD
             <Form.Group className={"mb-2 "} controlId="exampleForm.ControlInput1">
               <Form.Control type="number" 
               name="temporada_numero"
+              placeholder="Temporada en número"
               value={newData.temporada_numero || null}
               onChange={handleInputChange} 
               />
@@ -119,6 +122,7 @@ const ModalTemporada = ({ handleClose, show, temporada_id, currentItem, setFormD
             <Form.Group className={"mb-2 "} controlId="exampleForm.ControlInput1">
               <Form.Control as="textarea" rows={3}
               name="description"
+              placeholder="Descripción de la temporada"
               value={newData.description || ""}
               onChange={handleInputChange} 
               />
@@ -126,6 +130,7 @@ const ModalTemporada = ({ handleClose, show, temporada_id, currentItem, setFormD
             <Form.Group className={"mb-2 "} controlId="exampleForm.ControlInput1">
               <Form.Select
               name="serie"
+              placeholder="Serie a la que pertenece"
               value={newData.serie || 2}
               onChange={handleSelectSerie} 
               >

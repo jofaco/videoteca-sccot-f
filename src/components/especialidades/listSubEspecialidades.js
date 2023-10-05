@@ -92,7 +92,7 @@ const SubEspecialidadList = ({subEspecialidades}) => {
         
         <div className={classes.paper}>
               <Typography component="h1" variant="h3">
-              Especialidades
+              SubEspecialidades
               </Typography>
         </div>
         <Stack  alignItems="center">

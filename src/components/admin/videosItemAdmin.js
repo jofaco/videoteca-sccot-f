@@ -33,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
     imagen:{
       minWidth: 820,
     },
-    row:{
+    imagenCarousel:{
       width:1240,
+      height:400,
     },
   },
 }));

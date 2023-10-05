@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 //components
 import { Image } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
@@ -24,7 +24,26 @@ const useStyles = makeStyles((theme) => ({
  */
 const VideosItemRow = ({ video,...props }) => {
   const classes = useStyles();  
+  const [duracion, setDuracion] = useState([]);
   
+  const changeDuration = (duration) => {
+    let tiempo = duration.split(':');
+    let new_duration = "";
+    if (tiempo) {
+
+      if (tiempo[0] !=="00") {
+        new_duration = duration[0]+"hrs:";
+      }
+      if (tiempo[1] !=="00") {
+        new_duration = " "+new_duration+" "+tiempo[1]+"mins";
+      }
+    }
+    return new_duration;
+  };
+  useEffect(() => {
+    setDuracion(changeDuration(video.duration));
+
+  }, [duracion, video.duration]);
   
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
@@ -37,6 +56,7 @@ const VideosItemRow = ({ video,...props }) => {
           ></Image>
         </Button>
       </div>
+      <p>Duración: {duracion}</p>
     </div>
   );
 };
