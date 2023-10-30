@@ -6,7 +6,7 @@ import VideoLoadingComponent from "../components/videos/videoLoading";
 import * as VideoServer from "../services/videoServer";
 
 //components
-import { Container } from "@material-ui/core";
+import { Container } from "@material-ui/core" ;
 
 /**
  * Carga todos los videos que sean Casos para el modulo Casos de la aplicación
