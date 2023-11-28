@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import {  useContext } from "react";
 
 //dependencies
-import ListSubEspecialidades from "../especialidades/listSubEspecialidades"
+import ListPalabrasClaves from "../especialidades/listPalabrasClaves"
 
-import * as subREpecialidadServer from "../../services/subEspecialidad";
+import * as palabrasClavesServer from "../../services/palabrasClaves";
 import VideoLoadingComponent from "../videos/videoLoading";
 import Context from "../context/UserContext";
 
@@ -12,25 +12,25 @@ import Context from "../context/UserContext";
 import { Container } from "@material-ui/core";
 
 const  Principal = () =>{
-    const SubEspecialidadLoading = VideoLoadingComponent(ListSubEspecialidades);
+    const PalabrasClavesLoading = VideoLoadingComponent(ListPalabrasClaves);
     const { user } = useContext(Context);
 
     const [appState, setAppState] = useState({
       loading: true,
-      subEspecialidades: null,
+      palabrasClaves: null,
     });   
     
     useEffect(() => {
-        subREpecialidadServer.ListSubEspecialidades().then((res) => {
-        const allSubEspecialidades = res;
-        setAppState({ loading: false, subEspecialidades: allSubEspecialidades });
+        palabrasClavesServer.ListPalabrasClaves().then((res) => {
+        const allPalabrasClaves = res;
+        setAppState({ loading: false, palabrasClaves: allPalabrasClaves });
       });
     }, [setAppState]);
   if (user) {
     return (
       <Container>
         <div className="App">
-          <SubEspecialidadLoading isLoading={appState.loading} subEspecialidades={appState.subEspecialidades} />
+          <PalabrasClavesLoading isLoading={appState.loading} palabrasClaves={appState.palabrasClaves} />
         </div>
       </Container>
     );

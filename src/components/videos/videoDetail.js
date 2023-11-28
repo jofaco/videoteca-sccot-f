@@ -3,7 +3,9 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
 //dependencias
+//dependencias
 import * as VideoServer from "../../services/videoServer";
+import * as palabrasClaves from "../../services/palabrasClaves";
 import * as HistorialUserServer from "../../services/historialUser";
 import * as commentaryServer from "../../services/commentary";
 import { useModal } from "../../hooks/useModal";
@@ -23,7 +25,6 @@ import "../../styles/styles.css";
 import ModalComentario from "./comentarioModal";
 import ModalComentarios from "./listComentariosModal";
 import IframeVideo from "./iframeVideo";
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(0),
@@ -44,6 +45,8 @@ const VideoDetail = () => {
   const location = useLocation();
   const { id } = useParams();
   const [video, setVideo] = useState([]);
+  const [palabraClave, setpalabraClave] = useState([]);
+
   const [duracion, setDuracion] = useState([]);
   const [uploadDate, setUploadDate] = useState(null);
   const [histUser, setHistUser] = useState(location.state);
@@ -94,6 +97,23 @@ const VideoDetail = () => {
 
   }, [duracion, id, setVideo, video.title_espanol, video.url_esp, video.url_vimeo_esp]);
   
+  useEffect(() => {
+    const getPalabrasClavesVideos = async () => {
+      const res = await palabrasClaves.getPalabrasClaves();
+      console.log(res);
+      const palabrasClavesV = res;
+
+      setpalabraClave({
+        ...palabrasClavesV,
+      });
+      console.log(palabrasClavesV);
+    };
+    getPalabrasClavesVideos();
+
+  }, []);
+  
+
+
    useEffect(() => {      
     if (histUser) {
       setActiveStar(histUser.user_score-1);
@@ -146,6 +166,11 @@ const VideoDetail = () => {
           {video.title_espanol}
         </Typography>
       </div>
+      <div>
+      </div>
+      
+      
+      
       <br></br>
       <div className="row">
         <div className="col-md-8 col-12 iframe1">
@@ -161,8 +186,10 @@ const VideoDetail = () => {
           <br></br>
           <Typography component="h6" variant="body1" align="justify">
             {video.description_esp}
+            
           </Typography>
           <br></br>
+            {video.title_cap_esp}
           <Typography component="h1" variant="h5">
             Tu Calificación:   &nbsp;&nbsp;
             <Box 
@@ -201,6 +228,7 @@ const VideoDetail = () => {
             </Box>
           </Typography>
           <br></br>
+         
           <Stack  alignItems="center">
             <Button 
             variant="contained" 
@@ -225,6 +253,7 @@ const VideoDetail = () => {
             null
           }
           <br/>
+          
         </div>
       </div>
       <ModalComentario

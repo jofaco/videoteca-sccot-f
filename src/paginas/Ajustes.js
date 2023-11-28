@@ -95,6 +95,12 @@ const AppAjustes = () => {
                 </button>
             </div>
             <div className="d-grid  col-4 ">
+                <button
+                    className="btn btn-success btn-lg"
+                    onClick={() => history(`/Ajustes/PalabrasClaves`)}
+                >
+                    PalabrasClaves
+                </button>
             </div>
             <div className="d-grid  col-4 ">
                 <button

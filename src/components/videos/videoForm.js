@@ -5,8 +5,15 @@ import * as VideoServer from "../../services/videoServer";
 import * as CategoriaServer from "../../services/category";
 import * as EspecialidadServer from "../../services/especialidad";
 import * as SubEspecialidadServer from "../../services/subEspecialidad";
+import * as PalabrasClavesServer from "../../services/palabrasClaves";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import * as SerieServer from "../../services/serie";
 import * as TemporadaServer from "../../services/temporada";
+import { useModal } from "../../hooks/useModal";
+import PalabrasClavesModal from "../especialidades/palabrasClavesModal";
+import Context from "../context/UserContext";
+import { Container } from "@material-ui/core";
 
 //components
 //import Select from "@mui/material/Select";
@@ -37,9 +44,11 @@ const VideoForm = () => {
     categorias: [1],
     especialidades: [1],
     subEspecialidades: [1],
+    palabrasClaves: [1],
     serie: 0,
     temporada: 0,
   };
+  const [show, handleShow, handleClose] = useModal(false);
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFile2, setSelectedFile2] = useState(null);
@@ -47,6 +56,13 @@ const VideoForm = () => {
   const [categorias, setCategorias] = useState();
   const [especialidades, setEspecialidades] = useState();
   const [subEspecialidades, setSubEspecialidades] = useState();
+  const [palabrasClaves, setPalabrasClaves] = useState();
+  const [id, setId] = useState("");
+  const [currentItem, setCurrentItem] = useState({});
+  const initialFormData = {palabrasClaves:""};
+
+  const [newData, setFormData] = useState(initialFormData);
+
   const [series, setSeries] = useState();
   const [temporadas, setTemporadas] = useState();
   const [isSerieSelectEnabled, setIsSerieSelectEnabled] = useState(false);
@@ -74,6 +90,14 @@ const VideoForm = () => {
    * Actualiza el estado del idioma seleccionado en el formulario.
    * @param {*} e 
    */
+
+  const registrar = () =>{
+      /* AQUI CODE */
+    setId(null);
+    setCurrentItem({});
+    setFormData({palabrasClaves:""});
+    handleShow(true)
+  }
   const handleSelectIdioma = (e) => {
     let target = e.target;
     let name = target.name;
@@ -167,6 +191,9 @@ const VideoForm = () => {
       for (let i = 0; i <= video.subEspecialidades.length - 1; i++) {
         formData.append("subEspecialidad", video.subEspecialidades[i]);
       }
+      for (let i = 0; i <= video.palabrasClaves.length - 1; i++) {
+        formData.append("palabrasClaves", video.palabrasClaves[i]);
+      }
       let res;
       if (!params.id) {
         res = await VideoServer.RegisterVideo(formData);
@@ -186,7 +213,9 @@ const VideoForm = () => {
    * Función para obtener el video con sus campos a editar.
    * @param {*} videoID 
    */
+  
   const getVideo = async (videoID) => {
+    
     try {
       const res = await VideoServer.getVideoDT(videoID);
       const data = await res;
@@ -204,6 +233,7 @@ const VideoForm = () => {
         categorias,
         especialidades,
         subEspecialidades,
+        palabrasClaves,
         serie,
         temporada,
       } = data;
@@ -221,7 +251,8 @@ const VideoForm = () => {
         languages,
         categorias,
         especialidades,
-        subEspecialidades
+        subEspecialidades,
+        palabrasClaves
       });
     } catch (error) {
       console.log(error);
@@ -257,6 +288,15 @@ const VideoForm = () => {
       console.log(error);
     }
   };
+  const getPalabrasClaves = async () => {
+    try {
+      const res = await PalabrasClavesServer.ListPalabrasClaves()
+      const data = await res;
+      setPalabrasClaves(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getSeries = async () => {
     try {
       const res = await SerieServer.ListSeries()
@@ -280,6 +320,7 @@ const VideoForm = () => {
     getCategorias();
     getEspecialidades();
     getSubEspecialidades();
+    getPalabrasClaves();
     getSeries();
     getTemporadas();
     if (params.id) {
@@ -302,7 +343,7 @@ const VideoForm = () => {
     }));
   }
 
-  if (categorias && especialidades && subEspecialidades) {
+  if (categorias && especialidades && subEspecialidades && palabrasClaves) {
     const optionsCategorias = categorias.map((opcion) => ({
       value: opcion.id,
       label: opcion.categoria,
@@ -315,7 +356,13 @@ const VideoForm = () => {
       value: opcion.id,
       label: opcion.subEspecialidad,
     }));
+    const optionsPalabrasClaves = palabrasClaves.map((opcion) => ({
+      value: opcion.id,
+      label: opcion.palabrasClaves,
+    }));
     return (
+      <Container>
+
       <div className="col-md-6 mx-auto">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -415,6 +462,35 @@ const VideoForm = () => {
               isMulti
             />
           </div>
+          
+          <div className="mb-3 ">
+            <div>
+            <label className="form-label" htmlFor="PalabrasClaves">
+              PalabrasClaves del video
+            </label>
+            <Select
+              className="form-select"
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              options={optionsPalabrasClaves}
+              isClearable
+              onChange={(selectedValues) => handleSelectCategoryEspSub(selectedValues, 'palabrasClaves')}
+              isMulti
+              />
+              </div>
+              <div>
+              <Stack  alignItems="center">
+                <Button 
+                  variant="contained" 
+                  color="success"
+                  type="submit"
+                  onClick={()=>registrar()}>
+                    Registrar Palabras Claves
+                  </Button>
+              </Stack>
+              </div>
+          </div>
+
           <div className="mb-3">
             <label className="form-label" htmlFor="codeEsp">
               Código vimeo del video en español
@@ -583,6 +659,17 @@ const VideoForm = () => {
           </div>
         </form>
       </div>
+      <PalabrasClavesModal
+          handleClose={handleClose}
+          show={show}
+          palabrasclaves_id ={id}
+          currentItem={currentItem}
+          setPalabrasClaves = {setPalabrasClaves}
+          setFormData = {setFormData}
+          newData={newData}
+        ></PalabrasClavesModal>
+      </Container>
+      
     );
   }
 };

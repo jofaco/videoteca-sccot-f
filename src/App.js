@@ -15,6 +15,8 @@ import Casos from "./paginas/Casos";
 import Categorias from "./components/admin/Categorias";
 import Especialidades from "./components/admin/Especialidades";
 import SubEspecialidades from "./components/admin/SubEspecialidades";
+import PalabrasClaves from "./components/admin/PalabrasClaves";
+
 import SeriesAdmin from "./components/admin/SeriesAdmin";
 import TemporadasAdmin from "./components/admin/TemporadasAdmin";
 
@@ -51,6 +53,7 @@ function App() {
           <Route path="/Ajustes/Categorias" element={<Categorias />} />
           <Route path="/Ajustes/Especialidades" element={<Especialidades />} />
           <Route path="/Ajustes/SubEspecialidades" element={<SubEspecialidades />} />
+          <Route path="/Ajustes/PalabrasClaves" element={<PalabrasClaves />} />
           <Route path="/Ajustes/Series" element={<SeriesAdmin />} />
           <Route path="/Ajustes/Temporadas" element={<TemporadasAdmin />} />
 
